@@ -7,6 +7,7 @@ import re
 import numpy as np
 import scipy.io
 from scipy.interpolate import griddata
+from ysoisochrone import plotting
 
 # Calculate uncertainties
 def unc_log10(x, err_x):
@@ -947,7 +948,7 @@ def create_meshgrid(data_points, min_age=0.5, max_age=50):
     min_age: [float, optional] unit: Myrs
         The minimum age that we will cut in this grid. Default = 0.5 Myrs
     max_age: [float, optional] unit: Myrs
-        The maximum age that we will cut in this grid. Default = 50 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up a gain and will overlay on the pre-main-sequence phase). 
+        The maximum age that we will cut in this grid. Default = 50 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
 
     Returns:
     ------------
@@ -1022,6 +1023,64 @@ def save_as_mat(masses, log_age, logtlogl, save_path):
     print(f"Data saved to {save_path}")
 
     return 1
+
+
+def compare_grids(loaded_data_py, loaded_data_idl, gridnames=['Python', 'IDL'], plot=True):
+    """
+    Compares the Python and IDL-generated grids by interpolating the Python grid onto the sparser IDL grid
+    and plotting the differences.
+
+    Args:
+    ------------
+    loaded_data_py: [dict]
+        Dictionary containing the Python-generated grid data (masses, log_age, logtlogl).
+    loaded_data_idl: [dict]
+        Dictionary containing the IDL-generated grid data (masses, log_age, logtlogl).
+    gridnames: [list of strings, optional]
+        The names of the grid names, default is Python and IDL
+    plot: [bool, optional]: 
+        Whether to plot the differences
+
+    Output:
+    ------------
+    A visual comparison of the Python and IDL grids with difference and normalized difference plots.
+    """
+    
+    # Load data from Python
+    masses_py = loaded_data_py['mass'][0]
+    log_age_py = loaded_data_py['log_age'][0]
+    logtlogl_py = loaded_data_py['logt_logl']  # Shape: [n_log_age, n_mass, 2] for Teff and L/Lo
+
+    # Load data from IDL
+    masses_idl = loaded_data_idl['mass']
+    log_age_idl = loaded_data_idl['log_age']
+    logtlogl_idl = loaded_data_idl['logt_logl']  # Shape: [n_log_age, n_mass, 2] for Teff and L/Lo
+
+    # Interpolation: First, create the grid to interpolate Python data onto the IDL grid
+    grid_idl = np.array(np.meshgrid(log_age_idl, masses_idl)).T.reshape(-1, 2)
+    
+    # Interpolate Python logtlogl data onto the IDL grid
+    logtlogl_interp_py = np.zeros_like(logtlogl_idl)
+
+    for i in range(2):  # For both Teff and L/Lo
+        points_py = np.array(np.meshgrid(log_age_py, masses_py)).T.reshape(-1, 2)
+        values_py = logtlogl_py[:, :, i].flatten()
+        
+        # Use griddata to interpolate Python logtlogl onto the IDL grid
+        logtlogl_interp_py[:, :, i] = griddata(points_py, values_py, grid_idl).reshape(logtlogl_idl.shape[0], logtlogl_idl.shape[1])
+
+    # Calculate the differences between the interpolated Python data and IDL data
+    logtlogl_diff = logtlogl_interp_py - logtlogl_idl
+
+    # Calculate the normalized differences (relative differences)
+    logtlogl_diff_norm = logtlogl_diff / logtlogl_interp_py
+
+    # Plot the results
+    if plot:
+        plotting.plot_comparison(log_age_idl, masses_idl, logtlogl_interp_py, logtlogl_idl, logtlogl_diff, logtlogl_diff_norm, gridnames)
+
+    return logtlogl_diff, logtlogl_diff_norm
+
 
 # the job of calling these classes are now moved into another py file called isochrone
 

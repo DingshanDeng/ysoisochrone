@@ -136,7 +136,7 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
                     age_xycoords='data', mass_xycoords='data',
                     bare=False):
     """
-    Plots the HR diagram with the stars from df_prop and isochrones from the Isochrone class.
+    Plots the Hertzsprung–Russell diagram with the stars from df_prop and isochrones from the Isochrone class.
     Allows for custom selection of ages and masses to plot, with the option to manually set annotations
     for ages and masses (positions and rotations).
 
@@ -326,3 +326,89 @@ def plot_likelihood_1d(log_masses_dummy, likelihood, best_log_mass, lower_mass, 
     plt.show()
     
     return 1
+
+
+def plot_comparison(log_age_idl, masses_idl, logtlogl_interp_py, logtlogl_idl, logtlogl_diff, logtlogl_diff_norm, gridnames=['Python', 'IDL']):
+    """
+    Plots the Python grid (interpolated onto IDL grid), IDL grid, and their differences for both Teff and L/Lo.
+
+    Args:
+    ------------
+    log_age_idl: [array]
+        Array of log(age) values from the IDL grid.
+    masses_idl: [array]
+        Array of mass values from the IDL grid.
+    logtlogl_interp_py: [array]
+        Python-generated logtlogl data (Teff and L/Lo) interpolated onto the IDL grid.
+    logtlogl_idl: [array]
+        IDL-generated logtlogl data (Teff and L/Lo).
+    logtlogl_diff: [array]
+        Difference between interpolated Python and IDL logtlogl data.
+    logtlogl_diff_norm: [array]
+        Normalized difference between interpolated Python and IDL logtlogl data.
+    gridnames: [list of strings, optional]
+        The names of the grid names, default is Python and IDL
+    """
+    
+    fig, axs = plt.subplots(4, 2, figsize=(12, 16), constrained_layout=True)
+
+    # Set the extent of the grid to match the IDL grid
+    extent = [masses_idl.min(), masses_idl.max(), log_age_idl.max(), log_age_idl.min()]
+
+    # Teff Plot (Interpolated Python Grid)
+    im1 = axs[0, 0].imshow(logtlogl_interp_py[:, :, 0], aspect='auto', extent=extent)
+    axs[0, 0].set_title('%s Grid (Interpolated to IDL): Teff'%(gridnames[0]))
+    axs[0, 0].set_xlabel('Mass [M$_\odot$]')
+    axs[0, 0].set_ylabel('log(Age) [years]')
+    fig.colorbar(im1, ax=axs[0, 0])
+
+    # Teff Plot (IDL Grid)
+    im2 = axs[0, 1].imshow(logtlogl_idl[:, :, 0], aspect='auto', extent=extent)
+    axs[0, 1].set_title('%s Grid: Teff'%(gridnames[1]))
+    axs[0, 1].set_xlabel('Mass [M$_\odot$]')
+    axs[0, 1].set_ylabel('log(Age) [years]')
+    fig.colorbar(im2, ax=axs[0, 1])
+
+    # Teff Difference Plot
+    im3 = axs[1, 0].imshow(logtlogl_diff[:, :, 0], aspect='auto', cmap='coolwarm', extent=extent)
+    axs[1, 0].set_title('Difference: Teff (%s - %s)'%(gridnames[0], gridnames[1]))
+    axs[1, 0].set_xlabel('Mass [M$_\odot$]')
+    axs[1, 0].set_ylabel('log(Age) [years]')
+    fig.colorbar(im3, ax=axs[1, 0])
+
+    # Teff Normalized Difference Plot
+    im4 = axs[1, 1].imshow(logtlogl_diff_norm[:, :, 0], aspect='auto', cmap='coolwarm', extent=extent)
+    axs[1, 1].set_title('Normalized Difference: Teff')
+    axs[1, 1].set_xlabel('Mass [M$_\odot$]')
+    axs[1, 1].set_ylabel('log(Age) [years]')
+    fig.colorbar(im4, ax=axs[1, 1])
+
+    # L/Lo Plot (Interpolated Python Grid)
+    im5 = axs[2, 0].imshow(logtlogl_interp_py[:, :, 1], aspect='auto', extent=extent)
+    axs[2, 0].set_title('%s Grid (Interpolated to IDL): L/Lo'%(gridnames[0]))
+    axs[2, 0].set_xlabel('Mass [M$_\odot$]')
+    axs[2, 0].set_ylabel('log(Age) [years]')
+    fig.colorbar(im5, ax=axs[2, 0])
+
+    # L/Lo Plot (IDL Grid)
+    im6 = axs[2, 1].imshow(logtlogl_idl[:, :, 1], aspect='auto', extent=extent)
+    axs[2, 1].set_title('%s Grid: L/Lo'%(gridnames[1]))
+    axs[2, 1].set_xlabel('Mass [M$_\odot$]')
+    axs[2, 1].set_ylabel('log(Age) [years]')
+    fig.colorbar(im6, ax=axs[2, 1])
+
+    # L/Lo Difference Plot
+    im7 = axs[3, 0].imshow(logtlogl_diff[:, :, 1], aspect='auto', cmap='coolwarm', extent=extent)
+    axs[3, 0].set_title('Difference: L/Lo (%s - %s)'%(gridnames[0], gridnames[1]))
+    axs[3, 0].set_xlabel('Mass [M$_\odot$]')
+    axs[3, 0].set_ylabel('log(Age) [years]')
+    fig.colorbar(im7, ax=axs[3, 0])
+
+    # L/Lo Normalized Difference Plot
+    im8 = axs[3, 1].imshow(logtlogl_diff_norm[:, :, 1], aspect='auto', cmap='coolwarm', extent=extent)
+    axs[3, 1].set_title('Normalized Difference: L/Lo')
+    axs[3, 1].set_xlabel('Mass [M$_\odot$]')
+    axs[3, 1].set_ylabel('log(Age) [years]')
+    fig.colorbar(im8, ax=axs[3, 1])
+
+    plt.show()
