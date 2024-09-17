@@ -132,7 +132,7 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     return [best_age, age_unc, best_mass, mass_unc], np.array([log_age_dummy, L_age_norm]), np.array([log_masses_dummy, L_mass_norm])
 
 
-def derive_stellar_mass_age(df_prop, method='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68):
+def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68):
     """
     Derives stellar mass and age from evolutionary tracks using a Bayesian framework.
     This is the method with the criteria that has been used in Pascucci2016
@@ -142,13 +142,13 @@ def derive_stellar_mass_age(df_prop, method='Baraffe_n_Feiden', isochrone_data_d
     df_prop: [DataFrame]
         DataFrame containing stellar properties (Teff, Luminosity, etc.).
         The formated column needs to be: ['Source', 'Teff', 'e_Teff', 'Luminosity', 'e_Luminosity']
-    method: [str]
-        Method for selecting evolutionary tracks ('Baraffe_n_Feiden', 'Feiden2016', 'Baraffe2015'). Dev: PARSEC
+    model: [str, optional] Default: 'Baraffe_n_Feiden'
+        model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the model = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
     isochrone_data_dir: [str, optional]
         The datadir where all the data files for the isochrones are stored
     isochrone_mat_file: [str, optional] Default = ''
         The ABSOLUTE directory for the matrix file for the isochrones that you want to use
-        This is needed if you want to set the method as 'custome'.
+        This is needed if you want to set the model as 'custome'.
     no_uncertainties: [bool, optional]
         Whether to assume no uncertainties in Teff and Luminosity (default: False).
     plot: [bool, optional]
@@ -220,19 +220,19 @@ def derive_stellar_mass_age(df_prop, method='Baraffe_n_Feiden', isochrone_data_d
         # Initialize the isochrone class with default data directory
         isochrone = Isochrone(isochrone_data_dir)
         
-        # Select tracks based on method
-        if method.lower() == 'baraffe_n_feiden':
+        # Select tracks based on model
+        if model.lower() == 'baraffe_n_feiden':
             # Select appropriate evolutionary tracks based on Teff
             if T_this > 3900.0:
                 isochrone.set_tracks('Feiden2016')
             else:
                 isochrone.set_tracks('Baraffe2015')
-        elif method.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
-            isochrone.set_tracks(method.lower())
-        elif method.lower() == 'custome':
+        elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
+            isochrone.set_tracks(model.lower())
+        elif model.lower() == 'custome':
             isochrone.set_tracks('custome', load_file=isochrone_mat_file)
         else:
-            raise ValueError(f"Invalid method: {method}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the method = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the model = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
@@ -291,7 +291,7 @@ def derive_stellar_mass_age(df_prop, method='Baraffe_n_Feiden', isochrone_data_d
     return best_mass_output, best_age_output, lmass_all, lage_all
 
 
-def derive_stellar_mass_age_simple(df_prop,  method='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', verbose=False):
+def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', verbose=False):
     """
     Derives stellar mass and age by picking the closest point from the isochrone grid based on Teff and Luminosity.
 
@@ -300,13 +300,14 @@ def derive_stellar_mass_age_simple(df_prop,  method='Baraffe_n_Feiden', isochron
     df_prop: [DataFrame]
         DataFrame containing stellar properties (Teff, Luminosity, etc.).
         The format for the columns needs to be: ['Source', 'Teff', 'Luminosity']
-    method: [str, optional]
-        Method for selecting evolutionary tracks ('Baraffe_n_Feiden', 'Feiden2016', 'Baraffe2015'). Default is 'Baraffe_n_Feiden'.
-    isochrone_data_dir: [str, optional]
+    model: [str, optional] Default: 'Baraffe_n_Feiden'
+        model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the model = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
+    isochrone_data_dir: [str, optional] 
         The directory where the isochrone data is stored.
+        Default = None, and data will be saved to './isochrone_data'
     isochrone_mat_file: [str, optional] Default = ''
         The ABSOLUTE directory for the matrix file for the isochrones that you want to use
-        This is needed if you want to set the method as 'custome'.
+        This is needed if you want to set the model as 'custome'.
     verbose: [bool, optional]
         Whether to print verbose output. Default is False.
 
@@ -337,33 +338,33 @@ def derive_stellar_mass_age_simple(df_prop,  method='Baraffe_n_Feiden', isochron
         # Initialize the isochrone class with default data directory
         isochrone = Isochrone(isochrone_data_dir)
         
-        # # Select tracks based on method
-        # if method == 'Baraffe_n_Feiden':
+        # # Select tracks based on model
+        # if model == 'Baraffe_n_Feiden':
         #     # Select appropriate evolutionary tracks based on Teff
         #     if T_this > 3900.0:
         #         isochrone.set_tracks('Feiden2016')
         #     else:
         #         isochrone.set_tracks('Baraffe2015')
-        # elif method == 'Feiden2016':
+        # elif model == 'Feiden2016':
         #     isochrone.set_tracks('Feiden2016')
-        # elif method == 'Baraffe2015':
+        # elif model == 'Baraffe2015':
         #     isochrone.set_tracks('Baraffe2015')
         # else:
-        #     raise ValueError(f"Invalid method: {method}. Please choose from 'Baraffe_n_Feiden', 'Feiden2016', or 'Baraffe2015'.")
+        #     raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Feiden2016', or 'Baraffe2015'.")
         
-        # Select tracks based on method
-        if method.lower() == 'baraffe_n_feiden':
+        # Select tracks based on model
+        if model.lower() == 'baraffe_n_feiden':
             # Select appropriate evolutionary tracks based on Teff
             if T_this > 3900.0:
                 isochrone.set_tracks('Feiden2016')
             else:
                 isochrone.set_tracks('Baraffe2015')
-        elif method.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
-            isochrone.set_tracks(method.lower())
-        elif method.lower() == 'custome':
+        elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
+            isochrone.set_tracks(model.lower())
+        elif model.lower() == 'custome':
             isochrone.set_tracks('custome', load_file=isochrone_mat_file)
         else:
-            raise ValueError(f"Invalid method: {method}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the method = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the model = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
@@ -389,7 +390,7 @@ def derive_stellar_mass_age_simple(df_prop,  method='Baraffe_n_Feiden', isochron
     return best_mass_output, best_age_output
 
 
-def derive_stellar_mass_assuming_age(df_prop, assumed_age, method='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', confidence_interval=0.68, verbose=False, plot=False):
+def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', confidence_interval=0.68, verbose=False, plot=False):
     """
     Derives stellar mass assuming a known age, even when luminosity is unavailable, considering uncertainties in Teff.
 
@@ -402,13 +403,13 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, method='Baraffe_n_Fei
         The assumed age of the stars (in years). Can be a single value or an array.
     e_assumed_age: [float, optional] unit yrs (NOT considered for now)
         Uncertainty in the assumed age. Can be a single value or an array. Default is None.
-    method: [str, optional]
-        Method for selecting evolutionary tracks ('Baraffe_n_Feiden', 'Feiden2016', 'Baraffe2015'). Default is 'Baraffe_n_Feiden'.
+    model: [str, optional] Default: 'Baraffe_n_Feiden'
+        model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the model = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
     isochrone_data_dir: [str, optional]
         The directory where the isochrone data is stored.
     isochrone_mat_file: [str, optional] Default = ''
         The ABSOLUTE directory for the matrix file for the isochrones that you want to use
-        This is needed if you want to set the method as 'custom'.
+        This is needed if you want to set the model as 'custom'.
     confidence_interval [float]:
         the desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
     verbose: [bool, optional]
@@ -456,19 +457,19 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, method='Baraffe_n_Fei
         # Initialize the isochrone class with the default data directory
         isochrone = Isochrone(isochrone_data_dir)
         
-        # Select tracks based on method
-        if method.lower() == 'baraffe_n_feiden':
+        # Select tracks based on model
+        if model.lower() == 'baraffe_n_feiden':
             # Select appropriate evolutionary tracks based on Teff
             if T_this > 3900.0:
                 isochrone.set_tracks('Feiden2016')
             else:
                 isochrone.set_tracks('Baraffe2015')
-        elif method.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
-            isochrone.set_tracks(method.lower())
-        elif method.lower() == 'custome':
+        elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
+            isochrone.set_tracks(model.lower())
+        elif model.lower() == 'custome':
             isochrone.set_tracks('custome', load_file=isochrone_mat_file)
         else:
-            raise ValueError(f"Invalid method: {method}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the method = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the model = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()

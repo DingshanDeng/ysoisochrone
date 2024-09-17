@@ -134,6 +134,7 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
                     age_positions=None, mass_rotation=None, 
                     age_rotation=None, mass_positions=None,
                     age_xycoords='data', mass_xycoords='data',
+                    xlim_set = None, ylim_set = None,
                     bare=False):
     """
     Plots the Hertzsprung–Russell diagram with the stars from df_prop and isochrones from the Isochrone class.
@@ -152,7 +153,7 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
     ax_set: [axes, optional] Default is None
         If not None, the ax_set is the ax for the plot
     ages_to_plot: [list, optional]
-        List of ages in years to plot as isochrones (default: [0.5e6, 1.0e6, 2.0e6, 3.0e6, 5.0e6, 10.0e6, 50.0e6]).
+        List of ages in years to plot as isochrones (default: [0.5e6, 1.0e6, 2.0e6, 3.0e6, 5.0e6, 10.0e6, 30.0e6, 100.0e6]).
     masses_to_plot: [list, optional]
         List of masses in solar masses to plot as mass tracks (default: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]).
     age_positions: [list of tuples, optional]
@@ -167,13 +168,17 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
         the xycoords for the age annotate. Default is 'data'. Refer to plt.annotate for details on this arg
     mass_xycoords: [str, optional]
         the xycoords for the mass annotate. Default is 'data'. Refer to plt.annotate for details on this arg
+    xlim_set: [list]
+        the xlim from left to right [xlim_left, xlim_right]; default is None, so the code set it automatically
+    ylim_set: [list]
+        the ylim from bottom to top [ylim_bottom, ylim_top]; default is None, so the code set it automatically
     bare: [bool, optional]
         If true, just plot the scatters from the DataFrame, and the isochromes, but do not add the annotates, legend, nor the labels.
     """
     
     # Default values for ages and masses if not provided
     if ages_to_plot is None:
-        ages_to_plot = [0.5e6, 1.0e6, 2.0e6, 3.0e6, 5.0e6, 10.0e6, 50.0e6]  # in years
+        ages_to_plot = [0.5e6, 1.0e6, 2.0e6, 3.0e6, 5.0e6, 30.0e6, 100.0e6]  # in years
     ages_to_plot = np.log10(ages_to_plot)  # convert to log scale for plotting
 
     if masses_to_plot is None:
@@ -209,12 +214,18 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
     lum_iso = 10**isochrone.logtlogl[:, :, 1]   # L/Lo
 
     # First, set the limits based on the data (df_prop) or isochrones
-    if teff is not None and luminosity is not None:
-        xlim = [np.nanmax(teff) + 100, np.nanmin(teff) - 100]
-        ylim = [np.nanmin(luminosity) * 0.3, np.nanmax(luminosity) * 3.0]
-    else:
-        xlim = [np.nanmax(teff_iso), np.nanmin(teff_iso)]
-        ylim = [np.nanmin(lum_iso), np.nanmax(lum_iso)]
+    if xlim_set == None:
+        if teff is not None:
+            xlim = [np.nanmax(teff) + 100, np.nanmin(teff) - 100]
+        else:
+            xlim = [np.nanmax(teff_iso), np.nanmin(teff_iso)]
+    else: xlim = xlim_set
+    if ylim_set == None:
+        if luminosity is not None:
+            ylim = [np.nanmin(luminosity) * 0.3, np.nanmax(luminosity) * 3.0]
+        else:
+            ylim = [np.nanmin(lum_iso), np.nanmax(lum_iso)]
+    else: ylim = ylim_set
 
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
