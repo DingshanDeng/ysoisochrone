@@ -29,7 +29,7 @@ pip install .
 
 ## Quick Start
 
-A [Quick Start Guide](./tutorials/ysoisochrone_basics.ipynb) is provided as a [tutorial `Jupyter Notebook`](./tutorials/) together with other `Jupyter Notebook`.
+A [Quick Start Guide](./tutorials/ysoisochrone_basics.ipynb) is provided as a `Jupyter Notebook` together with other [tutorial `Jupyter Notebooks`](./tutorials/).
 
 For detailed description and usage, please refer to this [documentation](./docs/build/html/index.html).
 
