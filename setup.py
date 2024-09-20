@@ -19,9 +19,6 @@ setup(
         'scipy',
         'astropy',
         'requests',
-        'tarfile',
-        'zipfile',
-        're',
         'tqdm',
     ],
 )

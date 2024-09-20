@@ -3,6 +3,22 @@ import numpy as np
 import copy
 import os
 
+style = [
+    'seaborn-ticks',
+    {
+        'figure.dpi': 300,
+        'font.size': 12,
+        'image.cmap': 'inferno',
+        'font.family': 'serif',
+        'font.serif': ['Times', 'Times New Roman'] + plt.rcParams['font.serif'],
+        'xtick.top': True,
+        'xtick.direction': 'in',
+        'ytick.right': True,
+        'ytick.direction': 'in',
+        'mathtext.fontset': 'cm'
+        }]
+plt.style.use(style)
+
 def plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mass, age_unc, mass_unc, source=None, save_fig=False, fig_save_dir='figure', customized_fig_name=''):
     """
     Plots the likelihood distributions and the best-fit age and mass.
@@ -111,9 +127,9 @@ def plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mas
     ax_joint.set_ylabel('log(mass)')
     
     # Add legend and title
-    ax_joint.legend(loc='lower left', bbox_to_anchor=(0.95,1.15))
-    ax_joint.annotate('\nage = %.2e [yrs]\nmass = %.2f[ms]'%(10**best_age, 10**best_mass), xy=(1.03, 1.25), xycoords='axes fraction', va='top', ha='left')
-    fig.suptitle(f'{source}')
+    # ax_joint.legend(loc='lower left', bbox_to_anchor=(1.10,1.20), frameon=False)
+    ax_joint.annotate(f'{source}'+'\nBest Fit:\nage = %.2e [yrs]\nmass = %.2f[ms]'%(10**best_age, 10**best_mass), xy=(1.05, 1.05), xycoords='axes fraction', va='bottom', ha='left')
+    # fig.suptitle(f'{source}')
 
     # Save the figure if needed
     if save_fig:

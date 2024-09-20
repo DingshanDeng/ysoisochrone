@@ -7,7 +7,35 @@ Our primary method is a Bayesian inference approach that introduced in [Pascucci
 
 We also provide two other ways to estimate the stellar masses and ages from these isochrones: (b) In some cases, when a good measurement of stellar luminosity is unavailable,  we also provide an option to set up the assumed age to derive the stellar mass from the Bayesian inference. (c) A simple approach to estimate the stellar masses and ages from the grid point that has the closest $T_{\rm eff}$ and $L_{\rm bol}$ to the target.
 
-## Included Evolutionary Tracks
+## Installation
 
-We summarize all the available_models in [model](./models.md).
+In the terminal and in the directory of this package where `setup.py` exists.
 
+```bash 
+pip install .
+```
+
+which should install the necessary dependencies.
+
+If the installation went to plan you should be able to run the tutorial notebooks.
+
+After installing the package, you can try import the package as
+
+```python
+import ysoisochrone
+```
+
+You can start using this package from the [Quick Start Guide](./notebooks/ysoisochrone_basics.ipynb).
+
+## Citations
+
+If you end up using this package, please cite xxx (TBA)
+
+## Contents:
+```{toctree}
+notebooks/ysoisochrone_basics
+notebooks/ysoisochrone_methods
+models
+use_your_own_isochrone
+apidocs/index
+```

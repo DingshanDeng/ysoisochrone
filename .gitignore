@@ -1,6 +1,8 @@
 # Ignore all the isochrone data files
 tests/isochrones_data/
 tests/lfunc_data/
+tutorials/isochrones_data/
+tutorials/lfunc_data/
 
 # Ignore DSstore
 .DS_Store

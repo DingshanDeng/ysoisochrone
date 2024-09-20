@@ -227,18 +227,29 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
                 isochrone.set_tracks('Feiden2016')
             else:
                 isochrone.set_tracks('Baraffe2015')
+                
+            if verbose:
+                print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
+                
         elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
             isochrone.set_tracks(model.lower())
+            
+            if verbose:
+                print(f'Adopted the %s track.'%(model))
+                
         elif model.lower() == 'custome':
             isochrone.set_tracks('custome', load_file=isochrone_mat_file)
+            
+            if verbose:
+                print(f'Adopted the custome track from %s.'%(isochrone_mat_file))
+                
         else:
             raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the model = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
 
-        if verbose:
-            print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
+        
 
         # Check if the source is in the toofaint or toobright lists
         if np.any([source_t in toofaint, source_t in toobright]):
@@ -509,11 +520,11 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         # Uncertainties in log10(mass)
         lower_mass = np.log10(masses_dummy[lower_bound_idx])
         upper_mass = np.log10(masses_dummy[upper_bound_idx])
-        mass_unc = [best_log_mass - lower_mass, upper_mass - best_log_mass]
-        mass_uncertainties.append(mass_unc)
+        # mass_unc = [best_log_mass - lower_mass, upper_mass - best_log_mass]
+        # mass_uncertainties.append(mass_unc)
         
         # Optionally plot the likelihood function for stellar mass
         if plot:
             plotting.plot_likelihood_1d(np.log10(masses_dummy), likelihood, best_log_mass, lower_mass, upper_mass, source=source_t)
 
-    return best_mass_output, mass_uncertainties
+    return [best_mass_output, lower_mass, upper_mass]
