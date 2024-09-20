@@ -29,9 +29,9 @@ pip install .
 
 ## Quick Start
 
-See [Quick Start](./docs/build/html/notebooks/ysoisochrone_basics.html). 
+A [Quick Start Guide](./tutorials/ysoisochrone_basics.ipynb) is provided as a [tutorial `Jupyter Notebook`](./tutorials/) together with other `Jupyter Notebook`.
 
-There are also detailed tutorials available in the [documentation](./docs/build/html/index.html) together with some [tutorial `notebooks`](./tutorials/).
+For detailed description and usage, please refer to this [documentation](./docs/build/html/index.html).
 
 ## Citations
 If you use `ysoisochrone` as part of your research, please cite the xxx
