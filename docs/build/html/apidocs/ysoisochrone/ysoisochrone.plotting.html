@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ysoisochrone.plotting &mdash; ysoisochrone 0.1.0.alpha documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/documentation_options.js?v=89fa07d3"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ysoisochrone.utils" href="ysoisochrone.utils.html" />
+    <link rel="prev" title="ysoisochrone.isochrone" href="ysoisochrone.isochrone.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ysoisochrone
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/ysoisochrone_basics.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/ysoisochrone_methods.html">Available Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models.html">The available stellar evolutionary models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ysoisochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ysoisochrone.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ysoisochrone.isochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.isochrone</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.plotting</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ysoisochrone.utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.utils</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ysoisochrone.bayesian.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.bayesian</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ysoisochrone.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ysoisochrone</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="ysoisochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.plotting</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/apidocs/ysoisochrone/ysoisochrone.plotting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-ysoisochrone.plotting">
+<span id="ysoisochrone-plotting"></span><h1><a class="reference internal" href="#module-ysoisochrone.plotting" title="ysoisochrone.plotting"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.plotting</span></code></a><a class="headerlink" href="#module-ysoisochrone.plotting" title="Link to this heading">¶</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h3>
+<table class="autosummary longtable docutils align-left">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.plotting.plot_bayesian_results" title="ysoisochrone.plotting.plot_bayesian_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_bayesian_results</span></code></a></p></td>
+<td><p>Plots the likelihood distributions and the best-fit age and mass.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.plotting.plot_hr_diagram" title="ysoisochrone.plotting.plot_hr_diagram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hr_diagram</span></code></a></p></td>
+<td><p>Plots the Hertzsprung–Russell diagram with the stars from df_prop and isochrones from the Isochrone class.
+Allows for custom selection of ages and masses to plot, with the option to manually set annotations
+for ages and masses (positions and rotations).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.plotting.plot_likelihood_1d" title="ysoisochrone.plotting.plot_likelihood_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_likelihood_1d</span></code></a></p></td>
+<td><p>Plots the likelihood function for stellar mass.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.plotting.plot_comparison" title="ysoisochrone.plotting.plot_comparison"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_comparison</span></code></a></p></td>
+<td><p>Plots the Python grid (interpolated onto IDL grid), IDL grid, and their differences for both Teff and L/Lo.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data">
+<h3>Data<a class="headerlink" href="#data" title="Link to this heading">¶</a></h3>
+<table class="autosummary longtable docutils align-left">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.plotting.style" title="ysoisochrone.plotting.style"><code class="xref py py-obj docutils literal notranslate"><span class="pre">style</span></code></a></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="api">
+<h3>API<a class="headerlink" href="#api" title="Link to this heading">¶</a></h3>
+<dl class="py data">
+<dt class="sig sig-object py" id="ysoisochrone.plotting.style">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.plotting.</span></span><span class="sig-name descname"><span class="pre">style</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#ysoisochrone.plotting.style" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.plotting.plot_bayesian_results">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_bayesian_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_age_dummy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_masses_dummy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_age</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age_unc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_unc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'figure'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customized_fig_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.plotting.plot_bayesian_results" title="Link to this definition">¶</a></dt>
+<dd><p>Plots the likelihood distributions and the best-fit age and mass.</p>
+<dl class="simple">
+<dt>log_age_dummy: [array]</dt><dd><p>The log of stellar ages.</p>
+</dd>
+<dt>log_masses_dummy: [array]</dt><dd><p>The log of stellar masses.</p>
+</dd>
+<dt>L: [2D array]</dt><dd><p>The likelihood function grid.</p>
+</dd>
+<dt>best_age: [float]</dt><dd><p>The best-fit age in log scale.</p>
+</dd>
+<dt>best_mass: [float]</dt><dd><p>The best-fit mass in log scale.</p>
+</dd>
+<dt>age_unc: [list]</dt><dd><p>The uncertainty range for age.</p>
+</dd>
+<dt>mass_unc: [list]</dt><dd><p>The uncertainty range for mass.</p>
+</dd>
+<dt>source: [str, optional]</dt><dd><p>The source name for labeling the plot.</p>
+</dd>
+<dt>save_fig: [bool, optional]</dt><dd><p>Whether to save the figure.</p>
+</dd>
+<dt>fig_save_dir: [str, optional]</dt><dd><p>Directory to save the figure if save_fig is True.</p>
+</dd>
+<dt>customized_fig_name [str, optional]: </dt><dd><p>Customized figure name.</p>
+</dd>
+</dl>
+<p>a formatted figure (or save to the fig_save_dir)</p>
+<p>1 if the code could be ran through</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.plotting.plot_hr_diagram">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_hr_diagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isochrone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_prop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ages_to_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">masses_to_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age_positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age_rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age_xycoords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_xycoords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim_set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim_set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bare</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.plotting.plot_hr_diagram" title="Link to this definition">¶</a></dt>
+<dd><p>Plots the Hertzsprung–Russell diagram with the stars from df_prop and isochrones from the Isochrone class.
+Allows for custom selection of ages and masses to plot, with the option to manually set annotations
+for ages and masses (positions and rotations).</p>
+<dl class="simple">
+<dt>isochrone: [Isochrone]</dt><dd><p>An instance of the Isochrone class containing the evolutionary tracks with attributes:
+log_age, masses, logtlogl (2D array for Teff and L/Lo).</p>
+</dd>
+<dt>df_prop: [pd.DataFrame, optional]</dt><dd><p>DataFrame containing the stellar properties with columns:
+[‘Source’, ‘Teff’, ‘e_Teff’, ‘Luminosity’, ‘e_Luminosity’].
+If None, no scatter points are plotted.</p>
+</dd>
+<dt>ax_set: [axes, optional] Default is None</dt><dd><p>If not None, the ax_set is the ax for the plot</p>
+</dd>
+<dt>ages_to_plot: [list, optional]</dt><dd><p>List of ages in years to plot as isochrones (default: [0.5e6, 1.0e6, 2.0e6, 3.0e6, 5.0e6, 10.0e6, 30.0e6, 100.0e6]).</p>
+</dd>
+<dt>masses_to_plot: [list, optional]</dt><dd><p>List of masses in solar masses to plot as mass tracks (default: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]).</p>
+</dd>
+<dt>age_positions: [list of tuples, optional]</dt><dd><p>List of (x, y) positions for age annotations. Default is automatic placement.</p>
+</dd>
+<dt>mass_positions: [list of tuples, optional]</dt><dd><p>List of (x, y) positions for mass annotations. Default is automatic placement.</p>
+</dd>
+<dt>age_rotation: [list, optional]</dt><dd><p>List of rotation angles (degrees) for the age annotations. Default is 0 for all.</p>
+</dd>
+<dt>mass_rotation: [list, optional]</dt><dd><p>List of rotation angles (degrees) for the mass annotations. Default is 0 for all.</p>
+</dd>
+<dt>age_xycoords: [str, optional]</dt><dd><p>the xycoords for the age annotate. Default is ‘data’. Refer to plt.annotate for details on this arg</p>
+</dd>
+<dt>mass_xycoords: [str, optional]</dt><dd><p>the xycoords for the mass annotate. Default is ‘data’. Refer to plt.annotate for details on this arg</p>
+</dd>
+<dt>xlim_set: [list]</dt><dd><p>the xlim from left to right [xlim_left, xlim_right]; default is None, so the code set it automatically</p>
+</dd>
+<dt>ylim_set: [list]</dt><dd><p>the ylim from bottom to top [ylim_bottom, ylim_top]; default is None, so the code set it automatically</p>
+</dd>
+<dt>bare: [bool, optional]</dt><dd><p>If true, just plot the scatters from the DataFrame, and the isochromes, but do not add the annotates, legend, nor the labels.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.plotting.plot_likelihood_1d">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_likelihood_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_masses_dummy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">likelihood</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_log_mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.plotting.plot_likelihood_1d" title="Link to this definition">¶</a></dt>
+<dd><p>Plots the likelihood function for stellar mass.</p>
+<dl class="simple">
+<dt>log_masses_dummy: [array]</dt><dd><p>Array of log10(mass) values from the evolutionary track.</p>
+</dd>
+<dt>likelihood: [array]</dt><dd><p>Likelihood function evaluated for each mass point.</p>
+</dd>
+<dt>best_log_mass: [float]</dt><dd><p>The best-fit log10 mass.</p>
+</dd>
+<dt>lower_mass: [float]</dt><dd><p>The lower bound of the uncertainty in log10 mass.</p>
+</dd>
+<dt>upper_mass: [float]</dt><dd><p>The upper bound of the uncertainty in log10 mass.</p>
+</dd>
+<dt>source: [str, optional]</dt><dd><p>The source name to include in the plot title. Default is None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.plotting.plot_comparison">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_age_idl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">masses_idl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logtlogl_interp_py</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logtlogl_idl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logtlogl_diff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logtlogl_diff_norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gridnames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['Python',</span> <span class="pre">'IDL']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.plotting.plot_comparison" title="Link to this definition">¶</a></dt>
+<dd><p>Plots the Python grid (interpolated onto IDL grid), IDL grid, and their differences for both Teff and L/Lo.</p>
+<dl class="simple">
+<dt>log_age_idl: [array]</dt><dd><p>Array of log(age) values from the IDL grid.</p>
+</dd>
+<dt>masses_idl: [array]</dt><dd><p>Array of mass values from the IDL grid.</p>
+</dd>
+<dt>logtlogl_interp_py: [array]</dt><dd><p>Python-generated logtlogl data (Teff and L/Lo) interpolated onto the IDL grid.</p>
+</dd>
+<dt>logtlogl_idl: [array]</dt><dd><p>IDL-generated logtlogl data (Teff and L/Lo).</p>
+</dd>
+<dt>logtlogl_diff: [array]</dt><dd><p>Difference between interpolated Python and IDL logtlogl data.</p>
+</dd>
+<dt>logtlogl_diff_norm: [array]</dt><dd><p>Normalized difference between interpolated Python and IDL logtlogl data.</p>
+</dd>
+<dt>gridnames: [list of strings, optional]</dt><dd><p>The names of the grid names, default is Python and IDL</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ysoisochrone.isochrone.html" class="btn btn-neutral float-left" title="ysoisochrone.isochrone" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ysoisochrone.utils.html" class="btn btn-neutral float-right" title="ysoisochrone.utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dingshan Deng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

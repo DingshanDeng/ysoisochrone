@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ysoisochrone.utils &mdash; ysoisochrone 0.1.0.alpha documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/documentation_options.js?v=89fa07d3"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ysoisochrone.bayesian" href="ysoisochrone.bayesian.html" />
+    <link rel="prev" title="ysoisochrone.plotting" href="ysoisochrone.plotting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ysoisochrone
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/ysoisochrone_basics.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/ysoisochrone_methods.html">Available Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models.html">The available stellar evolutionary models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ysoisochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ysoisochrone.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ysoisochrone.isochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.isochrone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ysoisochrone.plotting.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.plotting</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.utils</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ysoisochrone.bayesian.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.bayesian</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ysoisochrone.html#package-contents">Package Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ysoisochrone</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="ysoisochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.utils</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/apidocs/ysoisochrone/ysoisochrone.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-ysoisochrone.utils">
+<span id="ysoisochrone-utils"></span><h1><a class="reference internal" href="#module-ysoisochrone.utils" title="ysoisochrone.utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.utils</span></code></a><a class="headerlink" href="#module-ysoisochrone.utils" title="Link to this heading">¶</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h3>
+<table class="autosummary longtable docutils align-left">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.unc_log10" title="ysoisochrone.utils.unc_log10"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unc_log10</span></code></a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.get_likelihood_andrews2013" title="ysoisochrone.utils.get_likelihood_andrews2013"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_likelihood_andrews2013</span></code></a></p></td>
+<td><p>Calculates the likelihood function lfunc given the input log temperature and luminosity.
+L is the likelihood function see eq. 1 in Andrews2013 (or anyone you would like to set up)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_file_simple" title="ysoisochrone.utils.download_file_simple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_file_simple</span></code></a></p></td>
+<td><p>Downloads a file from a given URL and saves it to the specified path.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_file" title="ysoisochrone.utils.download_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_file</span></code></a></p></td>
+<td><p>Downloads a file from a given URL and saves it to the specified path with a customizable progress bar.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.extract_tarball" title="ysoisochrone.utils.extract_tarball"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_tarball</span></code></a></p></td>
+<td><p>Extracts a tarball file into a specified directory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_baraffe_tracks" title="ysoisochrone.utils.download_baraffe_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_baraffe_tracks</span></code></a></p></td>
+<td><p>Downloads the Baraffe BHAC15 tracks file and saves it to the specified directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_baraffe_file" title="ysoisochrone.utils.read_baraffe_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_baraffe_file</span></code></a></p></td>
+<td><p>Reads the original BHAC15 tracks file and parses the mass, age, and logtlogl.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_feiden_trk_tracks" title="ysoisochrone.utils.download_feiden_trk_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_feiden_trk_tracks</span></code></a></p></td>
+<td><p>Downloads (all .trk files and [optional]) the tarball from the specified GitHub folder and saves them to the given directory.
+The tarball is extracted after downloading.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_feiden_trk_file" title="ysoisochrone.utils.read_feiden_trk_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_feiden_trk_file</span></code></a></p></td>
+<td><p>Reads all the Feiden track files (<a href="#id1"><span class="problematic" id="id2">*</span></a>.trk) in the given directory, extracts the age and stellar parameters,
+and organizes the data into numpy arrays.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_feiden_iso_tracks" title="ysoisochrone.utils.download_feiden_iso_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_feiden_iso_tracks</span></code></a></p></td>
+<td><p>Downloads all .iso files and the tarball from the specified GitHub folder and saves them to the given directory.
+The tarball is extracted after downloading.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_feiden_iso_file" title="ysoisochrone.utils.read_feiden_iso_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_feiden_iso_file</span></code></a></p></td>
+<td><p>Reads all the Feiden track files (<a href="#id3"><span class="problematic" id="id4">*</span></a>.iso) in the given directory, extracts the age and stellar parameters,
+and organizes the data into numpy arrays.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_parsec_v1p2_tracks" title="ysoisochrone.utils.download_parsec_v1p2_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_parsec_v1p2_tracks</span></code></a></p></td>
+<td><p>Downloads the PARSECv1p2 tracks tarball from the specified link and saves it to the given directory.
+The tarball is extracted after downloading.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_parsec_v1p2_dat_file" title="ysoisochrone.utils.read_parsec_v1p2_dat_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_parsec_v1p2_dat_file</span></code></a></p></td>
+<td><p>Reads all the PARSECv1p2 track files (<a href="#id5"><span class="problematic" id="id6">*</span></a>.DAT) in the given directory, extracts the mass, age, and stellar parameters (log(Teff), log(L)).
+Organizes the data into numpy arrays.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_parsec_v2p0_tracks" title="ysoisochrone.utils.download_parsec_v2p0_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_parsec_v2p0_tracks</span></code></a></p></td>
+<td><p>Downloads the PARSEC v2.0 tracks zip file and extracts it to the given directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_parsec_v2p0_tab_file" title="ysoisochrone.utils.read_parsec_v2p0_tab_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_parsec_v2p0_tab_file</span></code></a></p></td>
+<td><p>Reads all the PARSECv2.0 track files (<a href="#id7"><span class="problematic" id="id8">*</span></a>.TAB) in the given directory, extracts the mass, age, and stellar parameters (log(Teff), log(L)).
+Organizes the data into numpy arrays.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_mist_v1p2_eep_tracks" title="ysoisochrone.utils.download_mist_v1p2_eep_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_mist_v1p2_eep_tracks</span></code></a></p></td>
+<td><p>Downloads the MIST v1.2 tracks tarball and extracts it to the given directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_mist_v1p2_iso_tracks" title="ysoisochrone.utils.download_mist_v1p2_iso_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_mist_v1p2_iso_tracks</span></code></a></p></td>
+<td><p>Downloads the MIST v1.2 tracks tarball and extracts it to the given directory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_mist_v1p2_iso_file" title="ysoisochrone.utils.read_mist_v1p2_iso_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_mist_v1p2_iso_file</span></code></a></p></td>
+<td><p>Reads the MISTv1p2 isochrone file in the given directory, extracts the star mass, log(Teff), and log(L/Lo).
+Organizes the data into numpy arrays.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.create_meshgrid" title="ysoisochrone.utils.create_meshgrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_meshgrid</span></code></a></p></td>
+<td><p>Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.save_as_mat" title="ysoisochrone.utils.save_as_mat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_as_mat</span></code></a></p></td>
+<td><p>Saves the extracted data into a .mat file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.compare_grids" title="ysoisochrone.utils.compare_grids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_grids</span></code></a></p></td>
+<td><p>Compares the Python and IDL-generated grids by interpolating the Python grid onto the sparser IDL grid
+and plotting the differences.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="api">
+<h3>API<a class="headerlink" href="#api" title="Link to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.unc_log10">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">unc_log10</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err_x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.unc_log10" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.get_likelihood_andrews2013">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">get_likelihood_andrews2013</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logtlogl_dummy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_logT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_logL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_logT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_logL</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.get_likelihood_andrews2013" title="Link to this definition">¶</a></dt>
+<dd><p>Calculates the likelihood function lfunc given the input log temperature and luminosity.
+L is the likelihood function see eq. 1 in Andrews2013 (or anyone you would like to set up)</p>
+<dl class="simple">
+<dt>logtlogl_dummy: [array]</dt><dd><p>Array of log(T) and log(L) values for the evolutionary tracks.</p>
+</dd>
+<dt>c_logT: [float]</dt><dd><p>Logarithm of the stellar effective temperature.</p>
+</dd>
+<dt>c_logL: [float]</dt><dd><p>Logarithm of the stellar luminosity.</p>
+</dd>
+<dt>sigma_logT: [float]</dt><dd><p>Uncertainty in log(Teff).</p>
+</dd>
+<dt>sigma_logL: [float]</dt><dd><p>Uncertainty in log(Luminosity).</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>lfunc: [2D array]</dt><dd><p>The likelihood function values for each combination of age and mass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.download_file_simple">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">download_file_simple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.download_file_simple" title="Link to this definition">¶</a></dt>
+<dd><p>Downloads a file from a given URL and saves it to the specified path.</p>
+<dl class="simple">
+<dt>url: [str]</dt><dd><p>URL of the file to download.</p>
+</dd>
+<dt>save_path: [str]</dt><dd><p>Local path to save the file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.download_file">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.download_file" title="Link to this definition">¶</a></dt>
+<dd><p>Downloads a file from a given URL and saves it to the specified path with a customizable progress bar.</p>
+<dl class="simple">
+<dt>url: [str]</dt><dd><p>URL of the file to download.</p>
+</dd>
+<dt>save_path: [str]</dt><dd><p>Local path to save the file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.extract_tarball">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">extract_tarball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tar_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.extract_tarball" title="Link to this definition">¶</a></dt>
+<dd><p>Extracts a tarball file into a specified directory.</p>
+<dl class="simple">
+<dt>tar_file_path: [str]</dt><dd><p>Path to the tarball file.</p>
+</dd>
+<dt>extract_dir: [str]</dt><dd><p>Directory to extract the tarball contents into.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.download_baraffe_tracks">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">download_baraffe_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'isochrones_data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.download_baraffe_tracks" title="Link to this definition">¶</a></dt>
+<dd><p>Downloads the Baraffe BHAC15 tracks file and saves it to the specified directory.</p>
+<dl class="simple">
+<dt>save_dir: [str, optional]</dt><dd><p>The directory where the file should be saved. Defaults to ‘isochrones_data’.</p>
+</dd>
+</dl>
+<p>Downloads the file and saves it in the specified directory.</p>
+<p>ValueError: If the file could not be downloaded.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.read_baraffe_file">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">read_baraffe_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.read_baraffe_file" title="Link to this definition">¶</a></dt>
+<dd><p>Reads the original BHAC15 tracks file and parses the mass, age, and logtlogl.</p>
+<dl class="simple">
+<dt>file_path: [str]</dt><dd><p>Path to the original BHAC15 tracks file.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>data_points: [np.array]</dt><dd><p>Array of [log_age, mass, teff, luminosity] data points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.download_feiden_trk_tracks">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">download_feiden_trk_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'isochrones_data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_original_trks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.download_feiden_trk_tracks" title="Link to this definition">¶</a></dt>
+<dd><p>Downloads (all .trk files and [optional]) the tarball from the specified GitHub folder and saves them to the given directory.
+The tarball is extracted after downloading.</p>
+<dl class="simple">
+<dt>save_dir: [str, optional]</dt><dd><p>The directory where the files should be saved. Defaults to ‘isochrones_data’.</p>
+</dd>
+<dt>download_original_trks: [bool, optional] default = False</dt><dd><p>If true, download the original trk files provided on their gibhub page,
+otherwise, only download the tgz file and then untar it</p>
+</dd>
+</dl>
+<p>Downloads (all .iso files and) the tarball from the GitHub folder, saves them, and extracts the tarball.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.read_feiden_trk_file">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">read_feiden_trk_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feiden_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.read_feiden_trk_file" title="Link to this definition">¶</a></dt>
+<dd><p>Reads all the Feiden track files (<a href="#id9"><span class="problematic" id="id10">*</span></a>.trk) in the given directory, extracts the age and stellar parameters,
+and organizes the data into numpy arrays.</p>
+<dl class="simple">
+<dt>feiden_dir: [str]</dt><dd><p>Directory where the Feiden track files are stored.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>data_points: [list]</dt><dd><p>List of [mass, log_age, Teff, log(L/Lo)] for each star across all .trk files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.download_feiden_iso_tracks">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">download_feiden_iso_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'isochrones_data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.download_feiden_iso_tracks" title="Link to this definition">¶</a></dt>
+<dd><p>Downloads all .iso files and the tarball from the specified GitHub folder and saves them to the given directory.
+The tarball is extracted after downloading.</p>
+<dl class="simple">
+<dt>save_dir: [str, optional]</dt><dd><p>The directory where the files should be saved. Defaults to ‘isochrones_data’.</p>
+</dd>
+</dl>
+<p>Downloads all .iso files and the tarball from the GitHub folder, saves them, and extracts the tarball.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.read_feiden_iso_file">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">read_feiden_iso_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feiden_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.read_feiden_iso_file" title="Link to this definition">¶</a></dt>
+<dd><p>Reads all the Feiden track files (<a href="#id11"><span class="problematic" id="id12">*</span></a>.iso) in the given directory, extracts the age and stellar parameters,
+and organizes the data into numpy arrays.</p>
+<dl class="simple">
+<dt>feiden_dir: [str]</dt><dd><p>Directory where the Feiden track files are stored.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>data_points: [list]</dt><dd><p>List of [mass, log_age, log(Teff), log(L/Lo)] for each star across all .iso files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.download_parsec_v1p2_tracks">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">download_parsec_v1p2_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'isochrones_data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.download_parsec_v1p2_tracks" title="Link to this definition">¶</a></dt>
+<dd><p>Downloads the PARSECv1p2 tracks tarball from the specified link and saves it to the given directory.
+The tarball is extracted after downloading.</p>
+<dl class="simple">
+<dt>save_dir: [str, optional]</dt><dd><p>The directory where the files should be saved. Defaults to ‘isochrones_data’.</p>
+</dd>
+</dl>
+<p>Downloads the tarball from the provided link, saves it, and extracts the tarball.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.read_parsec_v1p2_dat_file">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">read_parsec_v1p2_dat_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parsec_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.read_parsec_v1p2_dat_file" title="Link to this definition">¶</a></dt>
+<dd><p>Reads all the PARSECv1p2 track files (<a href="#id13"><span class="problematic" id="id14">*</span></a>.DAT) in the given directory, extracts the mass, age, and stellar parameters (log(Teff), log(L)).
+Organizes the data into numpy arrays.</p>
+<dl class="simple">
+<dt>parsec_dir: [str]</dt><dd><p>Directory where the PARSECv1p2 track files are stored.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>data_points: [list]</dt><dd><p>List of [mass, log_age, Teff, log(L/Lo)] for each star across all .DAT files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.download_parsec_v2p0_tracks">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">download_parsec_v2p0_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'isochrones_data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.download_parsec_v2p0_tracks" title="Link to this definition">¶</a></dt>
+<dd><p>Downloads the PARSEC v2.0 tracks zip file and extracts it to the given directory.</p>
+<dl class="simple">
+<dt>save_dir: [str, optional]</dt><dd><p>The directory where the files should be saved. Defaults to ‘isochrones_data/PARSECv2p0’.</p>
+</dd>
+</dl>
+<p>Downloads the PARSEC v2.0 zip file from the specified URL, saves it, and extracts its contents.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.read_parsec_v2p0_tab_file">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">read_parsec_v2p0_tab_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parsec_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.read_parsec_v2p0_tab_file" title="Link to this definition">¶</a></dt>
+<dd><p>Reads all the PARSECv2.0 track files (<a href="#id15"><span class="problematic" id="id16">*</span></a>.TAB) in the given directory, extracts the mass, age, and stellar parameters (log(Teff), log(L)).
+Organizes the data into numpy arrays.</p>
+<dl class="simple">
+<dt>parsec_dir: [str]</dt><dd><p>Directory where the PARSECv2.0 track files are stored.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>data_points: [list]</dt><dd><p>List of [mass, log_age, Teff, log(L/Lo)] for each star across all .TAB files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.download_mist_v1p2_eep_tracks">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">download_mist_v1p2_eep_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'isochrones_data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.download_mist_v1p2_eep_tracks" title="Link to this definition">¶</a></dt>
+<dd><p>Downloads the MIST v1.2 tracks tarball and extracts it to the given directory.</p>
+<dl class="simple">
+<dt>save_dir: [str, optional]</dt><dd><p>The directory where the files should be saved. Defaults to ‘isochrones_data/MIST_v1p2’.</p>
+</dd>
+</dl>
+<p>Downloads the MIST v1.2 tarball from the specified URL, saves it, and extracts its contents.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.download_mist_v1p2_iso_tracks">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">download_mist_v1p2_iso_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'isochrones_data'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.download_mist_v1p2_iso_tracks" title="Link to this definition">¶</a></dt>
+<dd><p>Downloads the MIST v1.2 tracks tarball and extracts it to the given directory.</p>
+<dl class="simple">
+<dt>save_dir: [str, optional]</dt><dd><p>The directory where the files should be saved. Defaults to ‘isochrones_data/MIST_v1p2’.</p>
+</dd>
+</dl>
+<p>Downloads the MIST v1.2 tarball from the specified URL, saves it, and extracts its contents.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.read_mist_v1p2_iso_file">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">read_mist_v1p2_iso_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mist_iso_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.read_mist_v1p2_iso_file" title="Link to this definition">¶</a></dt>
+<dd><p>Reads the MISTv1p2 isochrone file in the given directory, extracts the star mass, log(Teff), and log(L/Lo).
+Organizes the data into numpy arrays.</p>
+<dl class="simple">
+<dt>mist_iso_file: [str]</dt><dd><p>The file where the MISTv1p2 isochrone file is stored.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>data_points: [list]</dt><dd><p>List of [star_mass, log_age, Teff, log(L/Lo)] for each entry in the iso file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.create_meshgrid">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">create_meshgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.create_meshgrid" title="Link to this definition">¶</a></dt>
+<dd><p>Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.</p>
+<dl class="simple">
+<dt>data_points: [np.array]</dt><dd><p>Array of [log_age, mass, teff, log_luminosity] data points.</p>
+</dd>
+<dt>min_age: [float, optional] unit: Myrs</dt><dd><p>The minimum age that we will cut in this grid. Default = 0.5 Myrs</p>
+</dd>
+<dt>max_age: [float, optional] unit: Myrs</dt><dd><p>The maximum age that we will cut in this grid. Default = 100 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase).</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>log_age_grid: [np.array]</dt><dd><p>2D meshgrid of log age values.</p>
+</dd>
+<dt>masses_grid: [np.array]</dt><dd><p>2D meshgrid of mass values.</p>
+</dd>
+<dt>logtlogl_grid: [np.array]</dt><dd><p>2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.save_as_mat">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">save_as_mat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">masses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_age</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logtlogl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.save_as_mat" title="Link to this definition">¶</a></dt>
+<dd><p>Saves the extracted data into a .mat file.</p>
+<dl class="simple">
+<dt>masses: [np.array]</dt><dd><p>Array of masses (M/Ms).</p>
+</dd>
+<dt>log_age: [np.array]</dt><dd><p>Array of log age values.</p>
+</dd>
+<dt>logtlogl: [np.array]</dt><dd><p>2D array of Teff and L/Ls values.</p>
+</dd>
+<dt>save_path: [str]</dt><dd><p>Path to save the .mat file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.compare_grids">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">compare_grids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loaded_data_py</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loaded_data_idl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gridnames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['Python',</span> <span class="pre">'IDL']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.compare_grids" title="Link to this definition">¶</a></dt>
+<dd><p>Compares the Python and IDL-generated grids by interpolating the Python grid onto the sparser IDL grid
+and plotting the differences.</p>
+<dl class="simple">
+<dt>loaded_data_py: [dict]</dt><dd><p>Dictionary containing the Python-generated grid data (masses, log_age, logtlogl).</p>
+</dd>
+<dt>loaded_data_idl: [dict]</dt><dd><p>Dictionary containing the IDL-generated grid data (masses, log_age, logtlogl).</p>
+</dd>
+<dt>gridnames: [list of strings, optional]</dt><dd><p>The names of the grid names, default is Python and IDL</p>
+</dd>
+<dt>plot: [bool, optional]: </dt><dd><p>Whether to plot the differences</p>
+</dd>
+</dl>
+<p>A visual comparison of the Python and IDL grids with difference and normalized difference plots.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ysoisochrone.plotting.html" class="btn btn-neutral float-left" title="ysoisochrone.plotting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ysoisochrone.bayesian.html" class="btn btn-neutral float-right" title="ysoisochrone.bayesian" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dingshan Deng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

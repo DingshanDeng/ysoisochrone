@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ysoisochrone &mdash; ysoisochrone 0.1.0.alpha documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/documentation_options.js?v=89fa07d3"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/design-tabs.js?v=f930bc37"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick Start" href="notebooks/ysoisochrone_basics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            ysoisochrone
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_basics.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_methods.html">Available Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">The available stellar evolutionary models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidocs/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">ysoisochrone</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ysoisochrone</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="ysoisochrone">
+<h1>ysoisochrone<a class="headerlink" href="#ysoisochrone" title="Link to this heading">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">ysoisochrone</span></code> is a Python package that handles the isochrones for young-stellar-objects. One of the primary goals of this package is to derive the stellar mass and ages from the isochrones.</p>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading">¶</a></h2>
+<p>Our primary method is a Bayesian inference approach that introduced in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a> to estimate the stellar masses, ages, and associated uncertainties from the stellar effective temperature (<img class="math" src="_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/>), bolometric luminosity (<img class="math" src="_images/math/12079d764aeacb39059132d872b3c6b8caa750ee.png" alt="L_{\rm bol}"/>), and their uncertainties. Uniform priors are assumed, and the likelihood functions are defined following <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2013ApJ...771..129A/abstract">Andrews et al. (2013)</a>. The pre-main-sequence evolutionary tracks from both <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract">Feiden (2016)</a> and <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract">Baraffe et al. (2015)</a> are adopted for hot (<img class="math" src="_images/math/230b71f5b0b9286b27047f78ddbdd093906884bf.png" alt="T_{\rm eff} &gt; 3,900"/>) and cool stars (<img class="math" src="_images/math/71ce0804603ce220a582e69f9711de3a6bf05200.png" alt="T_{\rm eff} \leq 3,900"/>), respectively. This method was also adopted in other works (e.g., <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2023AJ....166..175F/abstract">Fernandes et al. 2023</a> and ALMA large program AGE-PRO).</p>
+<p>We also provide two other ways to estimate the stellar masses and ages from these isochrones: (b) In some cases, when a good measurement of stellar luminosity is unavailable,  we also provide an option to set up the assumed age to derive the stellar mass from the Bayesian inference. © A simple approach to estimate the stellar masses and ages from the grid point that has the closest <img class="math" src="_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/> and <img class="math" src="_images/math/12079d764aeacb39059132d872b3c6b8caa750ee.png" alt="L_{\rm bol}"/> to the target.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>In the terminal and in the directory of this package where <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> exists.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>.
+</pre></div>
+</div>
+<p>which should install the necessary dependencies.</p>
+<p>If the installation went to plan you should be able to run the tutorial notebooks.</p>
+<p>After installing the package, you can try import the package as</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ysoisochrone</span>
+</pre></div>
+</div>
+<p>You can start using this package from the <a class="reference internal" href="notebooks/ysoisochrone_basics.html"><span class="std std-doc">Quick Start Guide</span></a>.</p>
+</section>
+<section id="citations">
+<h2>Citations<a class="headerlink" href="#citations" title="Link to this heading">¶</a></h2>
+<p>If you end up using this package, please cite xxx (TBA)</p>
+</section>
+<section id="contents">
+<h2>Contents:<a class="headerlink" href="#contents" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_basics.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/ysoisochrone_basics.html#Installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/ysoisochrone_basics.html#Prepare-your-own-data">Prepare your own data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/ysoisochrone_basics.html#Estimate-Mass-and-Ages">Estimate Mass and Ages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_methods.html">Available Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/ysoisochrone_methods.html#The-Bayesian-Inference-Approach">The Bayesian Inference Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/ysoisochrone_methods.html#Assuming-age-to-derive-stellar-masses">Assuming age to derive stellar masses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/ysoisochrone_methods.html#Closest-grid-point-on-isochrone">Closest grid point on isochrone</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">The available stellar evolutionary models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models.html#baraffe-et-al-2015">Baraffe et al. (2015)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#feiden-et-al-2016">Feiden et al. (2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#parsec">PARSEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#mist">MIST</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidocs/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.isochrone</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#classes">Classes</a></li>
+<li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#api">API</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone"><code class="docutils literal notranslate"><span class="pre">Isochrone</span></code></a><ul>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.prepare_baraffe_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.prepare_baraffe_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.prepare_feiden_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.prepare_feiden_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.prepare_parsecv1p2_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.prepare_parsecv1p2_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.prepare_parsecv2p0_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.prepare_parsecv2p0_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.prepare_mistv1p2_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.prepare_mistv1p2_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_baraffe2015_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_baraffe2015_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_feiden2016_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_feiden2016_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_parsecv1p2_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_parsecv1p2_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_parsecv2p0_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_parsecv2p0_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_mistv1p2_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_mistv1p2_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_tracks_from_custome_matrix"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_tracks_from_custome_matrix()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.set_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.set_tracks()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.get_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.get_tracks()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.plotting.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.plotting</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.plotting.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.plotting.html#functions">Functions</a></li>
+<li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.plotting.html#data">Data</a></li>
+<li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.plotting.html#api">API</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.plotting.html#ysoisochrone.plotting.style"><code class="docutils literal notranslate"><span class="pre">style</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.plotting.html#ysoisochrone.plotting.plot_bayesian_results"><code class="docutils literal notranslate"><span class="pre">plot_bayesian_results()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.plotting.html#ysoisochrone.plotting.plot_hr_diagram"><code class="docutils literal notranslate"><span class="pre">plot_hr_diagram()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.plotting.html#ysoisochrone.plotting.plot_likelihood_1d"><code class="docutils literal notranslate"><span class="pre">plot_likelihood_1d()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.plotting.html#ysoisochrone.plotting.plot_comparison"><code class="docutils literal notranslate"><span class="pre">plot_comparison()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.utils</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#functions">Functions</a></li>
+<li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#api">API</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.unc_log10"><code class="docutils literal notranslate"><span class="pre">unc_log10()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.get_likelihood_andrews2013"><code class="docutils literal notranslate"><span class="pre">get_likelihood_andrews2013()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_file_simple"><code class="docutils literal notranslate"><span class="pre">download_file_simple()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_file"><code class="docutils literal notranslate"><span class="pre">download_file()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.extract_tarball"><code class="docutils literal notranslate"><span class="pre">extract_tarball()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_baraffe_tracks"><code class="docutils literal notranslate"><span class="pre">download_baraffe_tracks()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.read_baraffe_file"><code class="docutils literal notranslate"><span class="pre">read_baraffe_file()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_feiden_trk_tracks"><code class="docutils literal notranslate"><span class="pre">download_feiden_trk_tracks()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.read_feiden_trk_file"><code class="docutils literal notranslate"><span class="pre">read_feiden_trk_file()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_feiden_iso_tracks"><code class="docutils literal notranslate"><span class="pre">download_feiden_iso_tracks()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.read_feiden_iso_file"><code class="docutils literal notranslate"><span class="pre">read_feiden_iso_file()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_parsec_v1p2_tracks"><code class="docutils literal notranslate"><span class="pre">download_parsec_v1p2_tracks()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.read_parsec_v1p2_dat_file"><code class="docutils literal notranslate"><span class="pre">read_parsec_v1p2_dat_file()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_parsec_v2p0_tracks"><code class="docutils literal notranslate"><span class="pre">download_parsec_v2p0_tracks()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.read_parsec_v2p0_tab_file"><code class="docutils literal notranslate"><span class="pre">read_parsec_v2p0_tab_file()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_mist_v1p2_eep_tracks"><code class="docutils literal notranslate"><span class="pre">download_mist_v1p2_eep_tracks()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_mist_v1p2_iso_tracks"><code class="docutils literal notranslate"><span class="pre">download_mist_v1p2_iso_tracks()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.read_mist_v1p2_iso_file"><code class="docutils literal notranslate"><span class="pre">read_mist_v1p2_iso_file()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.create_meshgrid"><code class="docutils literal notranslate"><span class="pre">create_meshgrid()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.save_as_mat"><code class="docutils literal notranslate"><span class="pre">save_as_mat()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.compare_grids"><code class="docutils literal notranslate"><span class="pre">compare_grids()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone.bayesian</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#module-contents">Module Contents</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#functions">Functions</a></li>
+<li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#api">API</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#ysoisochrone.bayesian.bayesian_mass_age"><code class="docutils literal notranslate"><span class="pre">bayesian_mass_age()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#ysoisochrone.bayesian.derive_stellar_mass_age"><code class="docutils literal notranslate"><span class="pre">derive_stellar_mass_age()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#ysoisochrone.bayesian.derive_stellar_mass_age_closest_track"><code class="docutils literal notranslate"><span class="pre">derive_stellar_mass_age_closest_track()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#ysoisochrone.bayesian.derive_stellar_mass_assuming_age"><code class="docutils literal notranslate"><span class="pre">derive_stellar_mass_assuming_age()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html#package-contents">Package Contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html#data">Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html#ysoisochrone.__version__"><code class="docutils literal notranslate"><span class="pre">__version__</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html#ysoisochrone.__author__"><code class="docutils literal notranslate"><span class="pre">__author__</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html#ysoisochrone.__copyright__"><code class="docutils literal notranslate"><span class="pre">__copyright__</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html#ysoisochrone.__all__"><code class="docutils literal notranslate"><span class="pre">__all__</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="notebooks/ysoisochrone_basics.html" class="btn btn-neutral float-right" title="Quick Start" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dingshan Deng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

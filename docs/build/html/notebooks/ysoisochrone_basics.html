@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Start &mdash; ysoisochrone 0.1.0.alpha documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/documentation_options.js?v=89fa07d3"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/design-tabs.js?v=f930bc37"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Available Methods" href="ysoisochrone_methods.html" />
+    <link rel="prev" title="ysoisochrone" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ysoisochrone
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Prepare-your-own-data">Prepare your own data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Estimate-Mass-and-Ages">Estimate Mass and Ages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ysoisochrone_methods.html">Available Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">The available stellar evolutionary models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apidocs/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ysoisochrone</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quick Start</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/ysoisochrone_basics.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Quick-Start">
+<h1>Quick Start<a class="headerlink" href="#Quick-Start" title="Link to this heading">¶</a></h1>
+<p>This is the basics of using ysoisochrone</p>
+<section id="Installation">
+<h2>Installation<a class="headerlink" href="#Installation" title="Link to this heading">¶</a></h2>
+<p>The easiest way to install this package is using terminal, and change directory to the root direcotry of this package (where the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> exists).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>.
+</pre></div>
+</div>
+<p>which should install the necessary dependencies.</p>
+<p>First make sure you have successfully installed the package. You can find out this by trying to import</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ysoisochrone</span>
+</pre></div>
+</div>
+</div>
+<p>When using the package for the first time, it will try to download the isochrones from online sources, so make sure you also have internet access. You might need to download some large files (<img class="math" src="../_images/math/c0bd9a1e4ac9b7e8938c4d708654074e79999a32.png" alt="\sim 1\,"/>GB) for using the isochrones from certain models (such as PARSEC), so you also need to make sure you have a few GB left in the disk where you need to store the data.</p>
+<p>By default, the code will create a folder called <code class="docutils literal notranslate"><span class="pre">isochrones_data</span></code> in the same directory that you are running the <code class="docutils literal notranslate"><span class="pre">Python</span></code> script. You can also change this by editing the <code class="docutils literal notranslate"><span class="pre">save_dir</span></code> argument in the <code class="docutils literal notranslate"><span class="pre">download_xxx</span></code> functions.</p>
+<p>First, let’s try to download the track from Baraffe et al. (2015)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">download_baraffe_tracks</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Downloading: 100%|█████████████████████████████████████████████| 1.35M/1.35M [00:00&lt;00:00, 1.46MB/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Downloaded isochrones_data/Baraffe2015/BHAC15_tracks+structure
+If you end up using the Baraffe et al. (2015) tracks, please cite from: https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1
+</pre></div></div>
+</div>
+<p><strong>NOTE</strong>. If you want to store the data to a different directory, you can use</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">save_dir_yourpath</span> <span class="o">=</span> <span class="s1">&#39;Your_prefered_path&#39;</span>
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">download_baraffe_tracks</span><span class="p">(</span><span class="n">save_dir</span><span class="o">=</span><span class="n">save_dir_yourpath</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="Prepare-your-own-data">
+<h2>Prepare your own data<a class="headerlink" href="#Prepare-your-own-data" title="Link to this heading">¶</a></h2>
+<p>Then, you need to prepare your own data. The data needs to be in the format of <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> and with following columns <code class="docutils literal notranslate"><span class="pre">['Source',</span> <span class="pre">'Teff',</span> <span class="pre">'e_Teff',</span> <span class="pre">'Luminosity',</span> <span class="pre">'e_Luminosity']</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'Source'</span></code> is the list of source names. It can be just the ID numbers you prefer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'Teff'</span></code> is the effective temperature in the unit of Kelvin.</p></li>
+<li><p>and <code class="docutils literal notranslate"><span class="pre">'e_Teff'</span></code> is the associated uncertainties.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'Luminosity'</span></code> is the bolometric luminosities of these targets un the unit of solar luminosity.</p></li>
+<li><p>and <code class="docutils literal notranslate"><span class="pre">'e_Luminosity'</span></code> is their uncertainties.</p></li>
+</ul>
+<p>The easiest way to do so is to create a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file using EXCEL or similar software, and this file includes these columns, and then you can utilize <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to read in this file. Later you use this as an input.</p>
+<p>Here we prepared an example file called <code class="docutils literal notranslate"><span class="pre">'example_targets.csv'</span></code> in this tutorial.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_targets.csv&#39;</span><span class="p">)</span>
+
+<span class="n">df_prop</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>Teff</th>
+      <th>e_Teff</th>
+      <th>Luminosity</th>
+      <th>e_Luminosity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sz65</td>
+      <td>4060</td>
+      <td>187.0</td>
+      <td>0.869</td>
+      <td>0.3623</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Sz71</td>
+      <td>3632</td>
+      <td>167.0</td>
+      <td>0.327</td>
+      <td>0.1420</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>J16124373-3815031</td>
+      <td>3705</td>
+      <td>171.0</td>
+      <td>0.390</td>
+      <td>0.2691</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Sz72</td>
+      <td>3560</td>
+      <td>164.0</td>
+      <td>0.272</td>
+      <td>0.1160</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Sz77</td>
+      <td>4060</td>
+      <td>187.0</td>
+      <td>0.593</td>
+      <td>0.2428</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>J16085324-3914401</td>
+      <td>3415</td>
+      <td>79.0</td>
+      <td>0.198</td>
+      <td>0.1477</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Sz131</td>
+      <td>3415</td>
+      <td>79.0</td>
+      <td>0.150</td>
+      <td>0.0583</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Sz66</td>
+      <td>3415</td>
+      <td>79.0</td>
+      <td>0.216</td>
+      <td>0.0920</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Sz95</td>
+      <td>3415</td>
+      <td>79.0</td>
+      <td>0.267</td>
+      <td>0.1842</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>V1094Sco</td>
+      <td>4205</td>
+      <td>193.0</td>
+      <td>1.210</td>
+      <td>0.8633</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>You can overplot them on the top of the isochrones in the Hertzsprung–Russell diagram (HR diagram).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isochrone</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">isochrone</span><span class="o">.</span><span class="n">Isochrone</span><span class="p">()</span>
+<span class="n">isochrone</span><span class="o">.</span><span class="n">set_tracks</span><span class="p">(</span><span class="s1">&#39;Baraffe2015&#39;</span><span class="p">)</span>
+
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">df_prop</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_ysoisochrone_basics_8_0.png" src="../_images/notebooks_ysoisochrone_basics_8_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1
+</pre></div></div>
+</div>
+</section>
+<section id="Estimate-Mass-and-Ages">
+<h2>Estimate Mass and Ages<a class="headerlink" href="#Estimate-Mass-and-Ages" title="Link to this heading">¶</a></h2>
+<p>Then, to estimate their masses and ages using the Bayesian inference approach</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_logmass_output</span><span class="p">,</span> <span class="n">best_logage_output</span><span class="p">,</span> <span class="n">lmass_all</span><span class="p">,</span> <span class="n">lage_all</span> <span class="o">=</span>\
+    <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_age</span><span class="p">(</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe2015&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The model here is for calling different evolutionary tracks. The choices are: ‘Baraffe_n_Feiden’, ‘Baraffe2015’, ‘Feiden2016’, ‘PARSEC_v2p0’ (same as ‘PARSEC’), ‘PARSEC_v1p2’, ‘MIST_v1p2’ (same as ‘MIST’) or ‘custome’. If you want to use your own customized isochrone, you need to set the <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">'custome'</span></code>, and also provide the absolute directory for the isochrone matrix file <code class="docutils literal notranslate"><span class="pre">isochrone_mat_file</span></code>. See <a class="reference internal" href="../use_your_own_isochrone.html"><span class="doc">use your own customized isochrone</span></a> for details. We
+summarize all the available_models in <a class="reference internal" href="../models.html"><span class="doc">model</span></a>.</p>
+<p>The outputs are: (a) <code class="docutils literal notranslate"><span class="pre">best_logmass_output</span></code> (log10 of mass in the unit of solar masses), <code class="docutils literal notranslate"><span class="pre">best_logage_output</span></code> (log10 of age in the unit of yrs) are the arrays that includes the best derived values and their lower and upper boundaries from the 68% confidence intervals. (b) <code class="docutils literal notranslate"><span class="pre">lmass_all</span></code> and <code class="docutils literal notranslate"><span class="pre">lage_all</span></code> are the distributions of the likelihood functions for each source; they could be used to estimate the medians based on the likelihood distributions.</p>
+<p>An example of saving these <code class="docutils literal notranslate"><span class="pre">output</span></code> numbers are</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">df_output_mass</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logmass_output</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logmass[msolar]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logmass[msolar]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logmass[msolar]&#39;</span><span class="p">])</span>
+<span class="n">df_output_age</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logage_output</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logage[yrs]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logage[yrs]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logage[yrs]&#39;</span><span class="p">])</span>
+<span class="n">df_output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">df_output_mass</span><span class="p">,</span> <span class="n">df_output_age</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Then you can save this output file</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;example_targets_o.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now you successfully ran through the code and obtained the estimated mass and ages. We also provide other ways to estimate the stellar masses and ages from these isochrones, and they are described together with examples in <a class="reference internal" href="ysoisochrone_methods.html"><span class="doc">all available methods</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="ysoisochrone" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ysoisochrone_methods.html" class="btn btn-neutral float-right" title="Available Methods" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dingshan Deng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

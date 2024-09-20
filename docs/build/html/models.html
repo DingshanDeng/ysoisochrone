@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The available stellar evolutionary models &mdash; ysoisochrone 0.1.0.alpha documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/documentation_options.js?v=89fa07d3"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/design-tabs.js?v=f930bc37"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Use your own isochrone" href="use_your_own_isochrone.html" />
+    <link rel="prev" title="Available Methods" href="notebooks/ysoisochrone_methods.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ysoisochrone
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_basics.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_methods.html">Available Methods</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The available stellar evolutionary models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#baraffe-et-al-2015">Baraffe et al. (2015)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#feiden-et-al-2016">Feiden et al. (2016)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parsec">PARSEC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mist">MIST</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidocs/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ysoisochrone</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">The available stellar evolutionary models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/models.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="the-available-stellar-evolutionary-models">
+<h1>The available stellar evolutionary models<a class="headerlink" href="#the-available-stellar-evolutionary-models" title="Link to this heading">¶</a></h1>
+<p>The young stellar objects (pre-main-sequence) evolutionary tracks mainly include the ones from the following works.
+The code can download and format the stellar evolutionary tracks from public repositories and websites.
+Customized stellar evolutionary tracks can also be used, but they need to be formatted to the required matrix format by the user (see <a class="reference internal" href="use_your_own_isochrone.html"><span class="std std-doc">use your own isochrone</span></a> for more details).</p>
+<p>This package is mainly built to study the young-stellar-objects, so by default; it only utilizes the stellar evolutionary tracks for pre-main-sequence stars (<img class="math" src="_images/math/b66051218fa326d11d1d11b7bff8193ce25e065b.png" alt="{\rm stellar\ age}&lt; 500\,{\rm Myrs}"/>). So that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises again and will overlay on the pre-main-sequence phase). This method, however, could also be expanded to use on the main-sequence stars (e.g., <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2023AJ....166..175F/abstract">Fernandes et al. 2023</a>), but user-specified customized stellar evolutionary tracks are needed.</p>
+<section id="baraffe-et-al-2015">
+<h2>Baraffe et al. (2015)<a class="headerlink" href="#baraffe-et-al-2015" title="Link to this heading">¶</a></h2>
+<p>Models from Baraffe, Homeier, Allard, Chabrier 2015, A&amp;A,577, 42 <em>New evolutionary models for pre-main sequence and main sequence low-mass stars down to the hydrogen-burning limit</em>.</p>
+<p>ADS webpage: <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract">https://ui.adsabs.harvard.edu/abs/2015A%26A…577A..42B/abstract</a></p>
+<p>Data are downloaded from <a class="reference external" href="http://perso.ens-lyon.fr/isabelle.baraffe/BHAC15dir/">http://perso.ens-lyon.fr/isabelle.baraffe/BHAC15dir/</a></p>
+</section>
+<section id="feiden-et-al-2016">
+<h2>Feiden et al. (2016)<a class="headerlink" href="#feiden-et-al-2016" title="Link to this heading">¶</a></h2>
+<p>Models from Feiden 2016, Astronomy &amp; Astrophysics, Volume 593, id.A99, 11 pp. <em>Magnetic inhibition of convection and the fundamental properties of low-mass stars. III. A consistent 10 Myr age for the Upper Scorpius OB association</em>.</p>
+<p>ADS webpage: <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract">https://ui.adsabs.harvard.edu/abs/2016A%26A…593A..99F/abstract</a></p>
+<p>Data are downloaded from <a class="reference external" href="https://github.com/gfeiden/MagneticUpperSco/?tab=readme-ov-file">https://github.com/gfeiden/MagneticUpperSco/?tab=readme-ov-file</a></p>
+<p>By default, we use the standard tracks that are in the public repo from here: <a class="reference external" href="https://github.com/gfeiden/MagneticUpperSco/tree/master/models/trk/std">https://github.com/gfeiden/MagneticUpperSco/tree/master/models/trk/std</a></p>
+<p><strong>Caution</strong>: There are known issues with model isochrones at very young ages (below 10 Myr). Proceed with caution. Updated models that rectify known issues are available from the author.</p>
+<p>See the GitHub page from the author: <a class="reference external" href="https://github.com/gfeiden/MagneticUpperSco/?tab=readme-ov-file">https://github.com/gfeiden/MagneticUpperSco/?tab=readme-ov-file</a></p>
+</section>
+<section id="parsec">
+<h2>PARSEC<a class="headerlink" href="#parsec" title="Link to this heading">¶</a></h2>
+<p>The <strong>PA</strong>dova T<strong>R</strong>ieste <strong>S</strong>tellar <strong>E</strong>volutionary <strong>C</strong>ode.
+See their website for details and references: <a class="reference external" href="http://stev.oapd.inaf.it/PARSEC/index.html">http://stev.oapd.inaf.it/PARSEC/index.html</a></p>
+<p>We provide the option to use their newest version 2.0, and legacy version 1.2 tracks.
+By default, we adopt the tracks with solar metallicity, and do not include rotations.</p>
+</section>
+<section id="mist">
+<h2>MIST<a class="headerlink" href="#mist" title="Link to this heading">¶</a></h2>
+<p><strong>M</strong>ESA <strong>I</strong>sochrones &amp; <strong>S</strong>tellar <strong>T</strong>racks.
+The MIST stellar evolutionary tracks are computed with the <a class="reference external" href="http://mesa.sourceforge.net/index.html">Modules for Experiments in Stellar Astrophysics (MESA)</a>.</p>
+<p>See their website for details and references: <a class="reference external" href="https://waps.cfa.harvard.edu/MIST/">https://waps.cfa.harvard.edu/MIST/</a>.</p>
+<p>There is also another Python package <a class="reference external" href="https://github.com/timothydmorton/isochrones/tree/master">isochrones</a>, that is capable of handling all the MIST isochrones.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="notebooks/ysoisochrone_methods.html" class="btn btn-neutral float-left" title="Available Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="use_your_own_isochrone.html" class="btn btn-neutral float-right" title="Use your own isochrone" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dingshan Deng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
