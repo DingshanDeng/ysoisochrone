@@ -1,6 +1,7 @@
 # Ignore all the isochrone data files
 tests/isochrones_data/
 tests/lfunc_data/
+tests/data/
 tutorials/isochrones_data/
 tutorials/lfunc_data/
 

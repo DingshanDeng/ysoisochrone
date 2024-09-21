@@ -937,7 +937,7 @@ def read_mist_v1p2_iso_file(mist_iso_file):
     return data_points
 
 
-def create_meshgrid(data_points, min_age=0.5, max_age=100.0):
+def create_meshgrid(data_points, min_age=0.5, max_age=500.0):
     """
     Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.
 
@@ -948,7 +948,8 @@ def create_meshgrid(data_points, min_age=0.5, max_age=100.0):
     min_age: [float, optional] unit: Myrs
         The minimum age that we will cut in this grid. Default = 0.5 Myrs
     max_age: [float, optional] unit: Myrs
-        The maximum age that we will cut in this grid. Default = 100 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
+        The maximum age that we will cut in this grid. Default = 500 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
+        **NOTE** will add the feature to automatiaclly capture the turn-over point in the future.
 
     Returns:
     ------------

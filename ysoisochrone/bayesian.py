@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from scipy.integrate import simps
 from scipy.interpolate import interp1d
 
+import tqdm
+
 from ysoisochrone import plotting
 from ysoisochrone import utils
 from ysoisochrone.isochrone import Isochrone
@@ -196,7 +198,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
     lmass_all = {}
     
     # Loop through each star in the source list
-    for ii in df_prop.index:
+    for ii in tqdm.tqdm(df_prop.index):
         source_t = df_prop.loc[ii, 'Source']
         if verbose:
             print(f'Working on: {source_t}')
@@ -249,19 +251,27 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
 
-        
-
         # Check if the source is in the toofaint or toobright lists
         if np.any([source_t in toofaint, source_t in toobright]):
+            if verbose:
+                if source_t in toofaint:
+                    print('this target %s is too faint, so we assign the closest age and mass instead using Bayesian framework'%(source_t))
+                    
+                elif source_t in toobright:
+                    print('this target %s is too bright, so we assign the closest age and mass instead using Bayesian framework'%(source_t))
+            
             # Handle special cases for faint or bright stars
             if source_t in toofaint:
                 c_age = median_age
             else:  # too bright
                 c_age = np.min(log_age_dummy)
 
-            this_age = np.where(log_age_dummy == c_age)
-            Tdiff_index = np.abs(logtlogl_dummy[this_age, :, 0] - c_logT).argmin()
-            best_mass = [np.log10(masses_dummy[Tdiff_index]), 0, 0]
+            best_mass = derive_stellar_mass_assuming_age(df_prop, assumed_age=c_age, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, no_uncertainties=no_uncertainties, confidence_interval=confidence_interval, verbose=verbose, plot=plot)
+            
+            # this_age = np.where(log_age_dummy == c_age)
+            # Tdiff_index = np.abs(logtlogl_dummy[this_age, :, 0] - c_logT).argmin()
+            
+            # best_mass = [np.log10(masses_dummy[Tdiff_index]), 0, 0]
             best_age = [c_age, 0, 0]
         else:
             # Compute the likelihood using the Bayesian framework
@@ -401,7 +411,7 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
     return best_mass_output, best_age_output
 
 
-def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', confidence_interval=0.68, verbose=False, plot=False):
+def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, confidence_interval=0.68, verbose=False, plot=False):
     """
     Derives stellar mass assuming a known age, even when luminosity is unavailable, considering uncertainties in Teff.
 
@@ -421,6 +431,8 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
     isochrone_mat_file: [str, optional] Default = ''
         The ABSOLUTE directory for the matrix file for the isochrones that you want to use
         This is needed if you want to set the model as 'custom'.
+    no_uncertainties: [bool, optional]
+        Whether to assume no uncertainties in Teff and Luminosity (default: False).
     confidence_interval [float]:
         the desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
     verbose: [bool, optional]
@@ -457,9 +469,13 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         
         # Extract the stellar Teff and its uncertainty
         T_this = df_prop.loc[ii, 'Teff']
-        e_Teff_this = df_prop.loc[ii, 'e_Teff']
         c_logT = np.log10(T_this)
-        sigma_logT = utils.unc_log10(T_this, e_Teff_this)
+        
+        if no_uncertainties:
+            sigma_logT = 0.02 if T_this > 3420.0 else 0.01  # Uncertainty for Teff
+        else: 
+            err_T_this = df_prop.loc[ii, 'e_Teff']
+            sigma_logT = utils.unc_log10(T_this, err_T_this)
         
         # Get the assumed age and its uncertainty for this star
         c_log_age = np.log10(assumed_age) if isinstance(assumed_age, (float, int)) else np.log10(assumed_age[ii])
