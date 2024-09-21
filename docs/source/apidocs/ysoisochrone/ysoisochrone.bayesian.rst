@@ -47,7 +47,7 @@ API
 
    .. autodoc2-docstring:: ysoisochrone.bayesian.derive_stellar_mass_age_closest_track
 
-.. py:function:: derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', confidence_interval=0.68, verbose=False, plot=False)
+.. py:function:: derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, confidence_interval=0.68, verbose=False, plot=False)
    :canonical: ysoisochrone.bayesian.derive_stellar_mass_assuming_age
 
    .. autodoc2-docstring:: ysoisochrone.bayesian.derive_stellar_mass_assuming_age

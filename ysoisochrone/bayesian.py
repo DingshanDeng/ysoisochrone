@@ -180,10 +180,10 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
     ------------
     Returns:
     ------------
-    best_mass_output: [list]
-        List containing the best-fit masses and uncertainties.
-    best_age_output: [list]
-        List containing the best-fit ages and uncertainties.
+    best_logmass_output: [list]
+        List containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
+    best_logage_output: [list]
+        List containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).
     lage_all: [dictionary]
         The likelihood function of age for all target
     lmass_all: [dictionary]
@@ -191,9 +191,9 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
     """
     
     # Prepare output lists
-    source_info_output = []
-    best_age_output = []
-    best_mass_output = []
+    # source_info_output = []
+    best_logage_output = []
+    best_logmass_output = []
     lage_all = {}
     lmass_all = {}
     
@@ -266,13 +266,14 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             else:  # too bright
                 c_age = np.min(log_age_dummy)
 
-            best_mass = derive_stellar_mass_assuming_age(df_prop, assumed_age=c_age, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, no_uncertainties=no_uncertainties, confidence_interval=confidence_interval, verbose=verbose, plot=plot)
+            res = derive_stellar_mass_assuming_age(df_prop, assumed_age=c_age, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, no_uncertainties=no_uncertainties, confidence_interval=confidence_interval, verbose=verbose, plot=plot)
+            best_logmass_wunc = res[0]
             
             # this_age = np.where(log_age_dummy == c_age)
             # Tdiff_index = np.abs(logtlogl_dummy[this_age, :, 0] - c_logT).argmin()
             
             # best_mass = [np.log10(masses_dummy[Tdiff_index]), 0, 0]
-            best_age = [c_age, 0, 0]
+            best_logage_wunc = [c_age, 0, 0]
         else:
             # Compute the likelihood using the Bayesian framework
             lfunc = utils.get_likelihood_andrews2013(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
@@ -280,8 +281,8 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             
             # Use Bayesian mass and age estimation
             bayes_res, lage_res, lmass_res = bayesian_mass_age(log_age_dummy, np.log10(masses_dummy), lfunc, plot=plot, source=source_t, verbose=verbose, save_fig=save_fig, fig_save_dir=fig_save_dir, confidence_interval=confidence_interval)
-            best_mass = [bayes_res[2], bayes_res[3][0], bayes_res[3][1]]
-            best_age = [bayes_res[0], bayes_res[1][0], bayes_res[1][1]]
+            best_logmass_wunc = [bayes_res[2], bayes_res[3][0], bayes_res[3][1]]
+            best_logage_wunc = [bayes_res[0], bayes_res[1][0], bayes_res[1][1]]
 
             # Store likelihood results
             lage_all[f'target_{ii}'] = lage_res
@@ -296,20 +297,20 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
                 df_lage.to_csv(os.path.join(csv_save_dir, f'{source_t}_lage.csv'), index=False)
                 df_lmass.to_csv(os.path.join(csv_save_dir, f'{source_t}_lmass.csv'), index=False)
 
-        # Save the best-fit mass and age results
-        if no_uncertainties:
-            source_info_output.append([source_t, T_this, L_this])
-        else:
-            source_info_output.append([source_t, T_this, df_prop.loc[ii, 'e_Teff'], L_this, df_prop.loc[ii, 'e_Luminosity']])
+        # # Save the best-fit mass and age results
+        # if no_uncertainties:
+        #     source_info_output.append([source_t, T_this, L_this])
+        # else:
+        #     source_info_output.append([source_t, T_this, df_prop.loc[ii, 'e_Teff'], L_this, df_prop.loc[ii, 'e_Luminosity']])
         
-        best_mass_output.append(best_mass)
-        best_age_output.append(best_age)
+        best_logmass_output.append(best_logmass_wunc)
+        best_logage_output.append(best_logage_wunc)
         
         if verbose:
             print(f'Results for target: {source_t}')
-            print(f'Best Mass: {10**best_mass[0]:.2f} [Msun], Age: {10**best_age[0]:.2e} [yrs]')
+            print(f'Best Mass: {10**best_logmass_wunc[0]:.2f} [Msun], Age: {10**best_logage_wunc[0]:.2e} [yrs]')
     
-    return best_mass_output, best_age_output, lmass_all, lage_all
+    return best_logmass_output, best_logage_output, lmass_all, lage_all
 
 
 def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', verbose=False):
@@ -447,15 +448,13 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
     
     Returns:
     ------------
-    best_mass_output: [list] in Msolar
-        List containing the derived log10 mass for each star.
-    mass_uncertainties: [list]
-        List containing the uncertainties in the derived log10 masses for each star.
+    best_logmass_output: [list]
+        List containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
     """
     
     # Prepare output list for the masses and their uncertainties
-    best_mass_output = []
-    mass_uncertainties = []
+    best_logmass_output = []
+    # mass_uncertainties = []
 
     # # If e_assumed_age is not provided, set it to 0 (no uncertainty)
     # if e_assumed_age is None:
@@ -523,8 +522,6 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         if verbose:
             print(f"Best match for {source_t}: Age = {10**c_log_age:.2e} yrs, Mass = {10**best_log_mass:.2e} Msun")
         
-        best_mass_output.append(best_log_mass)
-        
         # Calculate uncertainties in mass based on the likelihood distribution
         likelihood_cumsum = np.cumsum(likelihood) / np.sum(likelihood)
         half_sigma_perc = confidence_interval/2.0
@@ -539,8 +536,11 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         # mass_unc = [best_log_mass - lower_mass, upper_mass - best_log_mass]
         # mass_uncertainties.append(mass_unc)
         
+        best_logmass_wunc = [best_log_mass, lower_mass, upper_mass]
+        best_logmass_output.append(best_logmass_wunc)
+        
         # Optionally plot the likelihood function for stellar mass
         if plot:
             plotting.plot_likelihood_1d(np.log10(masses_dummy), likelihood, best_log_mass, lower_mass, upper_mass, source=source_t)
 
-    return [best_mass_output, lower_mass, upper_mass]
+    return best_logmass_output

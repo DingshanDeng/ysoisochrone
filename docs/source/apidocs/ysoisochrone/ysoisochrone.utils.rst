@@ -173,7 +173,7 @@ API
 
    .. autodoc2-docstring:: ysoisochrone.utils.read_mist_v1p2_iso_file
 
-.. py:function:: create_meshgrid(data_points, min_age=0.5, max_age=100.0)
+.. py:function:: create_meshgrid(data_points, min_age=0.5, max_age=500.0)
    :canonical: ysoisochrone.utils.create_meshgrid
 
    .. autodoc2-docstring:: ysoisochrone.utils.create_meshgrid
