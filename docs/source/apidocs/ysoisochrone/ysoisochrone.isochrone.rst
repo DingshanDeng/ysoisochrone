@@ -82,10 +82,10 @@ API
 
       .. autodoc2-docstring:: ysoisochrone.isochrone.Isochrone.load_mistv1p2_tracks
 
-   .. py:method:: load_tracks_from_custome_matrix(load_file)
-      :canonical: ysoisochrone.isochrone.Isochrone.load_tracks_from_custome_matrix
+   .. py:method:: load_tracks_from_customize_matrix(load_file)
+      :canonical: ysoisochrone.isochrone.Isochrone.load_tracks_from_customize_matrix
 
-      .. autodoc2-docstring:: ysoisochrone.isochrone.Isochrone.load_tracks_from_custome_matrix
+      .. autodoc2-docstring:: ysoisochrone.isochrone.Isochrone.load_tracks_from_customize_matrix
 
    .. py:method:: set_tracks(track_type, load_file='')
       :canonical: ysoisochrone.isochrone.Isochrone.set_tracks

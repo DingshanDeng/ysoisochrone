@@ -55,7 +55,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ysoisochrone_methods.html">Available Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models.html">The available stellar evolutionary models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ysoisochrone_customize_isochrone.html">Using Customized Isochrones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apidocs/index.html">API Reference</a></li>
 </ul>
 
@@ -164,7 +164,7 @@ If you end up using the Baraffe et al. (2015) tracks, please cite from: https://
 <li><p>and <code class="docutils literal notranslate"><span class="pre">'e_Luminosity'</span></code> is their uncertainties.</p></li>
 </ul>
 <p>The easiest way to do so is to create a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file using EXCEL or similar software, and this file includes these columns, and then you can utilize <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to read in this file. Later you use this as an input.</p>
-<p>Here we prepared an example file called <code class="docutils literal notranslate"><span class="pre">'example_targets.csv'</span></code> in this tutorial.</p>
+<p>Here we prepared an example file called <code class="docutils literal notranslate"><span class="pre">'example_targets.csv'</span></code> in this tutorial. Please go to the folder called <code class="docutils literal notranslate"><span class="pre">tutorials</span></code> under the root directory of this package to access those tutorials as Jupyter Notebooks.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -291,6 +291,25 @@ If you end up using the Baraffe et al. (2015) tracks, please cite from: https://
 </table>
 </div></div>
 </div>
+<p><strong>TIPS</strong> <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> is a very versatile class. If you only have a few targets and do not wish to import a chunky <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file or you just want to do everything in one script. You can always define it here utlizing a Dictionary.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># An alternative way to have a df_prop</span>
+
+<span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Source&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Sz65&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Teff&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4060.0</span><span class="p">]),</span>
+    <span class="s1">&#39;e_Teff&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">187.0</span><span class="p">]),</span>
+    <span class="s1">&#39;Luminosity&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.869</span><span class="p">]),</span>
+    <span class="s1">&#39;e_Luminosity&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3623</span><span class="p">])</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
 <p>You can overplot them on the top of the isochrones in the Hertzsprung–Russell diagram (HR diagram).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -307,7 +326,7 @@ If you end up using the Baraffe et al. (2015) tracks, please cite from: https://
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_ysoisochrone_basics_8_0.png" src="../_images/notebooks_ysoisochrone_basics_8_0.png" />
+<img alt="../_images/notebooks_ysoisochrone_basics_10_0.png" src="../_images/notebooks_ysoisochrone_basics_10_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -331,8 +350,8 @@ If you end up using the Baraffe et al. (2015) tracks, please cite from: https://
 </pre></div>
 </div>
 </div>
-<p>The model here is for calling different evolutionary tracks. The choices are: ‘Baraffe_n_Feiden’, ‘Baraffe2015’, ‘Feiden2016’, ‘PARSEC_v2p0’ (same as ‘PARSEC’), ‘PARSEC_v1p2’, ‘MIST_v1p2’ (same as ‘MIST’) or ‘custome’. If you want to use your own customized isochrone, you need to set the <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">'custome'</span></code>, and also provide the absolute directory for the isochrone matrix file <code class="docutils literal notranslate"><span class="pre">isochrone_mat_file</span></code>. See <a class="reference internal" href="../use_your_own_isochrone.html"><span class="doc">use your own customized isochrone</span></a> for details. We
-summarize all the available_models in <a class="reference internal" href="../models.html"><span class="doc">model</span></a>.</p>
+<p>The model here is for calling different evolutionary tracks. The choices are: ‘Baraffe_n_Feiden’, ‘Baraffe2015’, ‘Feiden2016’, ‘PARSEC_v2p0’ (same as ‘PARSEC’), ‘PARSEC_v1p2’, ‘MIST_v1p2’ (same as ‘MIST’) or ‘custome’. If you want to use your own customized isochrone, you need to set the <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">'custome'</span></code>, and also provide the absolute directory for the isochrone matrix file <code class="docutils literal notranslate"><span class="pre">isochrone_mat_file</span></code>. See <a class="reference internal" href="ysoisochrone_customize_isochrone.html"><span class="doc">use your own customized isochrone</span></a> for
+details. We summarize all the available_models in <a class="reference internal" href="../models.html"><span class="doc">model</span></a>.</p>
 <p>The outputs are: (a) <code class="docutils literal notranslate"><span class="pre">best_logmass_output</span></code> (log10 of mass in the unit of solar masses), <code class="docutils literal notranslate"><span class="pre">best_logage_output</span></code> (log10 of age in the unit of yrs) are the arrays that includes the best derived values and their lower and upper boundaries from the 68% confidence intervals. (b) <code class="docutils literal notranslate"><span class="pre">lmass_all</span></code> and <code class="docutils literal notranslate"><span class="pre">lage_all</span></code> are the distributions of the likelihood functions for each source; they could be used to estimate the medians based on the likelihood distributions.</p>
 <p>An example of saving these <code class="docutils literal notranslate"><span class="pre">output</span></code> numbers are</p>
 <div class="nbinput nblast docutils container">
@@ -344,6 +363,15 @@ summarize all the available_models in <a class="reference internal" href="../mod
 <span class="n">df_output_mass</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logmass_output</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logmass[msolar]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logmass[msolar]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logmass[msolar]&#39;</span><span class="p">])</span>
 <span class="n">df_output_age</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logage_output</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logage[yrs]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logage[yrs]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logage[yrs]&#39;</span><span class="p">])</span>
 <span class="n">df_output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">df_output_mass</span><span class="p">,</span> <span class="n">df_output_age</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;masses[msolar]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logmass[msolar]&#39;</span><span class="p">]</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_masses[msolar]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logmass[msolar]&#39;</span><span class="p">]</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_masses[msolar]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_logmass[msolar]&#39;</span><span class="p">]</span>
+
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>
+
 <span class="c1"># Then you can save this output file</span>
 <span class="n">df_output</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;example_targets_o.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>

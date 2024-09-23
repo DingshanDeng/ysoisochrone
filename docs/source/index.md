@@ -36,6 +36,6 @@ If you end up using this package, please cite xxx (TBA)
 notebooks/ysoisochrone_basics
 notebooks/ysoisochrone_methods
 models
-use_your_own_isochrone
+notebooks/ysoisochrone_customize_isochrone
 apidocs/index
 ```

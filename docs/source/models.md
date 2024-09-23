@@ -2,7 +2,7 @@
 
 The young stellar objects (pre-main-sequence) evolutionary tracks mainly include the ones from the following works.
 The code can download and format the stellar evolutionary tracks from public repositories and websites. 
-Customized stellar evolutionary tracks can also be used, but they need to be formatted to the required matrix format by the user (see [use your own isochrone](./use_your_own_isochrone.md) for more details).
+Customized stellar evolutionary tracks can also be used, but they need to be formatted to the required matrix format by the user (see [use your own isochrone](./notebooks/ysoisochrone_customize_isochrone.ipynb) for more details).
 
 This package is mainly built to study the young-stellar-objects, so by default; it only utilizes the stellar evolutionary tracks for pre-main-sequence stars (${\rm stellar\ age}< 500\,{\rm Myrs}$). So that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises again and will overlay on the pre-main-sequence phase). This method, however, could also be expanded to use on the main-sequence stars (e.g., [Fernandes et al. 2023](https://ui.adsabs.harvard.edu/abs/2023AJ....166..175F/abstract)), but user-specified customized stellar evolutionary tracks are needed.
 
@@ -34,6 +34,9 @@ We provide the option to use their newest version 2.0, and legacy version 1.2 tr
 By default, we adopt the tracks with solar metallicity, and do not include rotations.
 
 ## MIST
+
+**NOTE** The `MIST` model feature is still under development.
+
 **M**ESA **I**sochrones & **S**tellar **T**racks.
 The MIST stellar evolutionary tracks are computed with the [Modules for Experiments in Stellar Astrophysics (MESA)](http://mesa.sourceforge.net/index.html).
 

@@ -55,7 +55,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../models.html">The available stellar evolutionary models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ysoisochrone_customize_isochrone.html">Using Customized Isochrones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apidocs/index.html">API Reference</a></li>
 </ul>
 
@@ -85,6 +85,18 @@
              
   <section id="Available-Methods">
 <h1>Available Methods<a class="headerlink" href="#Available-Methods" title="Link to this heading">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">ysoisochrone</span>
+
+<span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_targets.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <section id="The-Bayesian-Inference-Approach">
 <h2>The Bayesian Inference Approach<a class="headerlink" href="#The-Bayesian-Inference-Approach" title="Link to this heading">¶</a></h2>
 <p>Estimating stellar ages and masses in the Bayesian inference approach is the primary method that is focused in <code class="docutils literal notranslate"><span class="pre">ysoisochrone</span></code>. This method was first introduced in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a>. The stellar masses, ages, and associated uncertainties are estimated from the stellar effective temperature (<img class="math" src="../_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/>), bolometric luminosity (<img class="math" src="../_images/math/12079d764aeacb39059132d872b3c6b8caa750ee.png" alt="L_{\rm bol}"/>), and their uncertainties. Uniform priors are assumed, and the
@@ -116,13 +128,34 @@ of the review chapter in <a class="reference external" href="http://ppvii.org/ch
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_ysoisochrone_methods_3_1.png" src="../_images/notebooks_ysoisochrone_methods_3_1.png" />
+<img alt="../_images/notebooks_ysoisochrone_methods_4_1.png" src="../_images/notebooks_ysoisochrone_methods_4_1.png" />
 </div>
 </div>
 <p>where you just simply set the <code class="docutils literal notranslate"><span class="pre">model='Baraffe_n_Feiden'</span></code> in the function. Here we also turn on the <code class="docutils literal notranslate"><span class="pre">plot</span> <span class="pre">=</span> <span class="pre">True</span></code> to show the intermediate diagnoostic plot.</p>
-<p>In this approach, also follow the choice made in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a>, we put some pre-assumed uncertainties for <img class="math" src="../_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/> and <img class="math" src="../_images/math/19eef1966f7c545af3ac8c0fa486974d873e3c65.png" alt="L"/>. If <code class="docutils literal notranslate"><span class="pre">'e_Teff'</span></code> and/or <code class="docutils literal notranslate"><span class="pre">'e_Luminosity'</span></code> are left empty (read in as <code class="docutils literal notranslate"><span class="pre">NaN</span></code> values), this program will assign a fixed number to it: - <img class="math" src="../_images/math/0ceb1a7a2c5e463cca20a9f1359bb32068cf92a7.png" alt="{\rm err}(\log_{10}{T_{\rm eff}}) = 0.02"/> for <img class="math" src="../_images/math/fb3c2945259253d48951a01ab63d9c9bbbec7b13.png" alt="T_{\rm eff} &gt; 3420.0\,{\rm K}"/> and <img class="math" src="../_images/math/8a667b03c82220722507c49915a1173065303c78.png" alt="{\rm err}(\log_{10}{T_{\rm eff}}) = 0.01"/>
-for cooler targets. - <img class="math" src="../_images/math/0a29fe82eb38b4ed8c59f4310261fb7b4603a199.png" alt="{\rm err}(\log_{10}L = 0.1)"/> for all targets</p>
-<p><strong>NOTE</strong> we encourage the users to set up your own uncertainties in the input <code class="docutils literal notranslate"><span class="pre">df_prop</span></code> for your targets even you do not have the meausred values. You can do this by changing the numbers in the input <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file or utilize the feature for <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></p>
+<p>In this approach, also follow the choice made in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a>, we put some pre-assumed uncertainties for <img class="math" src="../_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/> and <img class="math" src="../_images/math/19eef1966f7c545af3ac8c0fa486974d873e3c65.png" alt="L"/>:</p>
+<ul class="simple">
+<li><p><img class="math" src="../_images/math/0ceb1a7a2c5e463cca20a9f1359bb32068cf92a7.png" alt="{\rm err}(\log_{10}{T_{\rm eff}}) = 0.02"/> for <img class="math" src="../_images/math/fb3c2945259253d48951a01ab63d9c9bbbec7b13.png" alt="T_{\rm eff} &gt; 3420.0\,{\rm K}"/> and <img class="math" src="../_images/math/8a667b03c82220722507c49915a1173065303c78.png" alt="{\rm err}(\log_{10}{T_{\rm eff}}) = 0.01"/> for cooler targets.</p></li>
+<li><p><img class="math" src="../_images/math/0a29fe82eb38b4ed8c59f4310261fb7b4603a199.png" alt="{\rm err}(\log_{10}L = 0.1)"/> for all targets</p></li>
+</ul>
+<p>You can assign these default uncertainties to your DataFrame by calling</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">err_Teff</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_teff</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Teff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">err_Lumi</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_lumi</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Luminosity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Teff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Teff</span>
+<span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Luminosity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Lumi</span>
+</pre></div>
+</div>
+<p>Or you can do this in a simple way by turning on the option of <code class="docutils literal notranslate"><span class="pre">no_uncertainties</span> <span class="pre">=</span> <span class="pre">True</span></code> in <code class="docutils literal notranslate"><span class="pre">ysoisochrone.bayesian.derive_stellar_mass_age</span></code>. In this way, the code will automatically assign the uncertainties as described above to you sample even if the <code class="docutils literal notranslate"><span class="pre">'e_Teff'</span></code> and <code class="docutils literal notranslate"><span class="pre">'e_Luminosity'</span></code> is set up in your dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop_t</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Source&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Sz65&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Teff&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4060.0</span><span class="p">]),</span>
+    <span class="s1">&#39;Luminosity&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.869</span><span class="p">])</span>
+<span class="p">})</span>
+
+<span class="n">best_logmass_output_t</span><span class="p">,</span> <span class="n">best_logage_output_t</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span>\
+    <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_age</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">no_uncertainties</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>NOTE</strong> <em>we strongly encourage the users to set up your own uncertainties</em> in the input <code class="docutils literal notranslate"><span class="pre">df_prop</span></code> for your targets even you do not have the meausred values. You can do this by changing the numbers in the input <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file or utilize the feature for <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;e_Teff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="c1"># An array of the e_Teff you set up</span>
 <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;e_Luminosity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="c1"># An array of the e_Luminosity you set up</span>
 </pre></div>
@@ -146,7 +179,7 @@ for cooler targets. - <img class="math" src="../_images/math/0a29fe82eb38b4ed8c5
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_ysoisochrone_methods_7_0.png" src="../_images/notebooks_ysoisochrone_methods_7_0.png" />
+<img alt="../_images/notebooks_ysoisochrone_methods_8_0.png" src="../_images/notebooks_ysoisochrone_methods_8_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">

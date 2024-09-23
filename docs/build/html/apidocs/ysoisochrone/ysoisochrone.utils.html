@@ -49,7 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/ysoisochrone_basics.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/ysoisochrone_methods.html">Available Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models.html">The available stellar evolutionary models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/ysoisochrone_customize_isochrone.html">Using Customized Isochrones</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="ysoisochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone</span></code></a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="ysoisochrone.html#submodules">Submodules</a><ul class="current">
@@ -101,75 +101,84 @@
 <table class="autosummary longtable docutils align-left">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.unc_log10" title="ysoisochrone.utils.unc_log10"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unc_log10</span></code></a></p></td>
-<td></td>
+<td><p>Propagates uncertainties from the linear scale to the logarithmic scale (base 10).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.get_likelihood_andrews2013" title="ysoisochrone.utils.get_likelihood_andrews2013"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_likelihood_andrews2013</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.unc_linear_from_log" title="ysoisochrone.utils.unc_linear_from_log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unc_linear_from_log</span></code></a></p></td>
+<td><p>Propagates uncertainties from the logarithmic scale (base 10) back to the linear scale.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.assign_unc_teff" title="ysoisochrone.utils.assign_unc_teff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_unc_teff</span></code></a></p></td>
+<td><p>assign the Teff uncertainties</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.assign_unc_lumi" title="ysoisochrone.utils.assign_unc_lumi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assign_unc_lumi</span></code></a></p></td>
+<td><p>assign the luminosity uncertainties</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.get_likelihood_andrews2013" title="ysoisochrone.utils.get_likelihood_andrews2013"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_likelihood_andrews2013</span></code></a></p></td>
 <td><p>Calculates the likelihood function lfunc given the input log temperature and luminosity.
 L is the likelihood function see eq. 1 in Andrews2013 (or anyone you would like to set up)</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_file_simple" title="ysoisochrone.utils.download_file_simple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_file_simple</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_file_simple" title="ysoisochrone.utils.download_file_simple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_file_simple</span></code></a></p></td>
 <td><p>Downloads a file from a given URL and saves it to the specified path.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_file" title="ysoisochrone.utils.download_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_file</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_file" title="ysoisochrone.utils.download_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_file</span></code></a></p></td>
 <td><p>Downloads a file from a given URL and saves it to the specified path with a customizable progress bar.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.extract_tarball" title="ysoisochrone.utils.extract_tarball"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_tarball</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.extract_tarball" title="ysoisochrone.utils.extract_tarball"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_tarball</span></code></a></p></td>
 <td><p>Extracts a tarball file into a specified directory.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_baraffe_tracks" title="ysoisochrone.utils.download_baraffe_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_baraffe_tracks</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_baraffe_tracks" title="ysoisochrone.utils.download_baraffe_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_baraffe_tracks</span></code></a></p></td>
 <td><p>Downloads the Baraffe BHAC15 tracks file and saves it to the specified directory.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_baraffe_file" title="ysoisochrone.utils.read_baraffe_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_baraffe_file</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_baraffe_file" title="ysoisochrone.utils.read_baraffe_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_baraffe_file</span></code></a></p></td>
 <td><p>Reads the original BHAC15 tracks file and parses the mass, age, and logtlogl.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_feiden_trk_tracks" title="ysoisochrone.utils.download_feiden_trk_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_feiden_trk_tracks</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_feiden_trk_tracks" title="ysoisochrone.utils.download_feiden_trk_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_feiden_trk_tracks</span></code></a></p></td>
 <td><p>Downloads (all .trk files and [optional]) the tarball from the specified GitHub folder and saves them to the given directory.
 The tarball is extracted after downloading.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_feiden_trk_file" title="ysoisochrone.utils.read_feiden_trk_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_feiden_trk_file</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_feiden_trk_file" title="ysoisochrone.utils.read_feiden_trk_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_feiden_trk_file</span></code></a></p></td>
 <td><p>Reads all the Feiden track files (<a href="#id1"><span class="problematic" id="id2">*</span></a>.trk) in the given directory, extracts the age and stellar parameters,
 and organizes the data into numpy arrays.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_feiden_iso_tracks" title="ysoisochrone.utils.download_feiden_iso_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_feiden_iso_tracks</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_feiden_iso_tracks" title="ysoisochrone.utils.download_feiden_iso_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_feiden_iso_tracks</span></code></a></p></td>
 <td><p>Downloads all .iso files and the tarball from the specified GitHub folder and saves them to the given directory.
 The tarball is extracted after downloading.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_feiden_iso_file" title="ysoisochrone.utils.read_feiden_iso_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_feiden_iso_file</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_feiden_iso_file" title="ysoisochrone.utils.read_feiden_iso_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_feiden_iso_file</span></code></a></p></td>
 <td><p>Reads all the Feiden track files (<a href="#id3"><span class="problematic" id="id4">*</span></a>.iso) in the given directory, extracts the age and stellar parameters,
 and organizes the data into numpy arrays.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_parsec_v1p2_tracks" title="ysoisochrone.utils.download_parsec_v1p2_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_parsec_v1p2_tracks</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_parsec_v1p2_tracks" title="ysoisochrone.utils.download_parsec_v1p2_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_parsec_v1p2_tracks</span></code></a></p></td>
 <td><p>Downloads the PARSECv1p2 tracks tarball from the specified link and saves it to the given directory.
 The tarball is extracted after downloading.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_parsec_v1p2_dat_file" title="ysoisochrone.utils.read_parsec_v1p2_dat_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_parsec_v1p2_dat_file</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_parsec_v1p2_dat_file" title="ysoisochrone.utils.read_parsec_v1p2_dat_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_parsec_v1p2_dat_file</span></code></a></p></td>
 <td><p>Reads all the PARSECv1p2 track files (<a href="#id5"><span class="problematic" id="id6">*</span></a>.DAT) in the given directory, extracts the mass, age, and stellar parameters (log(Teff), log(L)).
 Organizes the data into numpy arrays.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_parsec_v2p0_tracks" title="ysoisochrone.utils.download_parsec_v2p0_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_parsec_v2p0_tracks</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_parsec_v2p0_tracks" title="ysoisochrone.utils.download_parsec_v2p0_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_parsec_v2p0_tracks</span></code></a></p></td>
 <td><p>Downloads the PARSEC v2.0 tracks zip file and extracts it to the given directory.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_parsec_v2p0_tab_file" title="ysoisochrone.utils.read_parsec_v2p0_tab_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_parsec_v2p0_tab_file</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_parsec_v2p0_tab_file" title="ysoisochrone.utils.read_parsec_v2p0_tab_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_parsec_v2p0_tab_file</span></code></a></p></td>
 <td><p>Reads all the PARSECv2.0 track files (<a href="#id7"><span class="problematic" id="id8">*</span></a>.TAB) in the given directory, extracts the mass, age, and stellar parameters (log(Teff), log(L)).
 Organizes the data into numpy arrays.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_mist_v1p2_eep_tracks" title="ysoisochrone.utils.download_mist_v1p2_eep_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_mist_v1p2_eep_tracks</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_mist_v1p2_eep_tracks" title="ysoisochrone.utils.download_mist_v1p2_eep_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_mist_v1p2_eep_tracks</span></code></a></p></td>
 <td><p>Downloads the MIST v1.2 tracks tarball and extracts it to the given directory.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_mist_v1p2_iso_tracks" title="ysoisochrone.utils.download_mist_v1p2_iso_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_mist_v1p2_iso_tracks</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.download_mist_v1p2_iso_tracks" title="ysoisochrone.utils.download_mist_v1p2_iso_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download_mist_v1p2_iso_tracks</span></code></a></p></td>
 <td><p>Downloads the MIST v1.2 tracks tarball and extracts it to the given directory.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_mist_v1p2_iso_file" title="ysoisochrone.utils.read_mist_v1p2_iso_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_mist_v1p2_iso_file</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.read_mist_v1p2_iso_file" title="ysoisochrone.utils.read_mist_v1p2_iso_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_mist_v1p2_iso_file</span></code></a></p></td>
 <td><p>Reads the MISTv1p2 isochrone file in the given directory, extracts the star mass, log(Teff), and log(L/Lo).
 Organizes the data into numpy arrays.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.create_meshgrid" title="ysoisochrone.utils.create_meshgrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_meshgrid</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.create_meshgrid" title="ysoisochrone.utils.create_meshgrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_meshgrid</span></code></a></p></td>
 <td><p>Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.save_as_mat" title="ysoisochrone.utils.save_as_mat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_as_mat</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.save_as_mat" title="ysoisochrone.utils.save_as_mat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_as_mat</span></code></a></p></td>
 <td><p>Saves the extracted data into a .mat file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.compare_grids" title="ysoisochrone.utils.compare_grids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_grids</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.compare_grids" title="ysoisochrone.utils.compare_grids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_grids</span></code></a></p></td>
 <td><p>Compares the Python and IDL-generated grids by interpolating the Python grid onto the sparser IDL grid
 and plotting the differences.</p></td>
 </tr>
@@ -181,7 +190,62 @@ and plotting the differences.</p></td>
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.utils.unc_log10">
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">unc_log10</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err_x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.unc_log10" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Propagates uncertainties from the linear scale to the logarithmic scale (base 10).</p>
+<dl class="simple">
+<dt>value: [float]</dt><dd><p>The value in linear scale (e.g., Teff, Luminosity, etc.).</p>
+</dd>
+<dt>err_x: [float]</dt><dd><p>The uncertainty in the linear value.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>err_log10_x: [float]</dt><dd><p>The propagated uncertainty in the logarithmic scale (base 10).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.unc_linear_from_log">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">unc_linear_from_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_uncertainty</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.unc_linear_from_log" title="Link to this definition">¶</a></dt>
+<dd><p>Propagates uncertainties from the logarithmic scale (base 10) back to the linear scale.</p>
+<dl class="simple">
+<dt>log_value: [float]</dt><dd><p>The value in logarithmic scale (e.g., log(Teff), log(L), etc.).</p>
+</dd>
+<dt>log_uncertainty: [float]</dt><dd><p>The uncertainty in the logarithmic value.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>linear_uncertainty: [float]</dt><dd><p>The propagated uncertainty in the linear scale.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.assign_unc_teff">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">assign_unc_teff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">teff_ar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_logT_set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.assign_unc_teff" title="Link to this definition">¶</a></dt>
+<dd><p>assign the Teff uncertainties</p>
+<dl class="simple">
+<dt>teff_ar: [array]</dt><dd><p>the array for Teff</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>err_teff_ar: [array]</dt><dd><p>the array of Teff</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.assign_unc_lumi">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">assign_unc_lumi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lumi_ar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_logL_set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.assign_unc_lumi" title="Link to this definition">¶</a></dt>
+<dd><p>assign the luminosity uncertainties</p>
+<dl class="simple">
+<dt>lumi_ar: [array]</dt><dd><p>the array for luminosity</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>err_lumi_ar: [array]</dt><dd><p>the array of luminosity</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.utils.get_likelihood_andrews2013">
@@ -417,14 +481,17 @@ Organizes the data into numpy arrays.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.utils.create_meshgrid">
-<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">create_meshgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.create_meshgrid" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">create_meshgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.create_meshgrid" title="Link to this definition">¶</a></dt>
 <dd><p>Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.</p>
 <dl class="simple">
 <dt>data_points: [np.array]</dt><dd><p>Array of [log_age, mass, teff, log_luminosity] data points.</p>
 </dd>
 <dt>min_age: [float, optional] unit: Myrs</dt><dd><p>The minimum age that we will cut in this grid. Default = 0.5 Myrs</p>
 </dd>
-<dt>max_age: [float, optional] unit: Myrs</dt><dd><p>The maximum age that we will cut in this grid. Default = 100 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase).</p>
+<dt>max_age: [float, optional] unit: Myrs</dt><dd><p>The maximum age that we will cut in this grid. Default = 500 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
+<strong>NOTE</strong> will add the feature to automatiaclly capture the turn-over point in the future.</p>
+</dd>
+<dt>interpolation_method: [str]</dt><dd><p>The interpolation method used in griddata. Default ‘linear’.</p>
 </dd>
 </dl>
 <dl class="simple">

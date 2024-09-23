@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using Customized Isochrones &mdash; ysoisochrone 0.1.0.alpha documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/documentation_options.js?v=89fa07d3"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/design-tabs.js?v=f930bc37"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Reference" href="../apidocs/index.html" />
+    <link rel="prev" title="The available stellar evolutionary models" href="../models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ysoisochrone
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ysoisochrone_basics.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ysoisochrone_methods.html">Available Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">The available stellar evolutionary models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using Customized Isochrones</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Isochrone-Matrix">Isochrone Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Make-your-own-isochrone-matrix">Make your own isochrone matrix</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#(i)-First-we-download-the-original-file-from-their-website">(i) First we download the original file from their website</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#(ii)-Then,-read-in-the-file.">(ii) Then, read in the file.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#(iii)-Create-meshgrid-and-save">(iii) Create meshgrid and save</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../apidocs/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ysoisochrone</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Using Customized Isochrones</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notebooks/ysoisochrone_customize_isochrone.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Using-Customized-Isochrones">
+<h1>Using Customized Isochrones<a class="headerlink" href="#Using-Customized-Isochrones" title="Link to this heading">¶</a></h1>
+<section id="Isochrone-Matrix">
+<h2>Isochrone Matrix<a class="headerlink" href="#Isochrone-Matrix" title="Link to this heading">¶</a></h2>
+<p>In <code class="docutils literal notranslate"><span class="pre">ysoisochrone</span></code>, we use <code class="docutils literal notranslate"><span class="pre">matrix</span></code> from <code class="docutils literal notranslate"><span class="pre">numpy</span></code> to handle the isochrone data. They are stored by default in the folder called <code class="docutils literal notranslate"><span class="pre">./isochrone_data/xxx_matrix.mat'</span></code>. If you have already gone through the first two tutorials successfully, the code should already have downloaded and formated the isochrone data for both <code class="docutils literal notranslate"><span class="pre">Baraffe2015</span></code> and <code class="docutils literal notranslate"><span class="pre">Feiden2016</span></code> pre-main-sequence stellar evolutionary tracks. You can find the files there under the folder <code class="docutils literal notranslate"><span class="pre">isochrone_data</span></code> (the two files are named
+<code class="docutils literal notranslate"><span class="pre">'Baraffe_AgeMassGrid_YSO_matrix.mat'</span></code> and <code class="docutils literal notranslate"><span class="pre">'Feiden_AgeMassGrid_YSO_matrix'</span></code>). By default where you are running the code (or this notebook).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.mat</span></code> files can be read directly into the <code class="docutils literal notranslate"><span class="pre">Isocrhone</span></code> class by using the <code class="docutils literal notranslate"><span class="pre">customize</span></code> option, and lets take the Baraffe track as an example:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ysoisochrone</span>
+
+<span class="n">isochrone</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">isochrone</span><span class="o">.</span><span class="n">Isochrone</span><span class="p">()</span>
+<span class="n">mat_file_dir</span> <span class="o">=</span> <span class="s1">&#39;./isochrones_data/Baraffe_AgeMassGrid_YSO_matrix.mat&#39;</span>
+
+<span class="n">isochrone</span><span class="o">.</span><span class="n">set_tracks</span><span class="p">(</span><span class="s1">&#39;customize&#39;</span><span class="p">,</span> <span class="n">load_file</span><span class="o">=</span><span class="n">mat_file_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1
+</pre></div></div>
+</div>
+<p>Then we can plot this track that I read in</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">ax_set</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                                      <span class="n">ages_to_plot</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5e6</span><span class="p">,</span> <span class="mf">1.0e6</span><span class="p">,</span> <span class="mf">2.0e6</span><span class="p">,</span> <span class="mf">3.0e6</span><span class="p">,</span> <span class="mf">5.0e6</span><span class="p">,</span> <span class="mf">10.0e6</span><span class="p">,</span> <span class="mf">30.0e6</span><span class="p">,</span> <span class="mf">500.0e6</span><span class="p">],</span>
+                                      <span class="n">masses_to_plot</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.39</span><span class="p">],</span>
+                                      <span class="n">xlim_set</span><span class="o">=</span><span class="p">[</span><span class="mi">5500</span><span class="p">,</span> <span class="mi">3000</span><span class="p">],</span> <span class="n">ylim_set</span><span class="o">=</span><span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Baraffe+2015&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_ysoisochrone_customize_isochrone_5_0.png" src="../_images/notebooks_ysoisochrone_customize_isochrone_5_0.png" />
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Isochrone</span></code> class has three <code class="docutils literal notranslate"><span class="pre">Attributes</span></code>: - <code class="docutils literal notranslate"><span class="pre">isochrone.log_age</span></code> as the grid for the <code class="docutils literal notranslate"><span class="pre">log10(age)</span></code> in the unit of <code class="docutils literal notranslate"><span class="pre">yr</span></code>. You can think this as the x-axis. - <code class="docutils literal notranslate"><span class="pre">isochrone.masses</span></code> as the grid for the <code class="docutils literal notranslate"><span class="pre">masses</span></code> in the unit of <code class="docutils literal notranslate"><span class="pre">solar</span> <span class="pre">masses</span></code>. You can think this as the y-axis. - <code class="docutils literal notranslate"><span class="pre">isochrone.logtlogl</span></code> as a 2D grid for <code class="docutils literal notranslate"><span class="pre">log10(Teff)</span></code> in the unit of <code class="docutils literal notranslate"><span class="pre">K</span></code> and <code class="docutils literal notranslate"><span class="pre">log10(Luminosity)</span></code> in the unit of <code class="docutils literal notranslate"><span class="pre">solar</span> <span class="pre">luminosity</span></code>.</p>
+<p>So to have a 2D grid for teff and luminosity, you can use</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert isochrone logtlogl data to Teff and L/Lo</span>
+<span class="n">teff_iso</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">isochrone</span><span class="o">.</span><span class="n">logtlogl</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># Teff</span>
+<span class="n">lum_iso</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">isochrone</span><span class="o">.</span><span class="n">logtlogl</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>   <span class="c1"># L/Lo</span>
+</pre></div>
+</div>
+</div>
+<p>Then the first term is for age, and second term is for mass. So to get the constant age lines or mass lines, you can use:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">age</span> <span class="o">=</span> <span class="mf">1.5e6</span>
+<span class="n">idx_age</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanargmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">isochrone</span><span class="o">.</span><span class="n">log_age</span> <span class="o">-</span> <span class="n">age</span><span class="p">))</span>  <span class="c1"># Find closest age</span>
+<span class="n">teff_thisage</span> <span class="o">=</span> <span class="n">teff_iso</span><span class="p">[</span><span class="n">idx_age</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">lum_thisage</span> <span class="o">=</span> <span class="n">lum_iso</span><span class="p">[</span><span class="n">idx_age</span><span class="p">,</span> <span class="p">:]</span>
+
+<span class="n">mass</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">idx_mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanargmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">isochrone</span><span class="o">.</span><span class="n">masses</span> <span class="o">-</span> <span class="n">mass</span><span class="p">))</span>  <span class="c1"># Find closest mass</span>
+<span class="n">teff_thismass</span> <span class="o">=</span> <span class="n">teff_iso</span><span class="p">[:,</span> <span class="n">idx_mass</span><span class="p">]</span>
+<span class="n">lum_thismass</span> <span class="o">=</span> <span class="n">lum_iso</span><span class="p">[:,</span> <span class="n">idx_mass</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Make-your-own-isochrone-matrix">
+<h2>Make your own isochrone matrix<a class="headerlink" href="#Make-your-own-isochrone-matrix" title="Link to this heading">¶</a></h2>
+<p>The read in <code class="docutils literal notranslate"><span class="pre">.mat</span></code> file (such as <code class="docutils literal notranslate"><span class="pre">Baraffe_AgeMassGrid_YSO_matrix.mat</span></code>) also has these three components (<code class="docutils literal notranslate"><span class="pre">log_age,</span> <span class="pre">masses,</span> <span class="pre">logtlogl</span></code>), and they are basically the same thing as stored in the file <code class="docutils literal notranslate"><span class="pre">.mat</span></code> by <code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
+<p>We utilized <code class="docutils literal notranslate"><span class="pre">meshgrid</span></code> to create the grid from the original data. For example, to prepare the <code class="docutils literal notranslate"><span class="pre">Baraffe</span></code> grid. (all the code below is wrapped up in <code class="docutils literal notranslate"><span class="pre">isochrone.load_baraffe2015_tracks</span></code>, and <code class="docutils literal notranslate"><span class="pre">isochrone.prepare_baraffe_tracks</span></code>)</p>
+<section id="(i)-First-we-download-the-original-file-from-their-website">
+<h3>(i) First we download the original file from their website<a class="headerlink" href="#(i)-First-we-download-the-original-file-from-their-website" title="Link to this heading">¶</a></h3>
+<p>‘BHAC15_tracks+structure’ should have already been downloaded to <code class="docutils literal notranslate"><span class="pre">./isochrones_data/Baraffe2015/</span></code></p>
+</section>
+<section id="(ii)-Then,-read-in-the-file.">
+<h3>(ii) Then, read in the file.<a class="headerlink" href="#(ii)-Then,-read-in-the-file." title="Link to this heading">¶</a></h3>
+<p>Because the data formats are different for different stellar evolutionary models. So you might need to figure our by yourself on how to read them. But here we parepared a few functions in the ysoisochrone.utils for some of them, including</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>read_baraffe_file; read_feiden_trk_file; read_parsec_v1p2_dat_file; read_parsec_v2p0_tab_file
+</pre></div>
+</div>
+<p>and so on. See <a class="reference internal" href="../models.html"><span class="doc">all models here</span></a>.</p>
+<p>so for the Baraffe tracks, we can use</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># define the data dir</span>
+<span class="n">isochrones_data_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">&#39;isochrones_data&#39;</span><span class="p">)</span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">isochrones_data_dir</span><span class="p">,</span> <span class="s1">&#39;Baraffe2015&#39;</span><span class="p">,</span> <span class="s1">&#39;BHAC15_tracks+structure&#39;</span><span class="p">)</span>
+
+<span class="c1"># Read the original BHAC15 tracks file</span>
+<span class="n">data_points</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">read_baraffe_file</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">data_points</span></code> are a long array of [log_age, mass, teff, luminosity] data points. They are the original points provided by different stellar evolutionary models.</p>
+<p><strong>NOTE</strong> In short, to use your customized isochrones, the only work for you is to create this formated <code class="docutils literal notranslate"><span class="pre">data_points</span></code> array. After this, <code class="docutils literal notranslate"><span class="pre">ysoisochrone</span></code> will have the functions to do all of remaining work.</p>
+</section>
+<section id="(iii)-Create-meshgrid-and-save">
+<h3>(iii) Create meshgrid and save<a class="headerlink" href="#(iii)-Create-meshgrid-and-save" title="Link to this heading">¶</a></h3>
+<p>Then we utilize <code class="docutils literal notranslate"><span class="pre">meshgrid</span></code> to sample the original data points to have a formmated grid.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create meshgrid and interpolate the data onto the grid</span>
+<span class="n">masses_i</span><span class="p">,</span> <span class="n">log_age_i</span><span class="p">,</span> <span class="n">logtlogl_grid</span><span class="p">,</span> <span class="n">masses_grid</span><span class="p">,</span> <span class="n">log_age_grid</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">create_meshgrid</span><span class="p">(</span><span class="n">data_points</span><span class="p">)</span>
+
+<span class="c1"># Save the parsed data to a .mat file</span>
+<span class="n">output_mat_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">isochrones_data_dir</span><span class="p">,</span> <span class="s1">&#39;Your_matrix_Baraffe_AgeMassGrid_YSO_matrix.mat&#39;</span><span class="p">)</span>
+
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">save_as_mat</span><span class="p">(</span><span class="n">masses_i</span><span class="p">,</span> <span class="n">log_age_i</span><span class="p">,</span> <span class="n">logtlogl_grid</span><span class="p">,</span> <span class="n">output_mat_file</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File saved as: </span><span class="si">{</span><span class="n">output_mat_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Data saved to /Users/dingshandeng/github/ysoisochrone/tutorials/isochrones_data/Your_matrix_Baraffe_AgeMassGrid_YSO_matrix.mat
+File saved as: /Users/dingshandeng/github/ysoisochrone/tutorials/isochrones_data/Your_matrix_Baraffe_AgeMassGrid_YSO_matrix.mat
+</pre></div></div>
+</div>
+<p>Here the <code class="docutils literal notranslate"><span class="pre">masses_i,</span> <span class="pre">log_age_i,</span> <span class="pre">logtlogl_grid</span></code> are the three variables to be saved and they are the three <code class="docutils literal notranslate"><span class="pre">attributes</span></code> for <code class="docutils literal notranslate"><span class="pre">Isochrone</span></code> class. The <code class="docutils literal notranslate"><span class="pre">masses_grid,</span> <span class="pre">log_age_grid</span></code> are the 2D grid points for <code class="docutils literal notranslate"><span class="pre">mass</span></code> and <code class="docutils literal notranslate"><span class="pre">log_age</span></code>. They could be useful to check the read in and outputs.</p>
+<p>There are also a few options you could use in the <code class="docutils literal notranslate"><span class="pre">create_meshgrid</span></code>, such as change the <code class="docutils literal notranslate"><span class="pre">min_age</span></code> (default 0.5 Myrs) and <code class="docutils literal notranslate"><span class="pre">max_age</span></code> (default 500 Myrs) as well as the <code class="docutils literal notranslate"><span class="pre">interpolation_method</span></code> (default is <code class="docutils literal notranslate"><span class="pre">linear</span></code>).</p>
+<p><strong>NOTE</strong> in the future version, we will add the feature of finding the curve of zero-age-main-sequence from the track, so the grid point beyond that will be removed.</p>
+<p>Then, to use this customized track to derive age and masses, you can call</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_targets.csv&#39;</span><span class="p">)</span>
+
+<span class="n">df_prop_t</span> <span class="o">=</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">best_logmass_output_t</span><span class="p">,</span> <span class="n">best_logage_output_t</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span>\
+    <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_age</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;customize&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                  <span class="n">isochrone_mat_file</span><span class="o">=</span><span class="n">output_mat_file</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+  0%|          | 0/1 [00:00&lt;?, ?it/s]/Users/dingshandeng/github/ysoisochrone/ysoisochrone/plotting.py:114: MatplotlibDeprecationWarning: Starting from Matplotlib 3.6, colorbar() will steal space from the mappable&#39;s axes, rather than from the current axes, to place the colorbar.  To silence this warning, explicitly pass the &#39;ax&#39; argument to colorbar().
+  cb = plt.colorbar(im)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Working on: Sz65
+Adopted the customize track from /Users/dingshandeng/github/ysoisochrone/tutorials/isochrones_data/Your_matrix_Baraffe_AgeMassGrid_YSO_matrix.mat.
+sum of Lmass 99.99906848106863
+the last index of Lmass 4.5107923637464154e-100
+sum of Lmass array 30.089796743321003
+the last index of Lmass array 1.0000000000000002
+the best mass and its index:  -0.13999999999999838 186 0.5175764606786432
+lw:  -0.2399999999999984 176 0.16964128857509328
+up:  -0.039999999999998245 196 0.8561505310825062
+check the L_mass_array, it should be 0.68 between the two index
+0.6865092425074129
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_ysoisochrone_customize_isochrone_17_2.png" src="../_images/notebooks_ysoisochrone_customize_isochrone_17_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 1/1 [00:00&lt;00:00,  2.08it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Results for target: Sz65
+Best Mass: 0.72 [Msun], Age: 1.29e+06 [yrs]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../models.html" class="btn btn-neutral float-left" title="The available stellar evolutionary models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../apidocs/index.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Dingshan Deng.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1025,7 +1025,7 @@ def read_mist_v1p2_iso_file(mist_iso_file):
     return data_points
 
 
-def create_meshgrid(data_points, min_age=0.5, max_age=500.0):
+def create_meshgrid(data_points, min_age=0.5, max_age=500.0, interpolation_method='linear'):
     """
     Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.
 
@@ -1038,6 +1038,8 @@ def create_meshgrid(data_points, min_age=0.5, max_age=500.0):
     max_age: [float, optional] unit: Myrs
         The maximum age that we will cut in this grid. Default = 500 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
         **NOTE** will add the feature to automatiaclly capture the turn-over point in the future.
+    interpolation_method: [str]
+        The interpolation method used in griddata. Default 'linear'.
 
     Returns:
     ------------
@@ -1076,8 +1078,8 @@ def create_meshgrid(data_points, min_age=0.5, max_age=500.0):
     log_age_grid, masses_grid = np.meshgrid(log_age_i, masses_i, indexing='ij')
 
     # Use griddata to interpolate Teff and Luminosity onto the meshgrid
-    log_teff_grid = griddata((log_age, masses), np.log10(teff), (log_age_grid, masses_grid), method='linear')
-    log_luminosity_grid = griddata((log_age, masses), log_luminosity, (log_age_grid, masses_grid), method='linear')
+    log_teff_grid = griddata((log_age, masses), np.log10(teff), (log_age_grid, masses_grid), method=interpolation_method)
+    log_luminosity_grid = griddata((log_age, masses), log_luminosity, (log_age_grid, masses_grid), method=interpolation_method)
 
     # Combine Teff and Luminosity into a single 2D array (logtlogl)
     logtlogl_grid = np.stack([log_teff_grid, log_luminosity_grid], axis=-1)

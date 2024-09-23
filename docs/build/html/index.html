@@ -48,7 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_basics.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_methods.html">Available Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models.html">The available stellar evolutionary models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_customize_isochrone.html">Using Customized Isochrones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidocs/index.html">API Reference</a></li>
 </ul>
 
@@ -125,7 +125,16 @@
 <li class="toctree-l2"><a class="reference internal" href="models.html#mist">MIST</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_customize_isochrone.html">Using Customized Isochrones</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/ysoisochrone_customize_isochrone.html#Isochrone-Matrix">Isochrone Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/ysoisochrone_customize_isochrone.html#Make-your-own-isochrone-matrix">Make your own isochrone matrix</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/ysoisochrone_customize_isochrone.html#(i)-First-we-download-the-original-file-from-their-website">(i) First we download the original file from their website</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/ysoisochrone_customize_isochrone.html#(ii)-Then,-read-in-the-file.">(ii) Then, read in the file.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/ysoisochrone_customize_isochrone.html#(iii)-Create-meshgrid-and-save">(iii) Create meshgrid and save</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="apidocs/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.html#submodules">Submodules</a><ul>
@@ -144,7 +153,7 @@
 <li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_parsecv1p2_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_parsecv1p2_tracks()</span></code></a></li>
 <li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_parsecv2p0_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_parsecv2p0_tracks()</span></code></a></li>
 <li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_mistv1p2_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_mistv1p2_tracks()</span></code></a></li>
-<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_tracks_from_custome_matrix"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_tracks_from_custome_matrix()</span></code></a></li>
+<li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.load_tracks_from_customize_matrix"><code class="docutils literal notranslate"><span class="pre">Isochrone.load_tracks_from_customize_matrix()</span></code></a></li>
 <li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.set_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.set_tracks()</span></code></a></li>
 <li class="toctree-l8"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.isochrone.html#ysoisochrone.isochrone.Isochrone.get_tracks"><code class="docutils literal notranslate"><span class="pre">Isochrone.get_tracks()</span></code></a></li>
 </ul>
@@ -176,6 +185,9 @@
 <li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#functions">Functions</a></li>
 <li class="toctree-l6"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#api">API</a><ul>
 <li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.unc_log10"><code class="docutils literal notranslate"><span class="pre">unc_log10()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.unc_linear_from_log"><code class="docutils literal notranslate"><span class="pre">unc_linear_from_log()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.assign_unc_teff"><code class="docutils literal notranslate"><span class="pre">assign_unc_teff()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.assign_unc_lumi"><code class="docutils literal notranslate"><span class="pre">assign_unc_lumi()</span></code></a></li>
 <li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.get_likelihood_andrews2013"><code class="docutils literal notranslate"><span class="pre">get_likelihood_andrews2013()</span></code></a></li>
 <li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_file_simple"><code class="docutils literal notranslate"><span class="pre">download_file_simple()</span></code></a></li>
 <li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.utils.html#ysoisochrone.utils.download_file"><code class="docutils literal notranslate"><span class="pre">download_file()</span></code></a></li>
@@ -210,6 +222,7 @@
 <li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#ysoisochrone.bayesian.derive_stellar_mass_age"><code class="docutils literal notranslate"><span class="pre">derive_stellar_mass_age()</span></code></a></li>
 <li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#ysoisochrone.bayesian.derive_stellar_mass_age_closest_track"><code class="docutils literal notranslate"><span class="pre">derive_stellar_mass_age_closest_track()</span></code></a></li>
 <li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#ysoisochrone.bayesian.derive_stellar_mass_assuming_age"><code class="docutils literal notranslate"><span class="pre">derive_stellar_mass_assuming_age()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="apidocs/ysoisochrone/ysoisochrone.bayesian.html#ysoisochrone.bayesian.derive_stellar_mass_assuming_age_closest_trk"><code class="docutils literal notranslate"><span class="pre">derive_stellar_mass_assuming_age_closest_trk()</span></code></a></li>
 </ul>
 </li>
 </ul>

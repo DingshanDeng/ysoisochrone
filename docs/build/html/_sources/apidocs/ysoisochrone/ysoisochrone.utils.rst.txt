@@ -19,6 +19,15 @@ Functions
    * - :py:obj:`unc_log10 <ysoisochrone.utils.unc_log10>`
      - .. autodoc2-docstring:: ysoisochrone.utils.unc_log10
           :summary:
+   * - :py:obj:`unc_linear_from_log <ysoisochrone.utils.unc_linear_from_log>`
+     - .. autodoc2-docstring:: ysoisochrone.utils.unc_linear_from_log
+          :summary:
+   * - :py:obj:`assign_unc_teff <ysoisochrone.utils.assign_unc_teff>`
+     - .. autodoc2-docstring:: ysoisochrone.utils.assign_unc_teff
+          :summary:
+   * - :py:obj:`assign_unc_lumi <ysoisochrone.utils.assign_unc_lumi>`
+     - .. autodoc2-docstring:: ysoisochrone.utils.assign_unc_lumi
+          :summary:
    * - :py:obj:`get_likelihood_andrews2013 <ysoisochrone.utils.get_likelihood_andrews2013>`
      - .. autodoc2-docstring:: ysoisochrone.utils.get_likelihood_andrews2013
           :summary:
@@ -87,6 +96,21 @@ API
    :canonical: ysoisochrone.utils.unc_log10
 
    .. autodoc2-docstring:: ysoisochrone.utils.unc_log10
+
+.. py:function:: unc_linear_from_log(log_value, log_uncertainty)
+   :canonical: ysoisochrone.utils.unc_linear_from_log
+
+   .. autodoc2-docstring:: ysoisochrone.utils.unc_linear_from_log
+
+.. py:function:: assign_unc_teff(teff_ar, sigma_logT_set=None)
+   :canonical: ysoisochrone.utils.assign_unc_teff
+
+   .. autodoc2-docstring:: ysoisochrone.utils.assign_unc_teff
+
+.. py:function:: assign_unc_lumi(lumi_ar, sigma_logL_set=None)
+   :canonical: ysoisochrone.utils.assign_unc_lumi
+
+   .. autodoc2-docstring:: ysoisochrone.utils.assign_unc_lumi
 
 .. py:function:: get_likelihood_andrews2013(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
    :canonical: ysoisochrone.utils.get_likelihood_andrews2013
@@ -173,7 +197,7 @@ API
 
    .. autodoc2-docstring:: ysoisochrone.utils.read_mist_v1p2_iso_file
 
-.. py:function:: create_meshgrid(data_points, min_age=0.5, max_age=100.0)
+.. py:function:: create_meshgrid(data_points, min_age=0.5, max_age=500.0, interpolation_method='linear')
    :canonical: ysoisochrone.utils.create_meshgrid
 
    .. autodoc2-docstring:: ysoisochrone.utils.create_meshgrid

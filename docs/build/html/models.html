@@ -22,7 +22,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Use your own isochrone" href="use_your_own_isochrone.html" />
+    <link rel="next" title="Using Customized Isochrones" href="notebooks/ysoisochrone_customize_isochrone.html" />
     <link rel="prev" title="Available Methods" href="notebooks/ysoisochrone_methods.html" /> 
 </head>
 
@@ -55,7 +55,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#mist">MIST</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ysoisochrone_customize_isochrone.html">Using Customized Isochrones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidocs/index.html">API Reference</a></li>
 </ul>
 
@@ -87,7 +87,7 @@
 <h1>The available stellar evolutionary models<a class="headerlink" href="#the-available-stellar-evolutionary-models" title="Link to this heading">¶</a></h1>
 <p>The young stellar objects (pre-main-sequence) evolutionary tracks mainly include the ones from the following works.
 The code can download and format the stellar evolutionary tracks from public repositories and websites.
-Customized stellar evolutionary tracks can also be used, but they need to be formatted to the required matrix format by the user (see <a class="reference internal" href="use_your_own_isochrone.html"><span class="std std-doc">use your own isochrone</span></a> for more details).</p>
+Customized stellar evolutionary tracks can also be used, but they need to be formatted to the required matrix format by the user (see <a class="reference internal" href="notebooks/ysoisochrone_customize_isochrone.html"><span class="std std-doc">use your own isochrone</span></a> for more details).</p>
 <p>This package is mainly built to study the young-stellar-objects, so by default; it only utilizes the stellar evolutionary tracks for pre-main-sequence stars (<img class="math" src="_images/math/b66051218fa326d11d1d11b7bff8193ce25e065b.png" alt="{\rm stellar\ age}&lt; 500\,{\rm Myrs}"/>). So that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises again and will overlay on the pre-main-sequence phase). This method, however, could also be expanded to use on the main-sequence stars (e.g., <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2023AJ....166..175F/abstract">Fernandes et al. 2023</a>), but user-specified customized stellar evolutionary tracks are needed.</p>
 <section id="baraffe-et-al-2015">
 <h2>Baraffe et al. (2015)<a class="headerlink" href="#baraffe-et-al-2015" title="Link to this heading">¶</a></h2>
@@ -113,6 +113,7 @@ By default, we adopt the tracks with solar metallicity, and do not include rotat
 </section>
 <section id="mist">
 <h2>MIST<a class="headerlink" href="#mist" title="Link to this heading">¶</a></h2>
+<p><strong>NOTE</strong> The <code class="docutils literal notranslate"><span class="pre">MIST</span></code> model feature is still under development.</p>
 <p><strong>M</strong>ESA <strong>I</strong>sochrones &amp; <strong>S</strong>tellar <strong>T</strong>racks.
 The MIST stellar evolutionary tracks are computed with the <a class="reference external" href="http://mesa.sourceforge.net/index.html">Modules for Experiments in Stellar Astrophysics (MESA)</a>.</p>
 <p>See their website for details and references: <a class="reference external" href="https://waps.cfa.harvard.edu/MIST/">https://waps.cfa.harvard.edu/MIST/</a>.</p>
@@ -125,7 +126,7 @@ The MIST stellar evolutionary tracks are computed with the <a class="reference e
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="notebooks/ysoisochrone_methods.html" class="btn btn-neutral float-left" title="Available Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="use_your_own_isochrone.html" class="btn btn-neutral float-right" title="Use your own isochrone" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="notebooks/ysoisochrone_customize_isochrone.html" class="btn btn-neutral float-right" title="Using Customized Isochrones" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

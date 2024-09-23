@@ -399,7 +399,7 @@ class Isochrone:
         return 1
     
     
-    def load_tracks_from_custome_matrix(self, load_file):
+    def load_tracks_from_customize_matrix(self, load_file):
         """
         Load the isochromes from any customized matrix
         
@@ -436,7 +436,7 @@ class Isochrone:
         Args:
         ------------
         track_type: [str]
-            Type of the tracks to use ('baraffe2015' or 'feiden2016' or 'custome').
+            Type of the tracks to use ('baraffe2015' or 'feiden2016' or 'customize').
         load_file: [str]
             the .mat file that contains mass grid, log_age grid, and logt_logl grid
             Default is '', so if you want to read in the customized datafile, 
@@ -456,8 +456,8 @@ class Isochrone:
             self.load_parsecv1p2_tracks()
         elif track_type.lower() in ['mist', 'mist_v1p2']:
             self.load_mistv1p2_tracks()
-        elif track_type.lower() == 'custome':
-            self.load_tracks_from_custome_matrix(load_file)
+        elif track_type.lower() == 'customize':
+            self.load_tracks_from_customize_matrix(load_file)
         else:
             raise ValueError("Invalid track type. Please choose either 'Baraffe2015' or 'Feiden2016'.")
         

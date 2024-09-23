@@ -49,7 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/ysoisochrone_basics.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notebooks/ysoisochrone_methods.html">Available Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models.html">The available stellar evolutionary models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../use_your_own_isochrone.html">Use your own isochrone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/ysoisochrone_customize_isochrone.html">Using Customized Isochrones</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="ysoisochrone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ysoisochrone</span></code></a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="ysoisochrone.html#submodules">Submodules</a><ul class="current">
@@ -268,8 +268,8 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.load_tracks_from_custome_matrix">
-<span class="sig-name descname"><span class="pre">load_tracks_from_custome_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.load_tracks_from_custome_matrix" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.load_tracks_from_customize_matrix">
+<span class="sig-name descname"><span class="pre">load_tracks_from_customize_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.load_tracks_from_customize_matrix" title="Link to this definition">¶</a></dt>
 <dd><p>Load the isochromes from any customized matrix</p>
 <dl class="simple">
 <dt>load_file: [str]</dt><dd><p>the .mat file that contains mass grid, log_age grid, and logt_logl grid</p>
@@ -290,7 +290,7 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 <span class="sig-name descname"><span class="pre">set_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.set_tracks" title="Link to this definition">¶</a></dt>
 <dd><p>Set the isochrone tracks based on track_type.</p>
 <dl class="simple">
-<dt>track_type: [str]</dt><dd><p>Type of the tracks to use (‘baraffe2015’ or ‘feiden2016’ or ‘custome’).</p>
+<dt>track_type: [str]</dt><dd><p>Type of the tracks to use (‘baraffe2015’ or ‘feiden2016’ or ‘customize’).</p>
 </dd>
 <dt>load_file: [str]</dt><dd><p>the .mat file that contains mass grid, log_age grid, and logt_logl grid
 Default is ‘’, so if you want to read in the customized datafile, 
