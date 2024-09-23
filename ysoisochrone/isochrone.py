@@ -184,7 +184,7 @@ class Isochrone:
         print('please make sure all the iso tracks for all the ages you are interested in are in the file dir, this code will not automatically check you included all of your tracks')
         if not os.path.exists(os.path.join(input_file_dir, 'VAR_ROT0.00_SH_Z0.014_Y0.273.zip')):
             print(f"File not found: {input_file_dir}. Downloading the file.")
-            utils.download_parsec_v1p2_tracks(save_dir=self.data_dir)
+            utils.download_parsec_v2p0_tracks(save_dir=self.data_dir)
 
         # Read the original tracks file
         data_points = utils.read_parsec_v2p0_tab_file(os.path.join(input_file_dir, 'VAR_ROT0.00_SH_Z0.014_Y0.273'))
