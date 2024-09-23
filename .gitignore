@@ -2,8 +2,8 @@
 tests/isochrones_data/
 tests/lfunc_data/
 tests/data/
-tutorials/isochrones_data/
-tutorials/lfunc_data/
+tutorial_notebooks/isochrones_data/
+tutorial_notebooks/lfunc_data/
 
 # Ignore DSstore
 .DS_Store
