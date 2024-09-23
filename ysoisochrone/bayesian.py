@@ -134,7 +134,7 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     return [best_age, age_unc, best_mass, mass_unc], np.array([log_age_dummy, L_age_norm]), np.array([log_masses_dummy, L_mass_norm])
 
 
-def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68):
+def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=False):
     """
     Derives stellar mass and age from evolutionary tracks using a Bayesian framework.
     This is the method with the criteria that has been used in Pascucci2016
@@ -165,16 +165,18 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         Directory where likelihood function data is saved if save_lfunc is True (default: 'lfunc_data').
     verbose: [bool, optional]
         Whether to print verbose output (default: False).
-    toofaint: [list]
+    toofaint: [list, optional]
         A list of target names (in the 'Source' column) that are toofaint, 
-        will assign the median age (that is setup here) to them.
-    toobright: [list]
+        will assign the median age (that is setup here) to them. If this one is not empty, `median_age` needs to be assigned.
+    toobright: [list, optional]
         A list of target names (in the 'Source' column) that are toobirght, 
-        will assign the minimum age in the read in evolutionary tracks to them.
-    median_age: [float] unit: Myrs
+        will assign the minimum age in the read in evolutionary tracks to them. If this one is not empty, `median_age` needs to be assigned.
+    median_age: [float, optional] unit: Myrs
         The median age that will be asigned tothe targets that are toofaint.
-    confidence_interval [float]:
-        the desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
+    confidence_interval: [float, optional]
+        The desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
+    single_bayesian_for_nolum_target: [bool, optional]
+        Whether to still run a single Bayesian for the target that does not have good luminosity measurement (too bright or faint or anyother). If True, will still run a single Bayesian method to derive the stellar mass with the assumed `median_age`, otherwise will only find the closest track and will not obtain an uncertainty.
     
     Output:
     ------------
@@ -266,8 +268,12 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             else:  # too bright
                 c_age = np.min(log_age_dummy)
 
-            res = derive_stellar_mass_assuming_age(df_prop, assumed_age=c_age, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, no_uncertainties=no_uncertainties, confidence_interval=confidence_interval, verbose=verbose, plot=plot)
-            best_logmass_wunc = res[0]
+            if single_bayesian_for_nolum_target:
+                res = derive_stellar_mass_assuming_age(df_prop.loc[[ii]], assumed_age=c_age, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, no_uncertainties=no_uncertainties, confidence_interval=confidence_interval, verbose=verbose, plot=plot)
+                best_logmass_wunc = res[0]
+            else:
+                res = derive_stellar_mass_assuming_age_closest_trk(df_prop.loc[[ii]], assumed_age=1.5e6, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, verbose=verbose)
+                best_logmass_wunc = [res[0], 0, 0]
             
             # this_age = np.where(log_age_dummy == c_age)
             # Tdiff_index = np.abs(logtlogl_dummy[this_age, :, 0] - c_logT).argmin()
@@ -544,3 +550,84 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
             plotting.plot_likelihood_1d(np.log10(masses_dummy), likelihood, best_log_mass, lower_mass, upper_mass, source=source_t)
 
     return best_logmass_output
+
+
+def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', verbose=False):
+    """
+    Derives stellar mass assuming a known age by finding the closest track on the isochrone grid based on Teff, without using the Bayesian method.
+
+    Args:
+    ------------
+    df_prop: [DataFrame]
+        DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
+        The format for the columns needs to be: ['Source', 'Teff', 'e_Teff']
+    assumed_age: [float] unit yrs
+        The assumed age of the stars (in years). Can be a single value or an array.
+    model: [str, optional] Default: 'Baraffe_n_Feiden'
+        Model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2', 'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the model = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file.
+    isochrone_data_dir: [str, optional]
+        The directory where the isochrone data is stored.
+    isochrone_mat_file: [str, optional] Default = ''
+        The ABSOLUTE directory for the matrix file for the isochrones that you want to use if using a custom model.
+    verbose: [bool, optional]
+        Whether to print verbose output. Default is False.
+
+    Returns:
+    ------------
+    best_mass_output: [list] in Msolar
+        List containing the closest log10 mass for each star.
+    """
+    
+    # Prepare output list for the masses
+    best_mass_output = []
+
+    # Loop through each star in the source list
+    for ii in df_prop.index:
+        source_t = df_prop.loc[ii, 'Source']
+        if verbose:
+            print(f'Working on: {source_t}')
+        
+        # Extract the stellar Teff and its uncertainty
+        T_this = df_prop.loc[ii, 'Teff']
+        c_logT = np.log10(T_this)
+        
+        # Initialize the isochrone class with the default data directory
+        isochrone = Isochrone(isochrone_data_dir)
+        
+        # Select tracks based on model
+        if model.lower() == 'baraffe_n_feiden':
+            # Select appropriate evolutionary tracks based on Teff
+            if T_this > 3900.0:
+                isochrone.set_tracks('Feiden2016')
+            else:
+                isochrone.set_tracks('Baraffe2015')
+        elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
+            isochrone.set_tracks(model.lower())
+        elif model.lower() == 'custome':
+            isochrone.set_tracks('custome', load_file=isochrone_mat_file)
+        else:
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'custome'. If you want to use the model = 'custome', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file.")
+
+        # Get the tracks
+        log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
+        
+        # Create a mask for NaNs in logtlogl_dummy
+        nan_mask = np.isnan(logtlogl_dummy[:, :, 0])
+
+        # Find the closest log10(age) in the grid
+        c_log_age = np.log10(assumed_age) if isinstance(assumed_age, (float, int)) else np.log10(assumed_age[ii])
+        idx_age = np.argmin(np.abs(log_age_dummy - c_log_age))
+        
+        # Find the closest mass based on the distance in Teff
+        distance_grid = np.abs(logtlogl_dummy[idx_age, :, 0] - c_logT)
+        distance_grid[nan_mask[idx_age]] = np.inf  # Ignore NaNs by setting them to infinity
+        
+        best_mass_idx = np.argmin(distance_grid)
+        best_log_mass = np.log10(masses_dummy[best_mass_idx])
+
+        best_mass_output.append(best_log_mass)
+
+        if verbose:
+            print(f"Closest match for {source_t}: Age = {10**c_log_age:.2e} yrs, Mass = {10**best_log_mass:.2e} Msun")
+    
+    return best_mass_output

@@ -9,11 +9,99 @@ import scipy.io
 from scipy.interpolate import griddata
 from ysoisochrone import plotting
 
-# Calculate uncertainties
+
 def unc_log10(x, err_x):
+    """
+    Propagates uncertainties from the linear scale to the logarithmic scale (base 10).
+
+    Args:
+    ------------
+    value: [float]
+        The value in linear scale (e.g., Teff, Luminosity, etc.).
+    err_x: [float]
+        The uncertainty in the linear value.
+
+    Returns:
+    ------------
+    err_log10_x: [float]
+        The propagated uncertainty in the logarithmic scale (base 10).
+    """
     ln10 = np.log(10)
     err_log10_x = err_x / (x * ln10)
     return err_log10_x
+
+
+def unc_linear_from_log(log_value, log_uncertainty):
+    """
+    Propagates uncertainties from the logarithmic scale (base 10) back to the linear scale.
+
+    Args:
+    ------------
+    log_value: [float]
+        The value in logarithmic scale (e.g., log(Teff), log(L), etc.).
+    log_uncertainty: [float]
+        The uncertainty in the logarithmic value.
+
+    Returns:
+    ------------
+    linear_uncertainty: [float]
+        The propagated uncertainty in the linear scale.
+    """
+    # Convert log_value back to linear scale
+    linear_value = 10 ** log_value
+    # Propagate uncertainty
+    return linear_value * np.log(10) * log_uncertainty
+
+
+def assign_unc_teff(teff_ar, sigma_logT_set=None):
+    """
+    assign the Teff uncertainties
+    
+    Args:
+    ------------
+    teff_ar: [array]
+        the array for Teff
+    
+        
+    Returns:
+    ------------
+    err_teff_ar: [array]
+        the array of Teff
+    """
+    err_teff_ar = np.ones(len(teff_ar)) * np.nan 
+    for ii, T_this in enumerate(teff_ar):
+        if sigma_logT_set == None:
+            sigma_logT = 0.02 if T_this > 3420.0 else 0.01  # Uncertainty for Teff
+        else:
+            sigma_logT == sigma_logT_set
+        err_teff_ar[ii] = unc_linear_from_log(np.log10(T_this), sigma_logT)
+    return err_teff_ar
+    
+    
+def assign_unc_lumi(lumi_ar, sigma_logL_set=None):
+    """
+    assign the luminosity uncertainties
+    
+    Args:
+    ------------
+    lumi_ar: [array]
+        the array for luminosity
+    
+        
+    Returns:
+    ------------
+    err_lumi_ar: [array]
+        the array of luminosity
+    """
+    err_lumi_ar = np.ones(len(lumi_ar)) * np.nan
+    if sigma_logL_set == None:
+        sigma_logL = 0.1
+    else:
+        sigma_logL = sigma_logL_set
+    for ii, L_this in enumerate(lumi_ar):
+        err_lumi_ar[ii] = unc_linear_from_log(np.log10(L_this), sigma_logL)
+    return err_lumi_ar
+
 
 def get_likelihood_andrews2013(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL):
     """
