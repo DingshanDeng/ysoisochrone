@@ -79,6 +79,9 @@ Functions
    * - :py:obj:`read_mist_v1p2_iso_file <ysoisochrone.utils.read_mist_v1p2_iso_file>`
      - .. autodoc2-docstring:: ysoisochrone.utils.read_mist_v1p2_iso_file
           :summary:
+   * - :py:obj:`create_meshgrid_legacy <ysoisochrone.utils.create_meshgrid_legacy>`
+     - .. autodoc2-docstring:: ysoisochrone.utils.create_meshgrid_legacy
+          :summary:
    * - :py:obj:`create_meshgrid <ysoisochrone.utils.create_meshgrid>`
      - .. autodoc2-docstring:: ysoisochrone.utils.create_meshgrid
           :summary:
@@ -87,6 +90,12 @@ Functions
           :summary:
    * - :py:obj:`compare_grids <ysoisochrone.utils.compare_grids>`
      - .. autodoc2-docstring:: ysoisochrone.utils.compare_grids
+          :summary:
+   * - :py:obj:`find_zams_index <ysoisochrone.utils.find_zams_index>`
+     - .. autodoc2-docstring:: ysoisochrone.utils.find_zams_index
+          :summary:
+   * - :py:obj:`find_zams_curve <ysoisochrone.utils.find_zams_curve>`
+     - .. autodoc2-docstring:: ysoisochrone.utils.find_zams_curve
           :summary:
 
 API
@@ -197,7 +206,12 @@ API
 
    .. autodoc2-docstring:: ysoisochrone.utils.read_mist_v1p2_iso_file
 
-.. py:function:: create_meshgrid(data_points, min_age=0.5, max_age=500.0, interpolation_method='linear')
+.. py:function:: create_meshgrid_legacy(data_points, min_age=0.5, max_age=50.0, interpolation_method='linear')
+   :canonical: ysoisochrone.utils.create_meshgrid_legacy
+
+   .. autodoc2-docstring:: ysoisochrone.utils.create_meshgrid_legacy
+
+.. py:function:: create_meshgrid(data_points, min_age=0.5, max_age=1000.0, min_mass=0.0, max_mass=7.5, interpolation_method='linear')
    :canonical: ysoisochrone.utils.create_meshgrid
 
    .. autodoc2-docstring:: ysoisochrone.utils.create_meshgrid
@@ -211,3 +225,13 @@ API
    :canonical: ysoisochrone.utils.compare_grids
 
    .. autodoc2-docstring:: ysoisochrone.utils.compare_grids
+
+.. py:function:: find_zams_index(teff_track, lum_track, age_track)
+   :canonical: ysoisochrone.utils.find_zams_index
+
+   .. autodoc2-docstring:: ysoisochrone.utils.find_zams_index
+
+.. py:function:: find_zams_curve(isochrone)
+   :canonical: ysoisochrone.utils.find_zams_curve
+
+   .. autodoc2-docstring:: ysoisochrone.utils.find_zams_curve

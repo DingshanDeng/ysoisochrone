@@ -54,7 +54,7 @@ API
 
    .. autodoc2-docstring:: ysoisochrone.plotting.plot_bayesian_results
 
-.. py:function:: plot_hr_diagram(isochrone, df_prop=None, ax_set=None, ages_to_plot=None, masses_to_plot=None, age_positions=None, mass_rotation=None, age_rotation=None, mass_positions=None, age_xycoords='data', mass_xycoords='data', xlim_set=None, ylim_set=None, bare=False)
+.. py:function:: plot_hr_diagram(isochrone, df_prop=None, ax_set=None, ages_to_plot=None, masses_to_plot=None, age_positions=None, mass_rotation=None, age_rotation=None, mass_positions=None, age_xycoords='data', mass_xycoords='data', xlim_set=None, ylim_set=None, no_uncertainties=False, zams_curve=True, bare=False)
    :canonical: ysoisochrone.plotting.plot_hr_diagram
 
    .. autodoc2-docstring:: ysoisochrone.plotting.plot_hr_diagram

@@ -1,8 +1,8 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import copy
 import os
 
+import matplotlib.pyplot as plt
 style = [
     'seaborn-ticks',
     {
@@ -18,6 +18,8 @@ style = [
         'mathtext.fontset': 'cm'
         }]
 plt.style.use(style)
+
+from ysoisochrone import utils
 
 def plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mass, age_unc, mass_unc, source=None, save_fig=False, fig_save_dir='figure', customized_fig_name=''):
     """
@@ -151,6 +153,8 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
                     age_rotation=None, mass_positions=None,
                     age_xycoords='data', mass_xycoords='data',
                     xlim_set = None, ylim_set = None,
+                    no_uncertainties = False,
+                    zams_curve = True,
                     bare=False):
     """
     Plots the Hertzsprung–Russell diagram with the stars from df_prop and isochrones from the Isochrone class.
@@ -181,13 +185,17 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
     mass_rotation: [list, optional]
         List of rotation angles (degrees) for the mass annotations. Default is 0 for all.
     age_xycoords: [str, optional]
-        the xycoords for the age annotate. Default is 'data'. Refer to plt.annotate for details on this arg
+        The xycoords for the age annotate. Default is 'data'. Refer to plt.annotate for details on this arg
     mass_xycoords: [str, optional]
-        the xycoords for the mass annotate. Default is 'data'. Refer to plt.annotate for details on this arg
-    xlim_set: [list]
-        the xlim from left to right [xlim_left, xlim_right]; default is None, so the code set it automatically
-    ylim_set: [list]
-        the ylim from bottom to top [ylim_bottom, ylim_top]; default is None, so the code set it automatically
+        The xycoords for the mass annotate. Default is 'data'. Refer to plt.annotate for details on this arg
+    xlim_set: [list, optional]
+        The xlim from left to right [xlim_left, xlim_right]; default is None, so the code set it automatically
+    ylim_set: [list, optional]
+        The ylim from bottom to top [ylim_bottom, ylim_top]; default is None, so the code set it automatically
+    no_uncertainties: [bool, optional]
+        Whether to assume no uncertainties in Teff and Luminosity (default: False).
+    zams_curve: [bool, optional]
+        Whether to plot the curve of zero-age-main-sequence (default it True)
     bare: [bool, optional]
         If true, just plot the scatters from the DataFrame, and the isochromes, but do not add the annotates, legend, nor the labels.
     """
@@ -209,9 +217,12 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
     # If df_prop is provided, extract values
     if df_prop is not None and not df_prop.empty:
         teff = df_prop['Teff[K]'].values
-        teff_err = df_prop['e_Teff[K]'].values
         luminosity = df_prop['Luminosity[Lsun]'].values
-        luminosity_err = df_prop['e_Luminosity[Lsun]'].values
+        if no_uncertainties:
+            teff_err = luminosity_err = None
+        else:
+            teff_err = df_prop['e_Teff[K]'].values
+            luminosity_err = df_prop['e_Luminosity[Lsun]'].values
     else:
         teff = teff_err = luminosity = luminosity_err = None
 
@@ -223,7 +234,16 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
 
     # Plot stars with error bars if df_prop is not None or empty
     if teff is not None and luminosity is not None:
-        ax.errorbar(teff, luminosity, xerr=teff_err, yerr=luminosity_err, fmt='o', color='blue', label='Stars', alpha=0.7)
+        if teff_err is not None and luminosity_err is not None:
+            ax.errorbar(teff, luminosity, xerr=teff_err, yerr=luminosity_err, fmt='o', color='blue', label='Stars', alpha=0.7)
+        else:
+            ax.scatter(teff, luminosity, color='blue')
+        
+    if zams_curve:
+        # find the ZAMS
+        teff_zams, lum_zams, _ = utils.find_zams_curve(isochrone)
+        # Plot ZAMS curve
+        ax.plot(teff_zams, lum_zams, color='magenta', linestyle='-.', label='ZAMS')    
 
     # Convert isochrone logtlogl data to Teff and L/Lo
     teff_iso = 10**isochrone.logtlogl[:, :, 0]  # Teff

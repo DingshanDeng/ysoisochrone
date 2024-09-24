@@ -172,15 +172,26 @@ Organizes the data into numpy arrays.</p></td>
 <td><p>Reads the MISTv1p2 isochrone file in the given directory, extracts the star mass, log(Teff), and log(L/Lo).
 Organizes the data into numpy arrays.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.create_meshgrid" title="ysoisochrone.utils.create_meshgrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_meshgrid</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.create_meshgrid_legacy" title="ysoisochrone.utils.create_meshgrid_legacy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_meshgrid_legacy</span></code></a></p></td>
+<td><p>Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.
+The choice of the grid is adopted in Pascucci+2016, which worked fine with Feiden and Baraffe tacks
+But this choice cannot be adopted for older targets beyond 50 Myrs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.create_meshgrid" title="ysoisochrone.utils.create_meshgrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_meshgrid</span></code></a></p></td>
 <td><p>Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.save_as_mat" title="ysoisochrone.utils.save_as_mat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_as_mat</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.save_as_mat" title="ysoisochrone.utils.save_as_mat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_as_mat</span></code></a></p></td>
 <td><p>Saves the extracted data into a .mat file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.compare_grids" title="ysoisochrone.utils.compare_grids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_grids</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.compare_grids" title="ysoisochrone.utils.compare_grids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_grids</span></code></a></p></td>
 <td><p>Compares the Python and IDL-generated grids by interpolating the Python grid onto the sparser IDL grid
 and plotting the differences.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ysoisochrone.utils.find_zams_index" title="ysoisochrone.utils.find_zams_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_zams_index</span></code></a></p></td>
+<td><p>Finds the index corresponding to the Zero-Age Main Sequence (ZAMS) for a given stellar track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ysoisochrone.utils.find_zams_curve" title="ysoisochrone.utils.find_zams_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_zams_curve</span></code></a></p></td>
+<td><p>Find the Zero-Age Main Sequence (ZAMS) curve and mask the isochrone data beyond the ZAMS.</p></td>
 </tr>
 </tbody>
 </table>
@@ -480,16 +491,46 @@ Organizes the data into numpy arrays.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.create_meshgrid_legacy">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">create_meshgrid_legacy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.create_meshgrid_legacy" title="Link to this definition">¶</a></dt>
+<dd><p>Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.
+The choice of the grid is adopted in Pascucci+2016, which worked fine with Feiden and Baraffe tacks
+But this choice cannot be adopted for older targets beyond 50 Myrs.</p>
+<dl class="simple">
+<dt>data_points: [np.array]</dt><dd><p>Array of [log_age, mass, teff, log_luminosity] data points.</p>
+</dd>
+<dt>min_age: [float, optional] unit: Myrs</dt><dd><p>The minimum age that we will cut in this grid. Default = 0.5 Myrs</p>
+</dd>
+<dt>max_age: [float, optional] unit: Myrs</dt><dd><p>The maximum age that we will cut in this grid. Default = 50 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
+<strong>NOTE</strong> will add the feature to automatiaclly capture the turn-over point in the future.</p>
+</dd>
+<dt>interpolation_method: [str]</dt><dd><p>The interpolation method used in griddata. Default ‘linear’.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>log_age_grid: [np.array]</dt><dd><p>2D meshgrid of log age values.</p>
+</dd>
+<dt>masses_grid: [np.array]</dt><dd><p>2D meshgrid of mass values.</p>
+</dd>
+<dt>logtlogl_grid: [np.array]</dt><dd><p>2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.utils.create_meshgrid">
-<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">create_meshgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.create_meshgrid" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">create_meshgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.create_meshgrid" title="Link to this definition">¶</a></dt>
 <dd><p>Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.</p>
 <dl class="simple">
 <dt>data_points: [np.array]</dt><dd><p>Array of [log_age, mass, teff, log_luminosity] data points.</p>
 </dd>
 <dt>min_age: [float, optional] unit: Myrs</dt><dd><p>The minimum age that we will cut in this grid. Default = 0.5 Myrs</p>
 </dd>
-<dt>max_age: [float, optional] unit: Myrs</dt><dd><p>The maximum age that we will cut in this grid. Default = 500 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
-<strong>NOTE</strong> will add the feature to automatiaclly capture the turn-over point in the future.</p>
+<dt>max_age: [float, optional] unit: Myrs</dt><dd><p>The maximum age that we will cut in this grid. Default = 1000 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase).</p>
+</dd>
+<dt>min_mass: [float, optional] unit: Msolar</dt><dd><p>The minimum mass to include in the grid. Default = 0.0 Msolar</p>
+</dd>
+<dt>max_mass: [float, optional] unit: Msolar</dt><dd><p>The maximum mass to include in the grid. Default = 7.5 Msolar</p>
 </dd>
 <dt>interpolation_method: [str]</dt><dd><p>The interpolation method used in griddata. Default ‘linear’.</p>
 </dd>
@@ -536,6 +577,42 @@ and plotting the differences.</p>
 </dd>
 </dl>
 <p>A visual comparison of the Python and IDL grids with difference and normalized difference plots.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.find_zams_index">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">find_zams_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">teff_track</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lum_track</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age_track</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.find_zams_index" title="Link to this definition">¶</a></dt>
+<dd><p>Finds the index corresponding to the Zero-Age Main Sequence (ZAMS) for a given stellar track.</p>
+<dl class="simple">
+<dt>teff_track: [array]</dt><dd><p>Array of effective temperatures (Teff) for the stellar track.</p>
+</dd>
+<dt>lum_track: [array]</dt><dd><p>Array of luminosities (L/Lo) for the stellar track.</p>
+</dd>
+<dt>age_track: [array]</dt><dd><p>Array of stellar ages for the track.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>zams_idx: [int]</dt><dd><p>The index corresponding to the ZAMS for the given track.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ysoisochrone.utils.find_zams_curve">
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">find_zams_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isochrone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.find_zams_curve" title="Link to this definition">¶</a></dt>
+<dd><p>Find the Zero-Age Main Sequence (ZAMS) curve and mask the isochrone data beyond the ZAMS.</p>
+<dl class="simple">
+<dt>isochrone: object of Isochrone class</dt><dd><p>Contains the isochrone evolutionary track data (including Teff, Luminosity, and Masses).</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>teff_zams: [array]</dt><dd><p>Array of effective temperatures (Teff) corresponding to ZAMS for each mass track.</p>
+</dd>
+<dt>lum_zams: [array]</dt><dd><p>Array of luminosities (L/Lo) corresponding to ZAMS for each mass track.</p>
+</dd>
+<dt>mask_pms: [2D boolean array]</dt><dd><p>Boolean mask that is <cite>True</cite> for pre-main-sequence (PMS) data and <cite>False</cite> for post-ZAMS data.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

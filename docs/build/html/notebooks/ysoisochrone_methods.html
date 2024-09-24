@@ -120,16 +120,24 @@ of the review chapter in <a class="reference external" href="http://ppvii.org/ch
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/Users/dingshandeng/opt/anaconda3/lib/python3.9/site-packages/ysoisochrone/plotting.py:114: MatplotlibDeprecationWarning: Starting from Matplotlib 3.6, colorbar() will steal space from the mappable&#39;s axes, rather than from the current axes, to place the colorbar.  To silence this warning, explicitly pass the &#39;ax&#39; argument to colorbar().
+  0%|          | 0/1 [00:00&lt;?, ?it/s]/Users/dingshandeng/github/ysoisochrone/ysoisochrone/plotting.py:116: MatplotlibDeprecationWarning: Starting from Matplotlib 3.6, colorbar() will steal space from the mappable&#39;s axes, rather than from the current axes, to place the colorbar.  To silence this warning, explicitly pass the &#39;ax&#39; argument to colorbar().
   cb = plt.colorbar(im)
 </pre></div></div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_ysoisochrone_methods_4_1.png" src="../_images/notebooks_ysoisochrone_methods_4_1.png" />
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 1/1 [00:00&lt;00:00,  1.68it/s]
+</pre></div></div>
 </div>
 <p>where you just simply set the <code class="docutils literal notranslate"><span class="pre">model='Baraffe_n_Feiden'</span></code> in the function. Here we also turn on the <code class="docutils literal notranslate"><span class="pre">plot</span> <span class="pre">=</span> <span class="pre">True</span></code> to show the intermediate diagnoostic plot.</p>
 <p>In this approach, also follow the choice made in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a>, we put some pre-assumed uncertainties for <img class="math" src="../_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/> and <img class="math" src="../_images/math/19eef1966f7c545af3ac8c0fa486974d873e3c65.png" alt="L"/>:</p>
@@ -138,8 +146,8 @@ of the review chapter in <a class="reference external" href="http://ppvii.org/ch
 <li><p><img class="math" src="../_images/math/0a29fe82eb38b4ed8c59f4310261fb7b4603a199.png" alt="{\rm err}(\log_{10}L = 0.1)"/> for all targets</p></li>
 </ul>
 <p>You can assign these default uncertainties to your DataFrame by calling</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">err_Teff</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_teff</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Teff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="n">err_Lumi</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_lumi</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Luminosity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">err_Teff</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_teff</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Teff[K]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">err_Lumi</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_lumi</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 <span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Teff</span>
 <span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Luminosity[Lsun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Lumi</span>
 </pre></div>
@@ -199,20 +207,12 @@ Closest match for Sz65: Age = 1.32e+06 yrs, Mass = 6.52e-01 Msun
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_ysoisochrone_methods_11_0.png" src="../_images/notebooks_ysoisochrone_methods_11_0.png" />
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-([-0.18575749056067445], [[0.08000000000000004, 0.08000000000000003]])
-</pre></div></div>
 </div>
 <p>Or you can simply get the one with closest track, and this is the method adopted in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a> for the targets that do not have good luminosity measurement.</p>
 <div class="nbinput nblast docutils container">
