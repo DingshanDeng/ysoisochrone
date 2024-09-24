@@ -202,6 +202,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
     for ii in tqdm.tqdm(df_prop.index):
         source_t = df_prop.loc[ii, 'Source']
         if verbose:
+            print('------------------------')
             print(f'Working on: {source_t}')
         
         # Extract current values and uncertainties
