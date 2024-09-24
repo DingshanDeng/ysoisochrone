@@ -1025,9 +1025,11 @@ def read_mist_v1p2_iso_file(mist_iso_file):
     return data_points
 
 
-def create_meshgrid(data_points, min_age=0.5, max_age=500.0, interpolation_method='linear'):
+def create_meshgrid_legacy(data_points, min_age=0.5, max_age=50.0, interpolation_method='linear'):
     """
     Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.
+    The choice of the grid is adopted in Pascucci+2016, which worked fine with Feiden and Baraffe tacks
+    But this choice cannot be adopted for older targets beyond 50 Myrs.
 
     Args:
     ------------
@@ -1036,7 +1038,7 @@ def create_meshgrid(data_points, min_age=0.5, max_age=500.0, interpolation_metho
     min_age: [float, optional] unit: Myrs
         The minimum age that we will cut in this grid. Default = 0.5 Myrs
     max_age: [float, optional] unit: Myrs
-        The maximum age that we will cut in this grid. Default = 500 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
+        The maximum age that we will cut in this grid. Default = 50 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
         **NOTE** will add the feature to automatiaclly capture the turn-over point in the future.
     interpolation_method: [str]
         The interpolation method used in griddata. Default 'linear'.
@@ -1080,6 +1082,74 @@ def create_meshgrid(data_points, min_age=0.5, max_age=500.0, interpolation_metho
     # Use griddata to interpolate Teff and Luminosity onto the meshgrid
     log_teff_grid = griddata((log_age, masses), np.log10(teff), (log_age_grid, masses_grid), method=interpolation_method)
     log_luminosity_grid = griddata((log_age, masses), log_luminosity, (log_age_grid, masses_grid), method=interpolation_method)
+
+    # Combine Teff and Luminosity into a single 2D array (logtlogl)
+    logtlogl_grid = np.stack([log_teff_grid, log_luminosity_grid], axis=-1)
+
+    return masses_i, log_age_i, logtlogl_grid, masses_grid, log_age_grid
+
+
+def create_meshgrid(data_points, min_age=0.5, max_age=1000.0, min_mass=0.0, max_mass=7.5, interpolation_method='linear'):
+    """
+    Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.
+
+    Args:
+    ------------
+    data_points: [np.array]
+        Array of [log_age, mass, teff, log_luminosity] data points.
+    min_age: [float, optional] unit: Myrs
+        The minimum age that we will cut in this grid. Default = 0.5 Myrs
+    max_age: [float, optional] unit: Myrs
+        The maximum age that we will cut in this grid. Default = 1000 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase).
+    min_mass: [float, optional] unit: Msolar
+        The minimum mass to include in the grid. Default = 0.0 Msolar
+    max_mass: [float, optional] unit: Msolar
+        The maximum mass to include in the grid. Default = 7.5 Msolar
+    interpolation_method: [str]
+        The interpolation method used in griddata. Default 'linear'.
+
+    Returns:
+    ------------
+    log_age_grid: [np.array]
+        2D meshgrid of log age values.
+    masses_grid: [np.array]
+        2D meshgrid of mass values.
+    logtlogl_grid: [np.array]
+        2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.
+    """
+    
+    # Extract values from data_points
+    masses = data_points[:, 0]
+    log_age = data_points[:, 1]
+    teff = data_points[:, 2]
+    log_luminosity = data_points[:, 3]
+    
+    # Filter the data points by mass range
+    mass_filter = (masses >= min_mass) & (masses <= max_mass)
+    filtered_masses = masses[mass_filter]
+    filtered_log_age = log_age[mass_filter]
+    filtered_teff = teff[mass_filter]
+    filtered_log_luminosity = log_luminosity[mass_filter]
+
+    # Get unique values for log_age and masses within the filtered range
+    log_age_unique = np.unique(filtered_log_age)
+    masses_unique = np.unique(filtered_masses)
+
+    # Adjust age limits based on the filtered data
+    min_log_age = max(np.log10(min_age * 1e6), np.nanmin(log_age_unique))
+    max_log_age = min(np.log10(max_age * 1e6), np.nanmax(log_age_unique))
+    log_age_i = np.arange(min_log_age, max_log_age + 0.01, 0.01)
+
+    # Adjust mass limits based on the filtered data
+    log_masses_unique = np.log10(masses_unique)
+    masses_i = 10**np.arange(np.nanmin(log_masses_unique), np.nanmax(log_masses_unique) + 0.01, 0.01)
+
+    # Create a meshgrid for log_age and masses
+    log_age_grid, masses_grid = np.meshgrid(log_age_i, masses_i, indexing='ij')
+
+    # Use griddata to interpolate Teff and Luminosity onto the meshgrid
+    log_teff_grid = griddata((filtered_log_age, filtered_masses), np.log10(filtered_teff), (log_age_grid, masses_grid), method=interpolation_method)
+    log_luminosity_grid = griddata((filtered_log_age, filtered_masses), filtered_log_luminosity, (log_age_grid, masses_grid), method=interpolation_method)
 
     # Combine Teff and Luminosity into a single 2D array (logtlogl)
     logtlogl_grid = np.stack([log_teff_grid, log_luminosity_grid], axis=-1)
@@ -1171,6 +1241,106 @@ def compare_grids(loaded_data_py, loaded_data_idl, gridnames=['Python', 'IDL'], 
         plotting.plot_comparison(log_age_idl, masses_idl, logtlogl_interp_py, logtlogl_idl, logtlogl_diff, logtlogl_diff_norm, gridnames)
 
     return logtlogl_diff, logtlogl_diff_norm
+
+
+def find_zams_index(teff_track, lum_track, age_track):
+    """
+    Finds the index corresponding to the Zero-Age Main Sequence (ZAMS) for a given stellar track.
+
+    Args:
+    ------------
+    teff_track: [array]
+        Array of effective temperatures (Teff) for the stellar track.
+    lum_track: [array]
+        Array of luminosities (L/Lo) for the stellar track.
+    age_track: [array]
+        Array of stellar ages for the track.
+
+    Returns:
+    ------------
+    zams_idx: [int]
+        The index corresponding to the ZAMS for the given track.
+    """
+    
+    # Calculate the change in Teff, Luminosity, and age with respect to the previous step
+    delta_teff = np.diff(teff_track)
+    delta_lum = np.diff(lum_track)
+    delta_age = np.diff(age_track)
+    
+    dteff_dage = delta_teff/delta_age
+    dlum_dage = delta_lum/delta_age
+    
+    # Initialize ZAMS index to None
+    zams_idx = None
+    
+    # Loop over the evolutionary track to identify ZAMS
+    for j in range(1, len(delta_teff) - 1):
+        # ZAMS condition:
+        # 1. Temperature stops increasing or starts decreasing significantly (delta_teff < 0)
+        # 2. Luminosity is increasing slowly or stabilizing
+        # 3. Age evolution has slowed
+        if (delta_teff[j] <= 0) and (delta_lum[j] >= 0):
+            if (np.abs(dteff_dage[j]) < np.abs(dteff_dage[0])) and (np.abs(dlum_dage[j]) < np.abs(dlum_dage[0])):
+                # Slowing evolution after pre-main-sequence
+                zams_idx = j
+                break
+    
+    # If no clear ZAMS point is found, assume the last point is ZAMS
+    if zams_idx is None:
+        zams_idx = len(teff_track) - 1
+    
+    return zams_idx
+
+def find_zams_curve(isochrone):
+    """
+    Find the Zero-Age Main Sequence (ZAMS) curve and mask the isochrone data beyond the ZAMS.
+
+    Args:
+    ------------
+    isochrone: object of Isochrone class
+        Contains the isochrone evolutionary track data (including Teff, Luminosity, and Masses).
+
+    Returns:
+    ------------
+    teff_zams: [array]
+        Array of effective temperatures (Teff) corresponding to ZAMS for each mass track.
+    lum_zams: [array]
+        Array of luminosities (L/Lo) corresponding to ZAMS for each mass track.
+    mask_pms: [2D boolean array]
+        Boolean mask that is `True` for pre-main-sequence (PMS) data and `False` for post-ZAMS data.
+    """
+
+    logtlogl = isochrone.logtlogl  # log(Teff), log(L/Lo) data
+    masses = isochrone.masses      # Stellar masses
+    log_ages = isochrone.log_age   # Stellar ages
+
+    # Prepare outputs
+    teff_zams = []
+    lum_zams = []
+    mask_pms = np.ones(logtlogl.shape[:2], dtype=bool)  # Initialize mask to True (PMS phase)
+
+    # Loop over each mass track
+    for i, mass in enumerate(masses):
+        # Extract Teff, L/Lo, and age for the given mass track
+        teff_track = 10**logtlogl[:, i, 0]  # Teff for this mass
+        lum_track = 10**logtlogl[:, i, 1]   # Luminosity for this mass
+        age_track = 10**log_ages            # Age for this track in years
+
+        # Use the helper function to find the ZAMS index for this mass track
+        zams_idx = find_zams_index(teff_track, lum_track, age_track)
+
+        # Store the ZAMS Teff and L/Lo
+        teff_zams.append(teff_track[zams_idx])
+        lum_zams.append(lum_track[zams_idx])
+
+        # Mask out everything beyond ZAMS (for post-main-sequence phase)
+        mask_pms[zams_idx:, i] = False  # Everything beyond ZAMS is False (not part of PMS)
+
+    # Convert lists to numpy arrays for easy plotting
+    teff_zams = np.array(teff_zams)
+    lum_zams = np.array(lum_zams)
+
+    return teff_zams, lum_zams, mask_pms
 
 
 # the job of calling these classes are now moved into another py file called isochrone

@@ -283,7 +283,11 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         else:
             # Compute the likelihood using the Bayesian framework
             lfunc = utils.get_likelihood_andrews2013(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
-            lfunc[np.isnan(lfunc)] = 1e-99
+            lfunc[np.isnan(lfunc)] = 1e-99 # Set NaN positions to 1e-99 to ignore them
+            
+            # Create the mask to mask out the trks after zero-age-main-sequence
+            _, _, mask_pms = utils.find_zams_curve(isochrone)
+            lfunc[np.logical_not(mask_pms)] = 1e-99 # Set the main-sequence and post-main-sequence positions to 1e-99
             
             # Use Bayesian mass and age estimation
             bayes_res, lage_res, lmass_res = bayesian_mass_age(log_age_dummy, np.log10(masses_dummy), lfunc, plot=plot, source=source_t, verbose=verbose, save_fig=save_fig, fig_save_dir=fig_save_dir, confidence_interval=confidence_interval)
@@ -400,9 +404,13 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
         # Create a mask for NaNs in logtlogl_dummy
         nan_mask = np.isnan(logtlogl_dummy[:, :, 0]) | np.isnan(logtlogl_dummy[:, :, 1])
         
+        # Create the mask to mask out the trks after zero-age-main-sequence
+        _, _, mask_pms = utils.find_zams_curve(isochrone)
+        
         # Find the closest point on the grid
         distance_grid = np.sqrt((logtlogl_dummy[:, :, 0] - c_logT)**2 + (logtlogl_dummy[:, :, 1] - c_logL)**2)
         distance_grid[nan_mask] = np.inf  # Set NaN positions to infinity to ignore them
+        distance_grid[np.logical_not(mask_pms)] = np.inf  # Set the main-sequence and post-main-sequence positions to inf
         
         idx_age, idx_mass = np.unravel_index(np.nanargmin(distance_grid), distance_grid.shape)
         
@@ -509,6 +517,9 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         # Create a mask for NaNs in logtlogl_dummy
         nan_mask = np.isnan(logtlogl_dummy[:, :, 0])
 
+        # Create the mask to mask out the trks after zero-age-main-sequence
+        _, _, mask_pms = utils.find_zams_curve(isochrone)
+        
         # Find the closest log10(age) in the grid
         idx_age = np.argmin(np.abs(log_age_dummy - c_log_age))
         
@@ -516,7 +527,8 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         # likelihood = np.exp(-0.5 * ((logtlogl_dummy[idx_age, :, 0] - c_logT) ** 2) / e_Teff_this**2)
         fT = ((logtlogl_dummy[idx_age, :, 0]) - c_logT)**2 / sigma_logT**2
         likelihood = np.exp(-0.5 * fT)
-        likelihood[nan_mask[idx_age]] = 1e-99  # Ignore NaNs
+        likelihood[nan_mask[idx_age, :]] = np.nanmin(likelihood) # 1e-99  # Ignore NaNs
+        likelihood[np.logical_not(mask_pms)[idx_age, :]] = np.nanmin(likelihood) # 1e-99 # Ignore main-sequence and post-main-sequence positions
         
         # Normalize the likelihood
         likelihood /= simps(likelihood, np.log10(masses_dummy))
@@ -614,13 +626,17 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
         # Create a mask for NaNs in logtlogl_dummy
         nan_mask = np.isnan(logtlogl_dummy[:, :, 0])
 
+        # Create the mask to mask out the trks after zero-age-main-sequence
+        _, _, mask_pms = utils.find_zams_curve(isochrone)
+        
         # Find the closest log10(age) in the grid
         c_log_age = np.log10(assumed_age) if isinstance(assumed_age, (float, int)) else np.log10(assumed_age[ii])
         idx_age = np.argmin(np.abs(log_age_dummy - c_log_age))
         
         # Find the closest mass based on the distance in Teff
         distance_grid = np.abs(logtlogl_dummy[idx_age, :, 0] - c_logT)
-        distance_grid[nan_mask[idx_age]] = np.inf  # Ignore NaNs by setting them to infinity
+        distance_grid[nan_mask[idx_age, :]] = np.inf  # Ignore NaNs by setting them to infinity
+        distance_grid[np.logical_not(mask_pms)[idx_age, :]] = np.inf  # Ignore main-sequence and post-main-sequence positions
         
         best_mass_idx = np.argmin(distance_grid)
         best_log_mass = np.log10(masses_dummy[best_mass_idx])

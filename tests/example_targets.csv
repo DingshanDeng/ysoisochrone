@@ -1,4 +1,4 @@
-Source,Teff,e_Teff,Luminosity,e_Luminosity
+Source,Teff[K],e_Teff[K],Luminosity[Lsun],e_Luminosity[Lsun]
 Sz65,4060,187.0,0.869,0.3623
 Sz71,3632,167.0,0.327,0.142
 J16124373-3815031,3705,171.0,0.39,0.2691
