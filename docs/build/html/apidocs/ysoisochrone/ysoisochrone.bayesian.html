@@ -153,7 +153,7 @@ This is the method with the criteria that has been used in Pascucci2016</p></td>
 This is the method with the criteria that has been used in Pascucci2016</p>
 <dl class="simple">
 <dt>df_prop: [DataFrame]</dt><dd><p>DataFrame containing stellar properties (Teff, Luminosity, etc.).
-The formated column needs to be: [‘Source’, ‘Teff’, ‘e_Teff’, ‘Luminosity’, ‘e_Luminosity’]</p>
+The formated column needs to be: [‘Source’, ‘Teff[K]’, ‘e_Teff[K]’, ‘Luminosity[Lsun]’, ‘e_Luminosity[Lsun]’]</p>
 </dd>
 <dt>model: [str, optional] Default: ‘Baraffe_n_Feiden’</dt><dd><p>model for selecting evolutionary tracks: ‘Baraffe_n_Feiden’, ‘Baraffe2015’, ‘Feiden2016’, ‘PARSEC_v2p0’ (same as ‘PARSEC’), ‘PARSEC_v1p2’,  ‘MIST_v1p2’ (same as ‘MIST’) or ‘customize’. If you want to use the model = ‘customize’, you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.”</p>
 </dd>
@@ -207,7 +207,7 @@ will assign the minimum age in the read in evolutionary tracks to them. If this 
 <dd><p>Derives stellar mass and age by picking the closest point from the isochrone grid based on Teff and Luminosity.</p>
 <dl class="simple">
 <dt>df_prop: [DataFrame]</dt><dd><p>DataFrame containing stellar properties (Teff, Luminosity, etc.).
-The format for the columns needs to be: [‘Source’, ‘Teff’, ‘Luminosity’]</p>
+The format for the columns needs to be: [‘Source’, ‘Teff[K]’, ‘Luminosity[Lsun]’]</p>
 </dd>
 <dt>model: [str, optional] Default: ‘Baraffe_n_Feiden’</dt><dd><p>model for selecting evolutionary tracks: ‘Baraffe_n_Feiden’, ‘Baraffe2015’, ‘Feiden2016’, ‘PARSEC_v2p0’ (same as ‘PARSEC’), ‘PARSEC_v1p2’,  ‘MIST_v1p2’ (same as ‘MIST’) or ‘customize’. If you want to use the model = ‘customize’, you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.”</p>
 </dd>
@@ -234,7 +234,7 @@ This is needed if you want to set the model as ‘customize’.</p>
 <dd><p>Derives stellar mass assuming a known age, even when luminosity is unavailable, considering uncertainties in Teff.</p>
 <dl class="simple">
 <dt>df_prop: [DataFrame]</dt><dd><p>DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
-The formatted column needs to be: [‘Source’, ‘Teff’, ‘e_Teff’]</p>
+The formatted column needs to be: [‘Source’, ‘Teff[K]’, ‘e_Teff[K]’]</p>
 </dd>
 <dt>assumed_age: [float] unit yrs</dt><dd><p>The assumed age of the stars (in years). Can be a single value or an array.</p>
 </dd>
@@ -269,7 +269,7 @@ This is needed if you want to set the model as ‘custom’.</p>
 <dd><p>Derives stellar mass assuming a known age by finding the closest track on the isochrone grid based on Teff, without using the Bayesian method.</p>
 <dl class="simple">
 <dt>df_prop: [DataFrame]</dt><dd><p>DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
-The format for the columns needs to be: [‘Source’, ‘Teff’, ‘e_Teff’]</p>
+The format for the columns needs to be: [‘Source’, ‘Teff[K]’, ‘e_Teff[K]’]</p>
 </dd>
 <dt>assumed_age: [float] unit yrs</dt><dd><p>The assumed age of the stars (in years). Can be a single value or an array.</p>
 </dd>

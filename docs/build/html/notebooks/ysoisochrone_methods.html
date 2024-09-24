@@ -50,8 +50,8 @@
 <li class="toctree-l1"><a class="reference internal" href="ysoisochrone_basics.html">Quick Start</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Available Methods</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#The-Bayesian-Inference-Approach">The Bayesian Inference Approach</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Assuming-age-to-derive-stellar-masses">Assuming age to derive stellar masses</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Closest-grid-point-on-isochrone">Closest grid point on isochrone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Assuming-age-to-derive-stellar-masses">Assuming age to derive stellar masses</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../models.html">The available stellar evolutionary models</a></li>
@@ -140,15 +140,15 @@ of the review chapter in <a class="reference external" href="http://ppvii.org/ch
 <p>You can assign these default uncertainties to your DataFrame by calling</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">err_Teff</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_teff</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Teff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 <span class="n">err_Lumi</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_lumi</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Luminosity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Teff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Teff</span>
-<span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Luminosity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Lumi</span>
+<span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Teff</span>
+<span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Luminosity[Lsun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Lumi</span>
 </pre></div>
 </div>
 <p>Or you can do this in a simple way by turning on the option of <code class="docutils literal notranslate"><span class="pre">no_uncertainties</span> <span class="pre">=</span> <span class="pre">True</span></code> in <code class="docutils literal notranslate"><span class="pre">ysoisochrone.bayesian.derive_stellar_mass_age</span></code>. In this way, the code will automatically assign the uncertainties as described above to you sample even if the <code class="docutils literal notranslate"><span class="pre">'e_Teff'</span></code> and <code class="docutils literal notranslate"><span class="pre">'e_Luminosity'</span></code> is set up in your dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop_t</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
     <span class="s1">&#39;Source&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Sz65&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;Teff&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4060.0</span><span class="p">]),</span>
-    <span class="s1">&#39;Luminosity&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.869</span><span class="p">])</span>
+    <span class="s1">&#39;Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4060.0</span><span class="p">]),</span>
+    <span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.869</span><span class="p">])</span>
 <span class="p">})</span>
 
 <span class="n">best_logmass_output_t</span><span class="p">,</span> <span class="n">best_logage_output_t</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span>\
@@ -161,35 +161,6 @@ of the review chapter in <a class="reference external" href="http://ppvii.org/ch
 </pre></div>
 </div>
 <p><strong>TIPS</strong> Please refer to <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">Data Frame</a> for how to handle the <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>. It is a powerful tool that you can not only import data from <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files but many other format such as <code class="docutils literal notranslate"><span class="pre">.xlsx</span></code>, <code class="docutils literal notranslate"><span class="pre">.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">.html</span></code>. For theo output files, it can also be utilized to generate <code class="docutils literal notranslate"><span class="pre">latex</span></code> format files <code class="docutils literal notranslate"><span class="pre">.tex</span></code> so it can be easily import to your on going <code class="docutils literal notranslate"><span class="pre">latex</span></code> manuscript.</p>
-</section>
-<section id="Assuming-age-to-derive-stellar-masses">
-<h2>Assuming age to derive stellar masses<a class="headerlink" href="#Assuming-age-to-derive-stellar-masses" title="Link to this heading">¶</a></h2>
-<p>In some cases, when a good measurement of stellar luminosity is unavailable, we also provide an option to set up the assumed age (<code class="docutils literal notranslate"><span class="pre">assumed_age=1.5e6</span></code> in the example, it is in the unit of yr) to derive the stellar mass from the Bayesian inference.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop_t</span> <span class="o">=</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="n">best_logmass_output_t</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_assuming_age</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">assumed_age</span><span class="o">=</span><span class="mf">1.5e6</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_ysoisochrone_methods_8_0.png" src="../_images/notebooks_ysoisochrone_methods_8_0.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-([-0.18575749056067445], [[0.08000000000000004, 0.08000000000000003]])
-</pre></div></div>
-</div>
 </section>
 <section id="Closest-grid-point-on-isochrone">
 <h2>Closest grid point on isochrone<a class="headerlink" href="#Closest-grid-point-on-isochrone" title="Link to this heading">¶</a></h2>
@@ -214,6 +185,45 @@ Closest match for Sz65: Age = 1.32e+06 yrs, Mass = 6.52e-01 Msun
 </pre></div></div>
 </div>
 <p><strong>NOTE</strong> In this method, we do not estimate the uncertainties. The output best-fit logmass and logage are the closest track and no uncertainties are provided.</p>
+</section>
+<section id="Assuming-age-to-derive-stellar-masses">
+<h2>Assuming age to derive stellar masses<a class="headerlink" href="#Assuming-age-to-derive-stellar-masses" title="Link to this heading">¶</a></h2>
+<p>In some cases, when a good measurement of stellar luminosity is unavailable, we also provide an option to set up the assumed age (in the example below, we take <code class="docutils literal notranslate"><span class="pre">assumed_age=1.5e6</span></code> [yr]) to derive the stellar mass from the Bayesian inference.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop_t</span> <span class="o">=</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">best_logmass_output_t</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_assuming_age</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">assumed_age</span><span class="o">=</span><span class="mf">1.5e6</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_ysoisochrone_methods_11_0.png" src="../_images/notebooks_ysoisochrone_methods_11_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+([-0.18575749056067445], [[0.08000000000000004, 0.08000000000000003]])
+</pre></div></div>
+</div>
+<p>Or you can simply get the one with closest track, and this is the method adopted in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a> for the targets that do not have good luminosity measurement.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_logmass_output_t</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_assuming_age_closest_trk</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">assumed_age</span><span class="o">=</span><span class="mf">1.5e6</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>NOTE</strong> In this way, the uncertainties will not be provided, and only the best fit mass is the out put.</p>
 </section>
 </section>
 

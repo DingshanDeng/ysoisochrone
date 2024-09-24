@@ -164,7 +164,7 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
         log_age, masses, logtlogl (2D array for Teff and L/Lo).
     df_prop: [pd.DataFrame, optional]
         DataFrame containing the stellar properties with columns:
-        ['Source', 'Teff', 'e_Teff', 'Luminosity', 'e_Luminosity'].
+        ['Source', 'Teff[K]', 'e_Teff[K]', 'Luminosity[Lsun]', 'e_Luminosity[Lsun]'].
         If None, no scatter points are plotted.
     ax_set: [axes, optional] Default is None
         If not None, the ax_set is the ax for the plot
@@ -208,10 +208,10 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
 
     # If df_prop is provided, extract values
     if df_prop is not None and not df_prop.empty:
-        teff = df_prop['Teff'].values
-        teff_err = df_prop['e_Teff'].values
-        luminosity = df_prop['Luminosity'].values
-        luminosity_err = df_prop['e_Luminosity'].values
+        teff = df_prop['Teff[K]'].values
+        teff_err = df_prop['e_Teff[K]'].values
+        luminosity = df_prop['Luminosity[Lsun]'].values
+        luminosity_err = df_prop['e_Luminosity[Lsun]'].values
     else:
         teff = teff_err = luminosity = luminosity_err = None
 

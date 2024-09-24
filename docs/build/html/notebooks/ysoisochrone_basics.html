@@ -155,21 +155,22 @@ If you end up using the Baraffe et al. (2015) tracks, please cite from: https://
 </section>
 <section id="Prepare-your-own-data">
 <h2>Prepare your own data<a class="headerlink" href="#Prepare-your-own-data" title="Link to this heading">¶</a></h2>
-<p>Then, you need to prepare your own data. The data needs to be in the format of <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> and with following columns <code class="docutils literal notranslate"><span class="pre">['Source',</span> <span class="pre">'Teff',</span> <span class="pre">'e_Teff',</span> <span class="pre">'Luminosity',</span> <span class="pre">'e_Luminosity']</span></code>.</p>
+<p>Then, you need to prepare your own data. The data needs to be in the format of <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> and with following columns <code class="docutils literal notranslate"><span class="pre">['Source',</span> <span class="pre">'Teff[K]',</span> <span class="pre">'e_Teff[K]',</span> <span class="pre">'Luminosity[Lsun]',</span> <span class="pre">'e_Luminosity[Lsun]']</span></code>.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">'Source'</span></code> is the list of source names. It can be just the ID numbers you prefer.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">'Teff'</span></code> is the effective temperature in the unit of Kelvin.</p></li>
-<li><p>and <code class="docutils literal notranslate"><span class="pre">'e_Teff'</span></code> is the associated uncertainties.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">'Luminosity'</span></code> is the bolometric luminosities of these targets un the unit of solar luminosity.</p></li>
-<li><p>and <code class="docutils literal notranslate"><span class="pre">'e_Luminosity'</span></code> is their uncertainties.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'Teff[K]'</span></code> is the effective temperature in the unit of Kelvin.</p></li>
+<li><p>and <code class="docutils literal notranslate"><span class="pre">'e_Teff[K]'</span></code> is the associated uncertainties.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'Luminosity[Lsun]'</span></code> is the bolometric luminosities of these targets un the unit of solar luminosity.</p></li>
+<li><p>and <code class="docutils literal notranslate"><span class="pre">'e_Luminosity[Lsun]'</span></code> is their uncertainties.</p></li>
 </ul>
 <p>The easiest way to do so is to create a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file using EXCEL or similar software, and this file includes these columns, and then you can utilize <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to read in this file. Later you use this as an input.</p>
-<p>Here we prepared an example file called <code class="docutils literal notranslate"><span class="pre">'example_targets.csv'</span></code> in this tutorial. Please go to the folder called <code class="docutils literal notranslate"><span class="pre">tutorials</span></code> under the root directory of this package to access those tutorials as Jupyter Notebooks.</p>
+<p>Here we prepared an example file called <code class="docutils literal notranslate"><span class="pre">'example_targets.csv'</span></code> in this tutorial. Please go to the folder called <code class="docutils literal notranslate"><span class="pre">tutorial_notebooks</span></code> under the root directory of this package (or you can find it on our GitHub page) to access those tutorials as Jupyter Notebooks.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_targets.csv&#39;</span><span class="p">)</span>
 
@@ -200,10 +201,10 @@ If you end up using the Baraffe et al. (2015) tracks, please cite from: https://
     <tr style="text-align: right;">
       <th></th>
       <th>Source</th>
-      <th>Teff</th>
-      <th>e_Teff</th>
-      <th>Luminosity</th>
-      <th>e_Luminosity</th>
+      <th>Teff[K]</th>
+      <th>e_Teff[K]</th>
+      <th>Luminosity[Lsun]</th>
+      <th>e_Luminosity[Lsun]</th>
     </tr>
   </thead>
   <tbody>
@@ -302,10 +303,10 @@ If you end up using the Baraffe et al. (2015) tracks, please cite from: https://
 
 <span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
     <span class="s1">&#39;Source&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Sz65&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;Teff&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4060.0</span><span class="p">]),</span>
-    <span class="s1">&#39;e_Teff&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">187.0</span><span class="p">]),</span>
-    <span class="s1">&#39;Luminosity&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.869</span><span class="p">]),</span>
-    <span class="s1">&#39;e_Luminosity&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3623</span><span class="p">])</span>
+    <span class="s1">&#39;Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4060.0</span><span class="p">]),</span>
+    <span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">187.0</span><span class="p">]),</span>
+    <span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.869</span><span class="p">]),</span>
+    <span class="s1">&#39;e_Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3623</span><span class="p">])</span>
 <span class="p">})</span>
 </pre></div>
 </div>
@@ -358,15 +359,13 @@ details. We summarize all the available_models in <a class="reference internal" 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">df_output_mass</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logmass_output</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logmass[msolar]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logmass[msolar]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logmass[msolar]&#39;</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_output_mass</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logmass_output</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logmass[Msun]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logmass[Msun]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logmass[Msun]&#39;</span><span class="p">])</span>
 <span class="n">df_output_age</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logage_output</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logage[yrs]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logage[yrs]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logage[yrs]&#39;</span><span class="p">])</span>
 <span class="n">df_output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">df_output_mass</span><span class="p">,</span> <span class="n">df_output_age</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;masses[msolar]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logmass[msolar]&#39;</span><span class="p">]</span>
-<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_masses[msolar]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logmass[msolar]&#39;</span><span class="p">]</span>
-<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_masses[msolar]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_logmass[msolar]&#39;</span><span class="p">]</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;masses[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logmass[Msun]&#39;</span><span class="p">]</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_masses[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logmass[Msun]&#39;</span><span class="p">]</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_masses[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_logmass[Msun]&#39;</span><span class="p">]</span>
 
 <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>
 <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>

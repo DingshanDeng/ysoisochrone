@@ -143,7 +143,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
     ------------
     df_prop: [DataFrame]
         DataFrame containing stellar properties (Teff, Luminosity, etc.).
-        The formated column needs to be: ['Source', 'Teff', 'e_Teff', 'Luminosity', 'e_Luminosity']
+        The formated column needs to be: ['Source', 'Teff[K]', 'e_Teff[K]', 'Luminosity[Lsun]', 'e_Luminosity[Lsun]']
     model: [str, optional] Default: 'Baraffe_n_Feiden'
         model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
     isochrone_data_dir: [str, optional]
@@ -206,8 +206,8 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             print(f'Working on: {source_t}')
         
         # Extract current values and uncertainties
-        L_this = df_prop.loc[ii, 'Luminosity']
-        T_this = df_prop.loc[ii, 'Teff']
+        L_this = df_prop.loc[ii, 'Luminosity[Lsun]']
+        T_this = df_prop.loc[ii, 'Teff[K]']
         c_logL = np.log10(L_this)
         c_logT = np.log10(T_this)
 
@@ -215,10 +215,10 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             sigma_logL = 0.1  # Assume fixed uncertainty for Luminosity
             sigma_logT = 0.02 if T_this > 3420.0 else 0.01  # Uncertainty for Teff
         else: 
-            err_L_this = df_prop.loc[ii, 'e_Luminosity']
+            err_L_this = df_prop.loc[ii, 'e_Luminosity[Lsun]']
             sigma_logL = utils.unc_log10(L_this, err_L_this)
 
-            err_T_this = df_prop.loc[ii, 'e_Teff']
+            err_T_this = df_prop.loc[ii, 'e_Teff[K]']
             sigma_logT = utils.unc_log10(T_this, err_T_this)
 
         # Initialize the isochrone class with default data directory
@@ -296,8 +296,8 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
 
             # Save the likelihood functions if requested
             if save_lfunc:
-                df_lage = pd.DataFrame(lage_res.T, columns=['logage', 'Lage'])
-                df_lmass = pd.DataFrame(lmass_res.T, columns=['logmass', 'Lmass'])
+                df_lage = pd.DataFrame(lage_res.T, columns=['logage[yrs]', 'Lage'])
+                df_lmass = pd.DataFrame(lmass_res.T, columns=['logmass[Msun]', 'Lmass'])
                 if not os.path.exists(csv_save_dir):
                     os.makedirs(csv_save_dir)
                 df_lage.to_csv(os.path.join(csv_save_dir, f'{source_t}_lage.csv'), index=False)
@@ -307,7 +307,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         # if no_uncertainties:
         #     source_info_output.append([source_t, T_this, L_this])
         # else:
-        #     source_info_output.append([source_t, T_this, df_prop.loc[ii, 'e_Teff'], L_this, df_prop.loc[ii, 'e_Luminosity']])
+        #     source_info_output.append([source_t, T_this, df_prop.loc[ii, 'e_Teff[K]'], L_this, df_prop.loc[ii, 'e_Luminosity[Lsun]']])
         
         best_logmass_output.append(best_logmass_wunc)
         best_logage_output.append(best_logage_wunc)
@@ -327,7 +327,7 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
     ------------
     df_prop: [DataFrame]
         DataFrame containing stellar properties (Teff, Luminosity, etc.).
-        The format for the columns needs to be: ['Source', 'Teff', 'Luminosity']
+        The format for the columns needs to be: ['Source', 'Teff[K]', 'Luminosity[Lsun]']
     model: [str, optional] Default: 'Baraffe_n_Feiden'
         model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
     isochrone_data_dir: [str, optional] 
@@ -358,8 +358,8 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
             print(f'Working on: {source_t}')
         
         # Extract current values
-        L_this = df_prop.loc[ii, 'Luminosity']
-        T_this = df_prop.loc[ii, 'Teff']
+        L_this = df_prop.loc[ii, 'Luminosity[Lsun]']
+        T_this = df_prop.loc[ii, 'Teff[K]']
         c_logL = np.log10(L_this)
         c_logT = np.log10(T_this)
 
@@ -426,7 +426,7 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
     ------------
     df_prop: [DataFrame]
         DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
-        The formatted column needs to be: ['Source', 'Teff', 'e_Teff']
+        The formatted column needs to be: ['Source', 'Teff[K]', 'e_Teff[K]']
     assumed_age: [float] unit yrs
         The assumed age of the stars (in years). Can be a single value or an array.
     e_assumed_age: [float, optional] unit yrs (NOT considered for now)
@@ -473,13 +473,13 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
             print(f'Working on: {source_t}')
         
         # Extract the stellar Teff and its uncertainty
-        T_this = df_prop.loc[ii, 'Teff']
+        T_this = df_prop.loc[ii, 'Teff[K]']
         c_logT = np.log10(T_this)
         
         if no_uncertainties:
             sigma_logT = 0.02 if T_this > 3420.0 else 0.01  # Uncertainty for Teff
         else: 
-            err_T_this = df_prop.loc[ii, 'e_Teff']
+            err_T_this = df_prop.loc[ii, 'e_Teff[K]']
             sigma_logT = utils.unc_log10(T_this, err_T_this)
         
         # Get the assumed age and its uncertainty for this star
@@ -560,7 +560,7 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
     ------------
     df_prop: [DataFrame]
         DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
-        The format for the columns needs to be: ['Source', 'Teff', 'e_Teff']
+        The format for the columns needs to be: ['Source', 'Teff[K]', 'e_Teff[K]']
     assumed_age: [float] unit yrs
         The assumed age of the stars (in years). Can be a single value or an array.
     model: [str, optional] Default: 'Baraffe_n_Feiden'
@@ -588,7 +588,7 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
             print(f'Working on: {source_t}')
         
         # Extract the stellar Teff and its uncertainty
-        T_this = df_prop.loc[ii, 'Teff']
+        T_this = df_prop.loc[ii, 'Teff[K]']
         c_logT = np.log10(T_this)
         
         # Initialize the isochrone class with the default data directory
