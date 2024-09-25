@@ -5,3 +5,4 @@ scipy
 astropy
 requests
 tqdm
+seaborn

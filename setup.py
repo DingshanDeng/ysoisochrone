@@ -20,5 +20,6 @@ setup(
         'astropy',
         'requests',
         'tqdm',
+        'seaborn'
     ],
 )
