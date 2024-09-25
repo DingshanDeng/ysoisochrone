@@ -18,13 +18,15 @@ affiliations:
    index: 1
  - name: Department of Astronomy & Astrophysics, Center for Exoplanets and Habitable Worlds, The Pennsylvania State University, University Park, PA 16802
    index: 2
-date: 21 September 2024
+date: 24 September 2024
 bibliography: paper.bib
 ---
 
 # Background
 
 *Here we need to describe the background and the statement of need for this software*
+
+Bayesian inferance has been ...
 
 # Code Summary
 
