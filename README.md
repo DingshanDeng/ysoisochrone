@@ -12,7 +12,7 @@ Rachel B. Fernandes, The Pennsylvania State University
 
 ## Feature 
 
-- Handle different formats of the isochrones from different reference sources. The available evolutionary models include Baraffe et al. (2015), Feiden et al. (2016), PARSEC (both version 1.2 and 2.0), and MIST (version 1.2). See the reference section below for details. Other tracks will also be added in the future.
+- Handle different formats of the isochrones from different reference sources. The available evolutionary models include [Baraffe et al. (2015)](https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract), [Feiden (2016)](https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract), [PARSEC (both version 1.2 and 2.0)](http://stev.oapd.inaf.it/PARSEC/index.html), and [MIST (version 1.2)](https://waps.cfa.harvard.edu/MIST/). See the reference section below for details. Other tracks will also be added in the future.
 - Derive the stellar masses and ages from the isochrones by:
 	- (a) Using the Bayesian inference approach. The required inputs are stellar effective temperature ($T_{\rm eff}$), bolometric luminosity ($L_{\rm bol}$), and their uncertainties.
 	- (b) Using the Bayesian inference approach where we do not have a good luminosity measurement. Therefore, we need to assume an age for the target.
