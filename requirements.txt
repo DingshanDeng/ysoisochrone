@@ -2,7 +2,5 @@ numpy
 pandas
 matplotlib
 scipy
-astropy
 requests
 tqdm
-seaborn

@@ -3,20 +3,33 @@ import copy
 import os
 
 import matplotlib.pyplot as plt
+# style = [
+#     'seaborn-ticks',
+#     {
+#     'figure.dpi': 300,
+#     'font.size': 12,
+#     'image.cmap': 'inferno',
+#     'font.family': 'serif',
+#     'font.serif': ['Times', 'Times New Roman'] + plt.rcParams['font.serif'],
+#     'xtick.top': True,
+#     'xtick.direction': 'in',
+#     'ytick.right': True,
+#     'ytick.direction': 'in',
+#     'mathtext.fontset': 'cm'
+#     }]
 style = [
-    'seaborn-ticks',
     {
-        'figure.dpi': 300,
-        'font.size': 12,
-        'image.cmap': 'inferno',
-        'font.family': 'serif',
-        'font.serif': ['Times', 'Times New Roman'] + plt.rcParams['font.serif'],
-        'xtick.top': True,
-        'xtick.direction': 'in',
-        'ytick.right': True,
-        'ytick.direction': 'in',
-        'mathtext.fontset': 'cm'
-        }]
+    'figure.dpi': 300,
+    'font.size': 12,
+    'image.cmap': 'inferno',
+    'font.family': 'serif',
+    'font.serif': ['Times', 'Times New Roman'] + plt.rcParams['font.serif'],
+    'xtick.top': True,
+    'xtick.direction': 'in',
+    'ytick.right': True,
+    'ytick.direction': 'in',
+    'mathtext.fontset': 'cm'
+    }]
 plt.style.use(style)
 
 from ysoisochrone import utils
@@ -196,6 +209,7 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
         Whether to assume no uncertainties in Teff and Luminosity (default: False).
     zams_curve: [bool, optional]
         Whether to plot the curve of zero-age-main-sequence (default it True)
+        If True, the evolutionary tracks after ZAMS will not be plotted
     bare: [bool, optional]
         If true, just plot the scatters from the DataFrame, and the isochromes, but do not add the annotates, legend, nor the labels.
     """
@@ -241,7 +255,7 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
         
     if zams_curve:
         # find the ZAMS
-        teff_zams, lum_zams, _ = utils.find_zams_curve(isochrone)
+        teff_zams, lum_zams, mask_pms = utils.find_zams_curve(isochrone)
         # Plot ZAMS curve
         ax.plot(teff_zams, lum_zams, color='magenta', linestyle='-.', label='ZAMS')    
 
@@ -268,8 +282,22 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
 
     # Plot constant age lines and annotate them at the left (max Teff)
     for i, age in enumerate(ages_to_plot):
+        if age < np.nanmin(isochrone.log_age):
+            print(f'{10**age/1e6:.2f} Myrs'+' is skipped because it is smaller than the grid min mass of'+' %.2f Myrs'%(10**np.nanmin(isochrone.log_age)/1e6))
+            continue
+        elif age > np.nanmax(isochrone.log_age):
+            print(f'{10**age/1e6:.2f} Myrs'+' is skipped because it is larger than the grid max mass of'+' %.2f Myrs'%(10**np.nanmax(isochrone.log_age)/1e6))
+            continue
+        
         idx_age = np.nanargmin(np.abs(isochrone.log_age - age))  # Find closest age
-        ax.plot(teff_iso[idx_age, :], lum_iso[idx_age, :], '--', label=f'{10**age/1e6:.1f} Myr', color='grey')
+        if zams_curve:
+            teff_filtered = teff_iso[idx_age, :][mask_pms[idx_age, :]]
+            lum_filtered = lum_iso[idx_age, :][mask_pms[idx_age, :]]
+
+            # Plot the pre-main-sequence part of the isochrone
+            ax.plot(teff_filtered, lum_filtered, '--', label=f'{10**age/1e6:.1f} Myr', color='grey')
+        else:
+            ax.plot(teff_iso[idx_age, :], lum_iso[idx_age, :], '--', label=f'{10**age/1e6:.1f} Myr', color='grey')
         
         if not bare:
             # Get automatic annotation position
@@ -291,8 +319,21 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
         
     # Plot constant mass lines and annotate them at the top (max Luminosity)
     for i, mass in enumerate(masses_to_plot):
+        if mass < np.nanmin(isochrone.masses):
+            print(f'{mass:.2f} Msun is skipped because it is smaller than the grid min mass of'+' %.2f Msun'%(np.nanmin(isochrone.masses)))
+            continue
+        elif mass > np.nanmax(isochrone.masses):
+            print(f'{mass:.2f} Msun is skipped because it is larger than the grid max mass of'+' %.2f Msun'%(np.nanmax(isochrone.masses)))
+            continue
+        
         idx_mass = np.nanargmin(np.abs(isochrone.masses - mass))  # Find closest mass
-        ax.plot(teff_iso[:, idx_mass], lum_iso[:, idx_mass], '-', label=f'{mass:.1f} Msun', color='darkred')
+        if zams_curve:
+            teff_filtered = teff_iso[:, idx_mass][mask_pms[:, idx_mass]]
+            lum_filtered = lum_iso[:, idx_mass][mask_pms[:, idx_mass]]
+            # ax.plot(teff_iso[:, idx_mass], lum_iso[:, idx_mass], label=f'{mass:.1f} Msun', color='pink')
+            ax.plot(teff_filtered, lum_filtered, '-', label=f'{mass:.1f} Msun', color='darkred')
+        else:
+            ax.plot(teff_iso[:, idx_mass], lum_iso[:, idx_mass], '-', label=f'{mass:.1f} Msun', color='darkred')
 
         if not bare:
             # Get automatic annotation position

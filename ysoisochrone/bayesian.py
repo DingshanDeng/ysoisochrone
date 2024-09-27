@@ -59,9 +59,44 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     best_age_idx = np.argmax(L_age)
     best_age = log_age_dummy[best_age_idx]
     
+    #
+    # find the age_unc
+    #
+    
     L_age_array = np.cumsum(L_age) / np.sum(L_age)
     age_low_idx = np.argmin(np.abs(L_age_array[:best_age_idx] - (L_age_array[best_age_idx] - half_sigma_perc)))
     age_up_idx = best_age_idx + np.argmin(np.abs(L_age_array[best_age_idx:] - (L_age_array[best_age_idx] + half_sigma_perc)))
+    
+    # Handle cases where the cumulative sum exceeds the desired confidence interval
+    if L_age_array[best_age_idx] - half_sigma_perc < 0:
+        i_idx = best_age_idx
+        
+        # if verbose:
+        #     print('this i_idx:', i_idx)
+        
+        key = 0
+        while key == 0:
+            if i_idx == 0:
+                key = 1
+                age_low_idx = i_idx
+            else:    
+                i_idx = int(i_idx) - 1
+                if L_age_array[i_idx] < 1e-3:
+                    key = 1
+                    age_low_idx = i_idx 
+                
+    if L_age_array[best_age_idx] + half_sigma_perc > 1:
+        i_idx = best_age_idx
+        key = 0
+        while key == 0:
+            if i_idx == int(len(L_age_array) - 1):
+                key = 1
+                age_up_idx = i_idx
+            else:
+                i_idx = int(i_idx) + 1
+                if np.abs(L_age_array[i_idx] - 1) < 1e-3:
+                    key = 1
+                    age_up_idx = i_idx
     
     age_unc = [log_age_dummy[age_low_idx], log_age_dummy[age_up_idx]]
     
@@ -84,23 +119,31 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     mass_up_idx = best_mass_idx + np.argmin(np.abs(L_mass_array[best_mass_idx:] - (L_mass_array[best_mass_idx] + half_sigma_perc)))
     
     # Handle cases where the cumulative sum exceeds the desired confidence interval
-    if L_mass_array[best_mass_idx] + half_sigma_perc > 1:
-        i_idx = best_mass_idx
-        key = 0
-        while key == 0:
-            i_idx = int(i_idx) + 1
-            if np.abs(L_mass_array[i_idx] - 1) < 1e-10:
-                key = 1
-                mass_up_idx = i_idx
-                
     if L_mass_array[best_mass_idx] - half_sigma_perc < 0:
         i_idx = best_mass_idx
         key = 0
         while key == 0:
-            i_idx = int(i_idx) - 1
-            if L_mass_array[i_idx] < 1e-10:
+            if i_idx == 0:
                 key = 1
                 mass_low_idx = i_idx
+            else:
+                i_idx = int(i_idx) - 1
+                if L_mass_array[i_idx] < 1e-3:
+                    key = 1
+                    mass_low_idx = i_idx
+                
+    if L_mass_array[best_mass_idx] + half_sigma_perc > 1:
+        i_idx = best_mass_idx
+        key = 0
+        while key == 0:
+            if i_idx == int(len(L_mass_array) - 1):
+                key = 1
+                mass_up_idx = i_idx
+            else:
+                i_idx = int(i_idx) + 1
+                if np.abs(L_mass_array[i_idx] - 1) < 1e-3:
+                    key = 1
+                    mass_up_idx = i_idx
     
     if verbose:
         print('sum of Lmass', np.sum(L_mass))
@@ -181,10 +224,10 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
     ------------
     Returns:
     ------------
-    best_logmass_output: [list]
-        List containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
-    best_logage_output: [list]
-        List containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).
+    best_logmass_output: [array]
+        Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
+    best_logage_output: [array]
+        Array containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).
     lage_all: [dictionary]
         The likelihood function of age for all target
     lmass_all: [dictionary]
@@ -326,7 +369,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             print(f'Results for target: {source_t}')
             print(f'Best Mass: {10**best_logmass_wunc[0]:.2f} [Msun], Age: {10**best_logage_wunc[0]:.2e} [yrs]')
     
-    return best_logmass_output, best_logage_output, lmass_all, lage_all
+    return np.array(best_logmass_output), np.array(best_logage_output), lmass_all, lage_all
 
 
 def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=False):
@@ -377,10 +420,10 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
     ------------
     Returns:
     ------------
-    best_logmass_output: [list]
-        List containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
-    best_logage_output: [list]
-        List containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).
+    best_logmass_output: [array]
+        Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
+    best_logage_output: [array]
+        Array containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).
     lage_all: [dictionary]
         The likelihood function of age for all target
     lmass_all: [dictionary]
@@ -515,7 +558,7 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
             print(f'Results for target: {source_t}')
             print(f'Best Mass: {10**best_logmass_wunc[0]:.2f} [Msun], Age: {10**best_logage_wunc[0]:.2e} [yrs]')
     
-    return best_logmass_output, best_logage_output, lmass_all, lage_all
+    return np.array(best_logmass_output), np.array(best_logage_output), lmass_all, lage_all
 
 
 def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', verbose=False):
@@ -540,10 +583,10 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
 
     Returns:
     ------------
-    best_mass_output: [list] unit Msolar
-        List containing the closest log10mass for each star.
-    best_age_output: [list] unit yr
-        List containing the closest log10age for each star.
+    best_mass_output: [array] unit Msolar
+        Array containing the closest log10mass for each star.
+    best_age_output: [array] unit yr
+        Array containing the closest log10age for each star.
     """
     
     # Prepare output lists
@@ -551,7 +594,7 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
     best_age_output = []
 
     # Loop through each star in the source list
-    for ii in df_prop.index:
+    for ii in tqdm.tqdm(df_prop.index):
         source_t = df_prop.loc[ii, 'Source']
         if verbose:
             print(f'Working on: {source_t}')
@@ -618,7 +661,7 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
         if verbose:
             print(f"Closest match for {source_t}: Age = {10**best_age:.2e} yrs, Mass = {10**best_mass:.2e} Msun")
     
-    return best_mass_output, best_age_output
+    return np.array(best_mass_output), np.array(best_age_output)
 
 
 def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, confidence_interval=0.68, verbose=False, plot=False):
@@ -657,8 +700,8 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
     
     Returns:
     ------------
-    best_logmass_output: [list]
-        List containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
+    best_logmass_output: [array]
+        Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
     """
     
     # Prepare output list for the masses and their uncertainties
@@ -756,7 +799,7 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         if plot:
             plotting.plot_likelihood_1d(np.log10(masses_dummy), likelihood, best_log_mass, lower_mass, upper_mass, source=source_t)
 
-    return best_logmass_output
+    return np.array(best_logmass_output)
 
 
 def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', verbose=False):
@@ -781,12 +824,12 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
 
     Returns:
     ------------
-    best_mass_output: [list] in Msolar
-        List containing the closest log10 mass for each star.
+    best_log_mass_output: [array] in Msolar
+        Array containing the closest log10 mass for each star.
     """
     
     # Prepare output list for the masses
-    best_mass_output = []
+    best_log_mass_output = []
 
     # Loop through each star in the source list
     for ii in df_prop.index:
@@ -836,9 +879,9 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
         best_mass_idx = np.argmin(distance_grid)
         best_log_mass = np.log10(masses_dummy[best_mass_idx])
 
-        best_mass_output.append(best_log_mass)
+        best_log_mass_output.append(best_log_mass)
 
         if verbose:
             print(f"Closest match for {source_t}: Age = {10**c_log_age:.2e} yrs, Mass = {10**best_log_mass:.2e} Msun")
     
-    return best_mass_output
+    return np.array(best_log_mass_output)

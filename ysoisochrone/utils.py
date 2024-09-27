@@ -1025,7 +1025,7 @@ def read_mist_v1p2_iso_file(mist_iso_file):
     return data_points
 
 
-def create_meshgrid_legacy(data_points, min_age=0.5, max_age=50.0, interpolation_method='linear'):
+def create_meshgrid_legacy(data_points, min_age=0.5, max_age=50.0, min_mass=0.015, max_mass=1.4, interpolation_method='linear'):
     """
     Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.
     The choice of the grid is adopted in Pascucci+2016, which worked fine with Feiden and Baraffe tacks
@@ -1034,59 +1034,106 @@ def create_meshgrid_legacy(data_points, min_age=0.5, max_age=50.0, interpolation
     Args:
     ------------
     data_points: [np.array]
-        Array of [log_age, mass, teff, log_luminosity] data points.
+        Array of [mass, log_age, teff, log_luminosity] data points.
     min_age: [float, optional] unit: Myrs
         The minimum age that we will cut in this grid. Default = 0.5 Myrs
     max_age: [float, optional] unit: Myrs
         The maximum age that we will cut in this grid. Default = 50 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
         **NOTE** will add the feature to automatiaclly capture the turn-over point in the future.
+    min_mass: [float, optional] unit: Msolar
+        The minimum mass to include in the grid. Default = 0.015 Msolar
+    max_mass: [float, optional] unit: Msolar
+        The maximum mass to include in the grid. Default = 1.4 Msolar
     interpolation_method: [str]
         The interpolation method used in griddata. Default 'linear'.
 
     Returns:
     ------------
-    log_age_grid: [np.array]
-        2D meshgrid of log age values.
-    masses_grid: [np.array]
-        2D meshgrid of mass values.
+    log_masses_i: [np.array]
+        1D array of the axis grid of log mass.
+    log_age_i: [np.array] 
+        1D array of the axis grid of log age.
     logtlogl_grid: [np.array]
         2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.
+    log_age_grid: [np.array]
+        2D meshgrid of log age values.
+    log_masses_grid: [np.array]
+        2D meshgrid of log mass values.
     """
+    
+    # masses = data_points[:, 0]
+    # log_age = data_points[:, 1]
+    # # print(masses)
+    # # print(log_age)
+    # teff = data_points[:, 2]
+    # log_luminosity = data_points[:, 3]
+    
+    # # Create a grid for unique log_age and masses
+    # log_age_unique = np.unique(log_age)
+    # masses_unique = np.unique(masses)
+
+    # # create the grid points for the log_age and masses
+    # if np.nanmin(log_age_unique) >= np.log10(min_age * 1e6):
+    #     min_log_age = np.nanmin(log_age_unique)
+    # else: min_log_age = np.log10(min_age * 1e6)
+    # if np.nanmax(log_age_unique) <= np.log10(max_age * 1e6):
+    #     max_log_age = np.nanmax(log_age_unique)
+    # else: max_log_age = np.log10(max_age * 1e6)
+    # # print(max_log_age)
+    # log_age_i = np.arange(min_log_age, max_log_age + 0.01, 0.01) # log_age_unique
+    # # print(log_age_i)
+    # log_masses_unique = np.log10(masses_unique)
+    # log_masses_i = 10**np.arange(np.nanmin(log_masses_unique), np.nanmax(log_masses_unique) + 0.01, 0.01) # masses_unique
+    
+    # # Create a meshgrid for log_age and masses
+    # log_age_grid, log_masses_grid = np.meshgrid(log_age_i, log_masses_i, indexing='ij')
+
+    # # Use griddata to interpolate Teff and Luminosity onto the meshgrid
+    # log_teff_grid = griddata((log_age, masses), np.log10(teff), (log_age_grid, log_masses_grid), method=interpolation_method)
+    # log_luminosity_grid = griddata((log_age, masses), log_luminosity, (log_age_grid, log_masses_grid), method=interpolation_method)
+
+    # # Combine Teff and Luminosity into a single 2D array (logtlogl)
+    # logtlogl_grid = np.stack([log_teff_grid, log_luminosity_grid], axis=-1)
+
+    # return log_masses_i, log_age_i, logtlogl_grid, log_masses_grid, log_age_grid
+
+    # Extract values from data_points
     masses = data_points[:, 0]
     log_age = data_points[:, 1]
-    # print(masses)
-    # print(log_age)
     teff = data_points[:, 2]
     log_luminosity = data_points[:, 3]
     
-    # Create a grid for unique log_age and masses
-    log_age_unique = np.unique(log_age)
-    masses_unique = np.unique(masses)
+    # Filter the data points by mass range
+    mass_filter = (masses >= min_mass) & (masses <= max_mass)
+    filtered_masses = masses[mass_filter]
+    filtered_log_age = log_age[mass_filter]
+    filtered_teff = teff[mass_filter]
+    filtered_log_luminosity = log_luminosity[mass_filter]
 
-    # create the grid points for the log_age and masses
-    if np.nanmin(log_age_unique) >= np.log10(min_age * 1e6):
-        min_log_age = np.nanmin(log_age_unique)
-    else: min_log_age = np.log10(min_age * 1e6)
-    if np.nanmax(log_age_unique) <= np.log10(max_age * 1e6):
-        max_log_age = np.nanmax(log_age_unique)
-    else: max_log_age = np.log10(max_age * 1e6)
-    # print(max_log_age)
-    log_age_i = np.arange(min_log_age, max_log_age + 0.01, 0.01) # log_age_unique
-    # print(log_age_i)
+    # Get unique values for log_age and masses within the filtered range
+    log_age_unique = np.unique(filtered_log_age)
+    masses_unique = np.unique(filtered_masses)
+
+    # Adjust age limits based on the filtered data
+    min_log_age = max(np.log10(min_age * 1e6), np.nanmin(log_age_unique))
+    max_log_age = min(np.log10(max_age * 1e6), np.nanmax(log_age_unique))
+    log_age_i = np.arange(min_log_age, max_log_age + 0.01, 0.01)
+
+    # Adjust mass limits based on the filtered data
     log_masses_unique = np.log10(masses_unique)
-    masses_i = 10**np.arange(np.nanmin(log_masses_unique), np.nanmax(log_masses_unique) + 0.01, 0.01) # masses_unique
-    
+    log_masses_i = 10**np.arange(np.nanmin(log_masses_unique), np.nanmax(log_masses_unique) + 0.01, 0.01)
+
     # Create a meshgrid for log_age and masses
-    log_age_grid, masses_grid = np.meshgrid(log_age_i, masses_i, indexing='ij')
+    log_age_grid, log_masses_grid = np.meshgrid(log_age_i, log_masses_i, indexing='ij')
 
     # Use griddata to interpolate Teff and Luminosity onto the meshgrid
-    log_teff_grid = griddata((log_age, masses), np.log10(teff), (log_age_grid, masses_grid), method=interpolation_method)
-    log_luminosity_grid = griddata((log_age, masses), log_luminosity, (log_age_grid, masses_grid), method=interpolation_method)
+    log_teff_grid = griddata((filtered_log_age, filtered_masses), np.log10(filtered_teff), (log_age_grid, log_masses_grid), method=interpolation_method)
+    log_luminosity_grid = griddata((filtered_log_age, filtered_masses), filtered_log_luminosity, (log_age_grid, log_masses_grid), method=interpolation_method)
 
     # Combine Teff and Luminosity into a single 2D array (logtlogl)
     logtlogl_grid = np.stack([log_teff_grid, log_luminosity_grid], axis=-1)
 
-    return masses_i, log_age_i, logtlogl_grid, masses_grid, log_age_grid
+    return log_masses_i, log_age_i, logtlogl_grid, log_masses_grid, log_age_grid
 
 
 def create_meshgrid(data_points, min_age=0.5, max_age=1000.0, min_mass=0.0, max_mass=7.5, interpolation_method='linear'):
@@ -1096,7 +1143,7 @@ def create_meshgrid(data_points, min_age=0.5, max_age=1000.0, min_mass=0.0, max_
     Args:
     ------------
     data_points: [np.array]
-        Array of [log_age, mass, teff, log_luminosity] data points.
+        Array of [mass, log_age, teff, log_luminosity] data points.
     min_age: [float, optional] unit: Myrs
         The minimum age that we will cut in this grid. Default = 0.5 Myrs
     max_age: [float, optional] unit: Myrs
@@ -1110,12 +1157,16 @@ def create_meshgrid(data_points, min_age=0.5, max_age=1000.0, min_mass=0.0, max_
 
     Returns:
     ------------
-    log_age_grid: [np.array]
-        2D meshgrid of log age values.
-    masses_grid: [np.array]
-        2D meshgrid of mass values.
+    log_masses_i: [np.array]
+        1D array of the axis grid of log mass.
+    log_age_i: [np.array] 
+        1D array of the axis grid of log age.
     logtlogl_grid: [np.array]
         2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.
+    log_age_grid: [np.array]
+        2D meshgrid of log age values.
+    log_masses_grid: [np.array]
+        2D meshgrid of log mass values.
     """
     
     # Extract values from data_points
@@ -1142,19 +1193,19 @@ def create_meshgrid(data_points, min_age=0.5, max_age=1000.0, min_mass=0.0, max_
 
     # Adjust mass limits based on the filtered data
     log_masses_unique = np.log10(masses_unique)
-    masses_i = 10**np.arange(np.nanmin(log_masses_unique), np.nanmax(log_masses_unique) + 0.01, 0.01)
+    log_masses_i = 10**np.arange(np.nanmin(log_masses_unique), np.nanmax(log_masses_unique) + 0.01, 0.01)
 
     # Create a meshgrid for log_age and masses
-    log_age_grid, masses_grid = np.meshgrid(log_age_i, masses_i, indexing='ij')
+    log_age_grid, log_masses_grid = np.meshgrid(log_age_i, log_masses_i, indexing='ij')
 
     # Use griddata to interpolate Teff and Luminosity onto the meshgrid
-    log_teff_grid = griddata((filtered_log_age, filtered_masses), np.log10(filtered_teff), (log_age_grid, masses_grid), method=interpolation_method)
-    log_luminosity_grid = griddata((filtered_log_age, filtered_masses), filtered_log_luminosity, (log_age_grid, masses_grid), method=interpolation_method)
+    log_teff_grid = griddata((filtered_log_age, filtered_masses), np.log10(filtered_teff), (log_age_grid, log_masses_grid), method=interpolation_method)
+    log_luminosity_grid = griddata((filtered_log_age, filtered_masses), filtered_log_luminosity, (log_age_grid, log_masses_grid), method=interpolation_method)
 
     # Combine Teff and Luminosity into a single 2D array (logtlogl)
     logtlogl_grid = np.stack([log_teff_grid, log_luminosity_grid], axis=-1)
 
-    return masses_i, log_age_i, logtlogl_grid, masses_grid, log_age_grid
+    return log_masses_i, log_age_i, logtlogl_grid, log_masses_grid, log_age_grid
 
 
 def save_as_mat(masses, log_age, logtlogl, save_path):
@@ -1243,7 +1294,7 @@ def compare_grids(loaded_data_py, loaded_data_idl, gridnames=['Python', 'IDL'], 
     return logtlogl_diff, logtlogl_diff_norm
 
 
-def find_zams_index(teff_track, lum_track, age_track):
+def find_zams_index(teff_track, lum_track, age_track, massive_stars=True, log_age_max_preset=8.5, last_point=False):
     """
     Finds the index corresponding to the Zero-Age Main Sequence (ZAMS) for a given stellar track.
 
@@ -1255,6 +1306,16 @@ def find_zams_index(teff_track, lum_track, age_track):
         Array of luminosities (L/Lo) for the stellar track.
     age_track: [array]
         Array of stellar ages for the track.
+    massive_stars: [bool, optional]
+        Whether this is a track for massive stars
+        The ZAMS condition for massive stars and solar-mass stars are different
+    log_age_max_preset: [float, optional]
+        The maximum age that will be considered in the track
+        This is only used for massive stars
+        Default is 1.0e8.5 yrs (logage = 8.5).
+    last_point: [bool, optional]
+        Whether to simply use the last point in the trk as the ZAMS point.
+        This is often used for very-low-mass stars
 
     Returns:
     ------------
@@ -1273,22 +1334,73 @@ def find_zams_index(teff_track, lum_track, age_track):
     # Initialize ZAMS index to None
     zams_idx = None
     
-    # Loop over the evolutionary track to identify ZAMS
-    for j in range(1, len(delta_teff) - 1):
-        # ZAMS condition:
-        # 1. Temperature stops increasing or starts decreasing significantly (delta_teff < 0)
-        # 2. Luminosity is increasing slowly or stabilizing
-        # 3. Age evolution has slowed
-        if (delta_teff[j] <= 0) and (delta_lum[j] >= 0):
-            if (np.abs(dteff_dage[j]) < np.abs(dteff_dage[0])) and (np.abs(dlum_dage[j]) < np.abs(dlum_dage[0])):
-                # Slowing evolution after pre-main-sequence
-                zams_idx = j
-                break
+    if not last_point:
+        # Loop over the evolutionary track to identify ZAMS
+        if massive_stars:
+            for j in range(1, len(delta_teff) - 1):
+                # ZAMS condition for massive stars:
+                # 1. Age evolution has slowed
+                # 2. Temperature stops increasing or starts decreasing significantly (delta_teff <= 0)
+                # 3. Luminosity is increasing slowly or stabilizing
+                if (np.abs(dteff_dage[j]) < np.abs(dteff_dage[0])) and (np.abs(dlum_dage[j]) < np.abs(dlum_dage[0])):
+                    # Slowing evolution after pre-main-sequence
+                    if (delta_teff[j] <= 0) and (delta_lum[j] >= 0):
+                        zams_idx = j
+                        break
+        else:
+            # for solar mass stars
+            # first find the location that evolves really slow and those positions should be main-sequence phase
+            idx_age_max_preset = np.nanargmin(np.abs(np.log10(age_track) - log_age_max_preset))
+            dlum_dage_sm_agemax_preset = dlum_dage[:idx_age_max_preset]
+            
+            percentile = np.percentile(np.abs(dlum_dage_sm_agemax_preset), 5)
+            # Get the indices of the values that are less than or equal to the percentile
+            idx_age_max = int(np.percentile(np.where(np.abs(dlum_dage_sm_agemax_preset) <= percentile)[0], 5))
+            age_max = age_track[idx_age_max]
+            
+            teff_track_part = teff_track[:idx_age_max]
+            # find the tip of with maximum teff
+            idx_j1 = np.nanargmin(np.abs(teff_track_part - np.nanmax(teff_track_part)))
+            
+            # going back in the evolutionary track for a certain range
+            teff_track_part = teff_track[:idx_j1+1]
+            lum_track_part = lum_track[:idx_j1+1]
+            for fraction_t in np.arange(0.35, 0, -0.1):
+                idx_j2 = np.nanargmin(np.abs(teff_track_part - \
+                    (teff_track[idx_j1] - np.abs(teff_track[idx_j1]-teff_track_part[0])*fraction_t)))
+                if lum_track_part[idx_j2] > lum_track[idx_j1]:
+                    break
+            
+            
+            # ZAMS condition for solar-mass stars
+            # 1. Has low luminosity locally
+            # 2. Luminosity decreasing before this point and 
+            # increasing slowly or stabilizing after this point
+            # 3. Teff decreasing before this point and 
+            # increasing slowly or stabilizing after this point
+            for j in np.arange(idx_j1-1, 0, -1):
+                # we do this backwards from the last point of main-sequence star.
+                # starting from the point with largest Teff, and then going backwards
+                # (finding the tip of Henyey track)
+                if (delta_lum[j-1] < 0) and (delta_lum[j] > 0) and \
+                    (delta_teff[j-1] < 0) and (delta_teff[j] > 0):
+                    zams_idx_t = j
+                    break
+                if j <= idx_j2:
+                    zams_idx_t = idx_j1
+                    print('using the tip of the Teff as the ZAMS point')
+                    break
     
     # If no clear ZAMS point is found, assume the last point is ZAMS
+    # this is used for very-low-mass stars
     if zams_idx is None:
-        zams_idx = len(teff_track) - 1
-    
+        select = np.where(~np.logical_or(np.isnan(teff_track), np.isnan(lum_track)))[0]
+        if len(select) > 0:
+            zams_idx = select[-1]
+        else:
+            # then all of these numbers are NaN
+            zams_idx = len(teff_track) - 1
+            
     return zams_idx
 
 def find_zams_curve(isochrone):
@@ -1319,6 +1431,7 @@ def find_zams_curve(isochrone):
     lum_zams = []
     mask_pms = np.ones(logtlogl.shape[:2], dtype=bool)  # Initialize mask to True (PMS phase)
 
+    
     # Loop over each mass track
     for i, mass in enumerate(masses):
         # Extract Teff, L/Lo, and age for the given mass track
@@ -1327,14 +1440,54 @@ def find_zams_curve(isochrone):
         age_track = 10**log_ages            # Age for this track in years
 
         # Use the helper function to find the ZAMS index for this mass track
-        zams_idx = find_zams_index(teff_track, lum_track, age_track)
-
+        if mass <= 0.55:
+            # for VLMS, we simply use the last point.
+            zams_idx = find_zams_index(teff_track, lum_track, age_track, last_point=True)
+        else:
+            # only utilize this algrithm to find ZAMS point for more massive stars
+            zams_idx = find_zams_index(teff_track, lum_track, age_track, last_point=False)
+        
         # Store the ZAMS Teff and L/Lo
-        teff_zams.append(teff_track[zams_idx])
-        lum_zams.append(lum_track[zams_idx])
+        if np.isreal(teff_track[zams_idx]) and np.isreal(lum_track[zams_idx]):
+            teff_zams.append(teff_track[zams_idx])
+            lum_zams.append(lum_track[zams_idx])
 
-        # Mask out everything beyond ZAMS (for post-main-sequence phase)
-        mask_pms[zams_idx:, i] = False  # Everything beyond ZAMS is False (not part of PMS)
+            # Mask out everything beyond ZAMS (for post-main-sequence phase)
+            mask_pms[zams_idx:, i] = False  # Everything beyond ZAMS is False (not part of PMS)
+        else:
+            mask_pms[:, i] = False # this track does not real
+            
+    # (Dev) The ZAMS code for MIST does not work.
+    # # Loop over each mass track
+    # for i, mass in enumerate(masses):
+    #     # Extract Teff, L/Lo, and age for the given mass track
+    #     teff_track = 10**logtlogl[:, i, 0]  # Teff for this mass
+    #     lum_track = 10**logtlogl[:, i, 1]   # Luminosity for this mass
+    #     age_track = 10**log_ages            # Age for this track in years
+
+    #     # Use the helper function to find the ZAMS index for this mass track
+    #     if mass > 2.0: 
+    #         # only utilize this algrithm to find ZAMS point for more massive stars
+    #         zams_idx = find_zams_index(teff_track, lum_track, age_track, last_point=False)
+    #     elif mass <= 0.55:
+    #         # for VLMS, we simply use the last point.
+    #         zams_idx = find_zams_index(teff_track, lum_track, age_track, last_point=True)
+    #     else:
+    #         if 1.0 <= mass < 2.0:
+    #             log_age_max_preset = 8.5
+    #         else:
+    #             log_age_max_preset = 9.5
+    #         zams_idx = find_zams_index(teff_track, lum_track, age_track, last_point=True, massive_stars=False, log_age_max_preset=log_age_max_preset)
+
+    #     # Store the ZAMS Teff and L/Lo
+    #     if np.isreal(teff_track[zams_idx]) and np.isreal(lum_track[zams_idx]):
+    #         teff_zams.append(teff_track[zams_idx])
+    #         lum_zams.append(lum_track[zams_idx])
+
+    #         # Mask out everything beyond ZAMS (for post-main-sequence phase)
+    #         mask_pms[zams_idx:, i] = False  # Everything beyond ZAMS is False (not part of PMS)
+    #     else:
+    #         mask_pms[:, i] = False # this track does not real
 
     # Convert lists to numpy arrays for easy plotting
     teff_zams = np.array(teff_zams)
