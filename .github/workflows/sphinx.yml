@@ -10,12 +10,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: Install Pandoc
-      run: sudo apt-get install -y pandoc
     - name: Install dependencies
       run: pip install -r docs/requirements.txt
     - name: Build HTML
       uses: ammaraskar/sphinx-action@master
+      with:
+        pre-build-command: >-
+          apt-get update && apt-get install -y pandoc
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
