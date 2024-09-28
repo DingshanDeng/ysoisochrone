@@ -15,16 +15,16 @@ def unc_log10(x, err_x):
     Propagates uncertainties from the linear scale to the logarithmic scale (base 10).
 
     Args:
-    ------------
-    value: [float]
-        The value in linear scale (e.g., Teff, Luminosity, etc.).
-    err_x: [float]
-        The uncertainty in the linear value.
+    
+        value: [float]
+            The value in linear scale (e.g., Teff, Luminosity, etc.).
+        err_x: [float]
+            The uncertainty in the linear value.
 
     Returns:
-    ------------
-    err_log10_x: [float]
-        The propagated uncertainty in the logarithmic scale (base 10).
+    
+        err_log10_x: [float]
+            The propagated uncertainty in the logarithmic scale (base 10).
     """
     ln10 = np.log(10)
     err_log10_x = err_x / (x * ln10)
@@ -36,16 +36,16 @@ def unc_linear_from_log(log_value, log_uncertainty):
     Propagates uncertainties from the logarithmic scale (base 10) back to the linear scale.
 
     Args:
-    ------------
-    log_value: [float]
-        The value in logarithmic scale (e.g., log(Teff), log(L), etc.).
-    log_uncertainty: [float]
-        The uncertainty in the logarithmic value.
+    
+        log_value: [float]
+            The value in logarithmic scale (e.g., log(Teff), log(L), etc.).
+        log_uncertainty: [float]
+            The uncertainty in the logarithmic value.
 
     Returns:
-    ------------
-    linear_uncertainty: [float]
-        The propagated uncertainty in the linear scale.
+    
+        linear_uncertainty: [float]
+            The propagated uncertainty in the linear scale.
     """
     # Convert log_value back to linear scale
     linear_value = 10 ** log_value
@@ -58,15 +58,15 @@ def assign_unc_teff(teff_ar, sigma_logT_set=None):
     assign the Teff uncertainties
     
     Args:
-    ------------
-    teff_ar: [array]
-        the array for Teff
+    
+        teff_ar: [array]
+            the array for Teff
     
         
     Returns:
-    ------------
-    err_teff_ar: [array]
-        the array of Teff
+    
+        err_teff_ar: [array]
+            the array of Teff
     """
     err_teff_ar = np.ones(len(teff_ar)) * np.nan 
     for ii, T_this in enumerate(teff_ar):
@@ -83,15 +83,15 @@ def assign_unc_lumi(lumi_ar, sigma_logL_set=None):
     assign the luminosity uncertainties
     
     Args:
-    ------------
-    lumi_ar: [array]
-        the array for luminosity
+    
+        lumi_ar: [array]
+            the array for luminosity
     
         
     Returns:
-    ------------
-    err_lumi_ar: [array]
-        the array of luminosity
+    
+        err_lumi_ar: [array]
+            the array of luminosity
     """
     err_lumi_ar = np.ones(len(lumi_ar)) * np.nan
     if sigma_logL_set == None:
@@ -109,24 +109,24 @@ def get_likelihood_andrews2013(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma
     L is the likelihood function see eq. 1 in Andrews2013 (or anyone you would like to set up)
     
     Args:
-    ------------
-    logtlogl_dummy: [array]
-        Array of log(T) and log(L) values for the evolutionary tracks.
-    c_logT: [float]
-        Logarithm of the stellar effective temperature.
-    c_logL: [float]
-        Logarithm of the stellar luminosity.
-    sigma_logT: [float]
-        Uncertainty in log(Teff).
-    sigma_logL: [float]
-        Uncertainty in log(Luminosity).
+    
+        logtlogl_dummy: [array]
+            Array of log(T) and log(L) values for the evolutionary tracks.
+        c_logT: [float]
+            Logarithm of the stellar effective temperature.
+        c_logL: [float]
+            Logarithm of the stellar luminosity.
+        sigma_logT: [float]
+            Uncertainty in log(Teff).
+        sigma_logL: [float]
+            Uncertainty in log(Luminosity).
 
     Output:
-    ------------
+    
     Returns:
-    ------------
-    lfunc: [2D array]
-        The likelihood function values for each combination of age and mass.
+    
+        lfunc: [2D array]
+            The likelihood function values for each combination of age and mass.
     """
     fT = ((logtlogl_dummy[:, :, 0]) - c_logT)**2 / sigma_logT**2
     fL = ((logtlogl_dummy[:, :, 1]) - c_logL)**2 / sigma_logL**2
@@ -139,11 +139,11 @@ def download_file_simple(url, save_path):
     Downloads a file from a given URL and saves it to the specified path.
 
     Args:
-    ------------
-    url: [str]
-        URL of the file to download.
-    save_path: [str]
-        Local path to save the file.
+    
+        url: [str]
+            URL of the file to download.
+        save_path: [str]
+            Local path to save the file.
     """
     response = requests.get(url, stream=True)
 
@@ -164,11 +164,11 @@ def download_file(url, save_path):
     Downloads a file from a given URL and saves it to the specified path with a customizable progress bar.
 
     Args:
-    ------------
-    url: [str]
-        URL of the file to download.
-    save_path: [str]
-        Local path to save the file.
+    
+        url: [str]
+            URL of the file to download.
+        save_path: [str]
+            Local path to save the file.
     """
     # Get the total size of the file to be downloaded
     response = requests.get(url, stream=True)
@@ -202,11 +202,11 @@ def extract_tarball(tar_file_path, extract_dir):
     Extracts a tarball file into a specified directory.
 
     Args:
-    ------------
-    tar_file_path: [str]
-        Path to the tarball file.
-    extract_dir: [str]
-        Directory to extract the tarball contents into.
+    
+        tar_file_path: [str]
+            Path to the tarball file.
+        extract_dir: [str]
+            Directory to extract the tarball contents into.
     """
     with tarfile.open(tar_file_path, "r:gz") as tar:
         tar.extractall(path=extract_dir)
@@ -218,17 +218,17 @@ def download_baraffe_tracks(save_dir='isochrones_data'):
     Downloads the Baraffe BHAC15 tracks file and saves it to the specified directory.
 
     Args:
-    ------------
-    save_dir: [str, optional]
-        The directory where the file should be saved. Defaults to 'isochrones_data'.
+    
+        save_dir: [str, optional]
+            The directory where the file should be saved. Defaults to 'isochrones_data'.
 
     Output:
-    ------------
-    Downloads the file and saves it in the specified directory.
+    
+        Downloads the file and saves it in the specified directory.
     
     Raises:
-    ------------
-    ValueError: If the file could not be downloaded.
+    
+        ValueError: If the file could not be downloaded.
     """
     
     # URL of the file to download
@@ -273,14 +273,14 @@ def read_baraffe_file(file_path):
     Reads the original BHAC15 tracks file and parses the mass, age, and logtlogl.
 
     Args:
-    ------------
-    file_path: [str]
-        Path to the original BHAC15 tracks file.
+    
+        file_path: [str]
+            Path to the original BHAC15 tracks file.
 
     Returns:
-    ------------
-    data_points: [np.array]
-        Array of [log_age, mass, teff, luminosity] data points.
+    
+        data_points: [np.array]
+            Array of [log_age, mass, teff, luminosity] data points.
     """
     data_points = []
 
@@ -323,17 +323,17 @@ def read_baraffe_file(file_path):
 #     Downloads the Feiden tracks file from GitHub and saves it to the specified directory.
 
 #     Args:
-#     ------------
-#     save_dir: [str, optional]
-#         The directory where the file should be saved. Defaults to 'isochrones_data'.
+#     
+    #     save_dir: [str, optional]
+    #         The directory where the file should be saved. Defaults to 'isochrones_data'.
 
 #     Output:
-#     ------------
-#     Downloads the Feiden tracks as a tarball, saves it, and extracts it in the specified directory.
+#     
+    #     Downloads the Feiden tracks as a tarball, saves it, and extracts it in the specified directory.
     
 #     Raises:
-#     ------------
-#     ValueError: If the file could not be downloaded or extracted.
+#     
+    #     ValueError: If the file could not be downloaded or extracted.
 #     """
     
 #     # URL of the file to download
@@ -384,16 +384,16 @@ def download_feiden_trk_tracks(save_dir='isochrones_data', download_original_trk
     The tarball is extracted after downloading.
 
     Args:
-    ------------
-    save_dir: [str, optional]
-        The directory where the files should be saved. Defaults to 'isochrones_data'.
-    download_original_trks: [bool, optional] default = False
-        If true, download the original trk files provided on their gibhub page,
-        otherwise, only download the tgz file and then untar it
+    
+        save_dir: [str, optional]
+            The directory where the files should be saved. Defaults to 'isochrones_data'.
+        download_original_trks: [bool, optional] default = False
+            If true, download the original trk files provided on their gibhub page,
+            otherwise, only download the tgz file and then untar it
 
     Output:
-    ------------
-    Downloads (all .iso files and) the tarball from the GitHub folder, saves them, and extracts the tarball.
+    
+        Downloads (all .iso files and) the tarball from the GitHub folder, saves them, and extracts the tarball.
     """
 
     # Create Feiden2016 directory if it doesn't exist
@@ -451,14 +451,14 @@ def read_feiden_trk_file(feiden_dir):
     and organizes the data into numpy arrays.
 
     Args:
-    ------------
-    feiden_dir: [str]
-        Directory where the Feiden track files are stored.
+    
+        feiden_dir: [str]
+            Directory where the Feiden track files are stored.
 
     Returns:
-    ------------
-    data_points: [list]
-        List of [mass, log_age, Teff, log(L/Lo)] for each star across all .trk files.
+    
+        data_points: [list]
+            List of [mass, log_age, Teff, log(L/Lo)] for each star across all .trk files.
     """
     
     # Initialize list to store data points
@@ -509,13 +509,13 @@ def download_feiden_iso_tracks(save_dir='isochrones_data'):
     The tarball is extracted after downloading.
 
     Args:
-    ------------
-    save_dir: [str, optional]
-        The directory where the files should be saved. Defaults to 'isochrones_data'.
+    
+        save_dir: [str, optional]
+            The directory where the files should be saved. Defaults to 'isochrones_data'.
 
     Output:
-    ------------
-    Downloads all .iso files and the tarball from the GitHub folder, saves them, and extracts the tarball.
+    
+        Downloads all .iso files and the tarball from the GitHub folder, saves them, and extracts the tarball.
     """
 
     # Create Feiden2016 directory if it doesn't exist
@@ -572,14 +572,14 @@ def read_feiden_iso_file(feiden_dir):
     and organizes the data into numpy arrays.
 
     Args:
-    ------------
-    feiden_dir: [str]
-        Directory where the Feiden track files are stored.
+    
+        feiden_dir: [str]
+            Directory where the Feiden track files are stored.
 
     Returns:
-    ------------
-    data_points: [list]
-        List of [mass, log_age, log(Teff), log(L/Lo)] for each star across all .iso files.
+    
+        data_points: [list]
+            List of [mass, log_age, log(Teff), log(L/Lo)] for each star across all .iso files.
     """
     
     # Initialize list to store data points
@@ -627,13 +627,13 @@ def download_parsec_v1p2_tracks(save_dir='isochrones_data'):
     The tarball is extracted after downloading.
 
     Args:
-    ------------
-    save_dir: [str, optional]
-        The directory where the files should be saved. Defaults to 'isochrones_data'.
+    
+        save_dir: [str, optional]
+            The directory where the files should be saved. Defaults to 'isochrones_data'.
 
     Output:
-    ------------
-    Downloads the tarball from the provided link, saves it, and extracts the tarball.
+    
+        Downloads the tarball from the provided link, saves it, and extracts the tarball.
     """
 
     # Create PARSECv1p2 directory if it doesn't exist
@@ -671,14 +671,14 @@ def read_parsec_v1p2_dat_file(parsec_dir):
     Organizes the data into numpy arrays.
 
     Args:
-    ------------
-    parsec_dir: [str]
-        Directory where the PARSECv1p2 track files are stored.
+    
+        parsec_dir: [str]
+            Directory where the PARSECv1p2 track files are stored.
 
     Returns:
-    ------------
-    data_points: [list]
-        List of [mass, log_age, Teff, log(L/Lo)] for each star across all .DAT files.
+    
+        data_points: [list]
+            List of [mass, log_age, Teff, log(L/Lo)] for each star across all .DAT files.
     """
     
     # Initialize list to store data points
@@ -737,13 +737,13 @@ def download_parsec_v2p0_tracks(save_dir='isochrones_data'):
     Downloads the PARSEC v2.0 tracks zip file and extracts it to the given directory.
 
     Args:
-    ------------
-    save_dir: [str, optional]
-        The directory where the files should be saved. Defaults to 'isochrones_data/PARSECv2p0'.
+    
+        save_dir: [str, optional]
+            The directory where the files should be saved. Defaults to 'isochrones_data/PARSECv2p0'.
 
     Output:
-    ------------
-    Downloads the PARSEC v2.0 zip file from the specified URL, saves it, and extracts its contents.
+    
+        Downloads the PARSEC v2.0 zip file from the specified URL, saves it, and extracts its contents.
     """
     # Define the URL for the PARSEC v2.0 zip file
     url = 'http://stev.oapd.inaf.it/PARSEC/Database/PARSECv2.0/VAR_ROT0.00_SH_Z0.014_Y0.273.zip'
@@ -799,14 +799,14 @@ def read_parsec_v2p0_tab_file(parsec_dir):
     Organizes the data into numpy arrays.
 
     Args:
-    ------------
-    parsec_dir: [str]
-        Directory where the PARSECv2.0 track files are stored.
+    
+        parsec_dir: [str]
+            Directory where the PARSECv2.0 track files are stored.
 
     Returns:
-    ------------
-    data_points: [list]
-        List of [mass, log_age, Teff, log(L/Lo)] for each star across all .TAB files.
+    
+        data_points: [list]
+            List of [mass, log_age, Teff, log(L/Lo)] for each star across all .TAB files.
     """
     
     # Initialize list to store data points
@@ -869,13 +869,13 @@ def download_mist_v1p2_eep_tracks(save_dir='isochrones_data'):
     Downloads the MIST v1.2 tracks tarball and extracts it to the given directory.
 
     Args:
-    ------------
-    save_dir: [str, optional]
-        The directory where the files should be saved. Defaults to 'isochrones_data/MIST_v1p2'.
+    
+        save_dir: [str, optional]
+            The directory where the files should be saved. Defaults to 'isochrones_data/MIST_v1p2'.
 
     Output:
-    ------------
-    Downloads the MIST v1.2 tarball from the specified URL, saves it, and extracts its contents.
+    
+        Downloads the MIST v1.2 tarball from the specified URL, saves it, and extracts its contents.
     """
     # Define the URL for the MIST v1.2 tarball
     url = 'https://waps.cfa.harvard.edu/MIST/data/tarballs_v1.2/MIST_v1.2_feh_p0.00_afe_p0.0_vvcrit0.0_EEPS.txz'
@@ -916,13 +916,13 @@ def download_mist_v1p2_iso_tracks(save_dir='isochrones_data'):
     Downloads the MIST v1.2 tracks tarball and extracts it to the given directory.
 
     Args:
-    ------------
-    save_dir: [str, optional]
-        The directory where the files should be saved. Defaults to 'isochrones_data/MIST_v1p2'.
+    
+        save_dir: [str, optional]
+            The directory where the files should be saved. Defaults to 'isochrones_data/MIST_v1p2'.
 
     Output:
-    ------------
-    Downloads the MIST v1.2 tarball from the specified URL, saves it, and extracts its contents.
+    
+        Downloads the MIST v1.2 tarball from the specified URL, saves it, and extracts its contents.
     """
     # Define the URL for the MIST v1.2 tarball
     url = 'https://waps.cfa.harvard.edu/MIST/data/tarballs_v1.2/MIST_v1.2_vvcrit0.0_basic_isos.txz'
@@ -964,14 +964,14 @@ def read_mist_v1p2_iso_file(mist_iso_file):
     Organizes the data into numpy arrays.
 
     Args:
-    ------------
-    mist_iso_file: [str]
-        The file where the MISTv1p2 isochrone file is stored.
+    
+        mist_iso_file: [str]
+            The file where the MISTv1p2 isochrone file is stored.
 
     Returns:
-    ------------
-    data_points: [list]
-        List of [star_mass, log_age, Teff, log(L/Lo)] for each entry in the iso file.
+    
+        data_points: [list]
+            List of [star_mass, log_age, Teff, log(L/Lo)] for each entry in the iso file.
     """
     
     # Initialize list to store data points
@@ -1032,33 +1032,33 @@ def create_meshgrid_legacy(data_points, min_age=0.5, max_age=50.0, min_mass=0.01
     But this choice cannot be adopted for older targets beyond 50 Myrs.
 
     Args:
-    ------------
-    data_points: [np.array]
-        Array of [mass, log_age, teff, log_luminosity] data points.
-    min_age: [float, optional] unit: Myrs
-        The minimum age that we will cut in this grid. Default = 0.5 Myrs
-    max_age: [float, optional] unit: Myrs
-        The maximum age that we will cut in this grid. Default = 50 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
-        **NOTE** will add the feature to automatiaclly capture the turn-over point in the future.
-    min_mass: [float, optional] unit: Msolar
-        The minimum mass to include in the grid. Default = 0.015 Msolar
-    max_mass: [float, optional] unit: Msolar
-        The maximum mass to include in the grid. Default = 1.4 Msolar
-    interpolation_method: [str]
-        The interpolation method used in griddata. Default 'linear'.
+        
+        data_points: [np.array]
+            Array of [mass, log_age, teff, log_luminosity] data points.
+        min_age: [float, optional] unit: Myrs
+            The minimum age that we will cut in this grid. Default = 0.5 Myrs
+        max_age: [float, optional] unit: Myrs
+            The maximum age that we will cut in this grid. Default = 50 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
+            **NOTE** will add the feature to automatiaclly capture the turn-over point in the future.
+        min_mass: [float, optional] unit: Msolar
+            The minimum mass to include in the grid. Default = 0.015 Msolar
+        max_mass: [float, optional] unit: Msolar
+            The maximum mass to include in the grid. Default = 1.4 Msolar
+        interpolation_method: [str]
+            The interpolation method used in griddata. Default 'linear'.
 
     Returns:
-    ------------
-    log_masses_i: [np.array]
-        1D array of the axis grid of log mass.
-    log_age_i: [np.array] 
-        1D array of the axis grid of log age.
-    logtlogl_grid: [np.array]
-        2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.
-    log_age_grid: [np.array]
-        2D meshgrid of log age values.
-    log_masses_grid: [np.array]
-        2D meshgrid of log mass values.
+    
+        log_masses_i: [np.array]
+            1D array of the axis grid of log mass.
+        log_age_i: [np.array] 
+            1D array of the axis grid of log age.
+        logtlogl_grid: [np.array]
+            2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.
+        log_age_grid: [np.array]
+            2D meshgrid of log age values.
+        log_masses_grid: [np.array]
+            2D meshgrid of log mass values.
     """
     
     # masses = data_points[:, 0]
@@ -1141,32 +1141,32 @@ def create_meshgrid(data_points, min_age=0.5, max_age=1000.0, min_mass=0.0, max_
     Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.
 
     Args:
-    ------------
-    data_points: [np.array]
-        Array of [mass, log_age, teff, log_luminosity] data points.
-    min_age: [float, optional] unit: Myrs
-        The minimum age that we will cut in this grid. Default = 0.5 Myrs
-    max_age: [float, optional] unit: Myrs
-        The maximum age that we will cut in this grid. Default = 1000 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase).
-    min_mass: [float, optional] unit: Msolar
-        The minimum mass to include in the grid. Default = 0.0 Msolar
-    max_mass: [float, optional] unit: Msolar
-        The maximum mass to include in the grid. Default = 7.5 Msolar
-    interpolation_method: [str]
-        The interpolation method used in griddata. Default 'linear'.
+    
+        data_points: [np.array]
+            Array of [mass, log_age, teff, log_luminosity] data points.
+        min_age: [float, optional] unit: Myrs
+            The minimum age that we will cut in this grid. Default = 0.5 Myrs
+        max_age: [float, optional] unit: Myrs
+            The maximum age that we will cut in this grid. Default = 1000 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase).
+        min_mass: [float, optional] unit: Msolar
+            The minimum mass to include in the grid. Default = 0.0 Msolar
+        max_mass: [float, optional] unit: Msolar
+            The maximum mass to include in the grid. Default = 7.5 Msolar
+        interpolation_method: [str]
+            The interpolation method used in griddata. Default 'linear'.
 
     Returns:
-    ------------
-    log_masses_i: [np.array]
-        1D array of the axis grid of log mass.
-    log_age_i: [np.array] 
-        1D array of the axis grid of log age.
-    logtlogl_grid: [np.array]
-        2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.
-    log_age_grid: [np.array]
-        2D meshgrid of log age values.
-    log_masses_grid: [np.array]
-        2D meshgrid of log mass values.
+    
+        log_masses_i: [np.array]
+            1D array of the axis grid of log mass.
+        log_age_i: [np.array] 
+            1D array of the axis grid of log age.
+        logtlogl_grid: [np.array]
+            2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.
+        log_age_grid: [np.array]
+            2D meshgrid of log age values.
+        log_masses_grid: [np.array]
+            2D meshgrid of log mass values.
     """
     
     # Extract values from data_points
@@ -1213,15 +1213,15 @@ def save_as_mat(masses, log_age, logtlogl, save_path):
     Saves the extracted data into a .mat file.
 
     Args:
-    ------------
-    masses: [np.array]
-        Array of masses (M/Ms).
-    log_age: [np.array]
-        Array of log age values.
-    logtlogl: [np.array]
-        2D array of Teff and L/Ls values.
-    save_path: [str]
-        Path to save the .mat file.
+    
+        masses: [np.array]
+            Array of masses (M/Ms).
+        log_age: [np.array]
+            Array of log age values.
+        logtlogl: [np.array]
+            2D array of Teff and L/Ls values.
+        save_path: [str]
+            Path to save the .mat file.
     """
     # Create a dictionary to hold the data in a similar structure as the .sav file
     data_dict = {
@@ -1243,19 +1243,19 @@ def compare_grids(loaded_data_py, loaded_data_idl, gridnames=['Python', 'IDL'], 
     and plotting the differences.
 
     Args:
-    ------------
-    loaded_data_py: [dict]
-        Dictionary containing the Python-generated grid data (masses, log_age, logtlogl).
-    loaded_data_idl: [dict]
-        Dictionary containing the IDL-generated grid data (masses, log_age, logtlogl).
-    gridnames: [list of strings, optional]
-        The names of the grid names, default is Python and IDL
-    plot: [bool, optional]: 
-        Whether to plot the differences
+    
+        loaded_data_py: [dict]
+            Dictionary containing the Python-generated grid data (masses, log_age, logtlogl).
+        loaded_data_idl: [dict]
+            Dictionary containing the IDL-generated grid data (masses, log_age, logtlogl).
+        gridnames: [list of strings, optional]
+            The names of the grid names, default is Python and IDL
+        plot: [bool, optional]: 
+            Whether to plot the differences
 
     Output:
-    ------------
-    A visual comparison of the Python and IDL grids with difference and normalized difference plots.
+    
+        A visual comparison of the Python and IDL grids with difference and normalized difference plots.
     """
     
     # Load data from Python
@@ -1299,28 +1299,28 @@ def find_zams_index(teff_track, lum_track, age_track, massive_stars=True, log_ag
     Finds the index corresponding to the Zero-Age Main Sequence (ZAMS) for a given stellar track.
 
     Args:
-    ------------
-    teff_track: [array]
-        Array of effective temperatures (Teff) for the stellar track.
-    lum_track: [array]
-        Array of luminosities (L/Lo) for the stellar track.
-    age_track: [array]
-        Array of stellar ages for the track.
-    massive_stars: [bool, optional]
-        Whether this is a track for massive stars
-        The ZAMS condition for massive stars and solar-mass stars are different
-    log_age_max_preset: [float, optional]
-        The maximum age that will be considered in the track
-        This is only used for massive stars
-        Default is 1.0e8.5 yrs (logage = 8.5).
-    last_point: [bool, optional]
-        Whether to simply use the last point in the trk as the ZAMS point.
-        This is often used for very-low-mass stars
+    
+        teff_track: [array]
+            Array of effective temperatures (Teff) for the stellar track.
+        lum_track: [array]
+            Array of luminosities (L/Lo) for the stellar track.
+        age_track: [array]
+            Array of stellar ages for the track.
+        massive_stars: [bool, optional]
+            Whether this is a track for massive stars
+            The ZAMS condition for massive stars and solar-mass stars are different
+        log_age_max_preset: [float, optional]
+            The maximum age that will be considered in the track
+            This is only used for massive stars
+            Default is 1.0e8.5 yrs (logage = 8.5).
+        last_point: [bool, optional]
+            Whether to simply use the last point in the trk as the ZAMS point.
+            This is often used for very-low-mass stars
 
     Returns:
-    ------------
-    zams_idx: [int]
-        The index corresponding to the ZAMS for the given track.
+    
+        zams_idx: [int]
+            The index corresponding to the ZAMS for the given track.
     """
     
     # Calculate the change in Teff, Luminosity, and age with respect to the previous step
@@ -1408,18 +1408,18 @@ def find_zams_curve(isochrone):
     Find the Zero-Age Main Sequence (ZAMS) curve and mask the isochrone data beyond the ZAMS.
 
     Args:
-    ------------
-    isochrone: object of Isochrone class
-        Contains the isochrone evolutionary track data (including Teff, Luminosity, and Masses).
+    
+        isochrone: object of Isochrone class
+            Contains the isochrone evolutionary track data (including Teff, Luminosity, and Masses).
 
     Returns:
-    ------------
-    teff_zams: [array]
-        Array of effective temperatures (Teff) corresponding to ZAMS for each mass track.
-    lum_zams: [array]
-        Array of luminosities (L/Lo) corresponding to ZAMS for each mass track.
-    mask_pms: [2D boolean array]
-        Boolean mask that is `True` for pre-main-sequence (PMS) data and `False` for post-ZAMS data.
+    
+        teff_zams: [array]
+            Array of effective temperatures (Teff) corresponding to ZAMS for each mass track.
+        lum_zams: [array]
+            Array of luminosities (L/Lo) corresponding to ZAMS for each mass track.
+        mask_pms: [2D boolean array]
+            Boolean mask that is `True` for pre-main-sequence (PMS) data and `False` for post-ZAMS data.
     """
 
     logtlogl = isochrone.logtlogl  # log(Teff), log(L/Lo) data
@@ -1503,13 +1503,13 @@ def find_zams_curve(isochrone):
 #     Returns the log_age_dummy and masses_dummy for the Baraffe tracks.
 
 #     Args:
-#     ------------
+#     
 #     None
 
 #     Output:
-#     ------------
+#     
 #     Returns:
-#     ------------
+#     
 #     log_age_dummy: [array]
 #         Array of log(age) values for the Baraffe tracks.
 #     masses_dummy: [array]
@@ -1528,13 +1528,13 @@ def find_zams_curve(isochrone):
 #     Returns the log_age_dummy and masses_dummy for the Feiden tracks.
 
 #     Args:
-#     ------------
+#     
 #     None
 
 #     Output:
-#     ------------
+#     
 #     Returns:
-#     ------------
+#     
 #     log_age_dummy: [array]
 #         Array of log(age) values for the Feiden tracks.
 #     masses_dummy: [array]

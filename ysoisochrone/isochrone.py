@@ -9,18 +9,18 @@ class Isochrone:
     now it works for Baraffe and Feiden tracks.
 
     Args:
-    ------------
-    data_dir: [str, optional]
-        Directory where the isochrone data files are stored. Default is a folder called 'isochrone_data' under where you are running the code.
+    
+        data_dir: [str, optional]
+            Directory where the isochrone data files are stored. Default is a folder called 'isochrone_data' under where you are running the code.
 
     Attributes:
-    ------------
-    log_age: [array]
-        Array of log(age) values.
-    masses: [array]
-        Array of mass values.
-    logtlogl: [array]
-        Array of log(T) and log(L) values for the evolutionary tracks.
+    
+        log_age: [array]
+            Array of log(age) values.
+        masses: [array]
+            Array of mass values.
+        logtlogl: [array]
+            Array of log(T) and log(L) values for the evolutionary tracks.
     """
 
     def __init__(self, data_dir=None):
@@ -41,12 +41,12 @@ class Isochrone:
         4. Saves the resulting grid data to a .mat file.
 
         Args:
-        ------------
-        None.
+        
+            None.
 
         Output:
-        ------------
-        Saves the .mat file to the data directory.
+        
+            Saves the .mat file to the data directory.
         """
 
         # Define the paths
@@ -82,12 +82,12 @@ class Isochrone:
         4. Saves the resulting grid data to a .mat file.
 
         Args:
-        ------------
-        None.
+        
+            None.
 
         Output:
-        ------------
-        Saves the .mat file to the data directory.
+        
+            Saves the .mat file to the data directory.
         """
 
         # Define the paths
@@ -125,12 +125,12 @@ class Isochrone:
         4. Saves the resulting grid data to a .mat file.
 
         Args:
-        ------------
-        None.
+        
+            None.
 
         Output:
-        ------------
-        Saves the .mat file to the data directory.
+        
+            Saves the .mat file to the data directory.
         """
         
         # Define the paths
@@ -168,12 +168,12 @@ class Isochrone:
         4. Saves the resulting grid data to a .mat file.
 
         Args:
-        ------------
-        None.
+        
+            None.
 
         Output:
-        ------------
-        Saves the .mat file to the data directory.
+        
+            Saves the .mat file to the data directory.
         """
         
         # Define the paths
@@ -211,12 +211,12 @@ class Isochrone:
         4. Saves the resulting grid data to a .mat file.
 
         Args:
-        ------------
-        None.
+        
+            None.
 
         Output:
-        ------------
-        Saves the .mat file to the data directory.
+        
+            Saves the .mat file to the data directory.
         """
         
         # Define the paths
@@ -248,9 +248,9 @@ class Isochrone:
         Load Baraffe isochrone tracks from .sav file and set log_age, masses, and logtlogl.
 
         Output:
-        ------------
+        
         Sets:
-        ------------
+        
         log_age: [array]
             Log age values from the Baraffe tracks.
         masses: [array]
@@ -282,9 +282,9 @@ class Isochrone:
         Load Feiden isochrone tracks from .sav file and set log_age, masses, and logtlogl.
 
         Output:
-        ------------
+        
         Sets:
-        ------------
+        
         log_age: [array]
             Log age values from the Feiden tracks.
         masses: [array]
@@ -316,9 +316,9 @@ class Isochrone:
         Load PARSEC v1.2 isochrone tracks from .sav file and set log_age, masses, and logtlogl.
 
         Output:
-        ------------
+        
         Sets:
-        ------------
+        
         log_age: [array]
             Log age values from the PARSEC v1.2 tracks.
         masses: [array]
@@ -345,9 +345,9 @@ class Isochrone:
         Load PARSEC v2.0 isochrone tracks from .sav file and set log_age, masses, and logtlogl.
 
         Output:
-        ------------
+        
         Sets:
-        ------------
+        
         log_age: [array]
             Log age values from the PARSEC v2.0 tracks.
         masses: [array]
@@ -374,9 +374,9 @@ class Isochrone:
         Load MIST v1.2 isochrone tracks from .sav file and set log_age, masses, and logtlogl.
 
         Output:
-        ------------
+        
         Sets:
-        ------------
+        
         log_age: [array]
             Log age values from the MIST v1.2 tracks.
         masses: [array]
@@ -404,20 +404,18 @@ class Isochrone:
         Load the isochromes from any customized matrix
         
         Args:
-        ------------
-        load_file: [str]
-            the .mat file that contains mass grid, log_age grid, and logt_logl grid
         
-        Output:
-        ------------
+            load_file: [str]
+                the .mat file that contains mass grid, log_age grid, and logt_logl grid
+        
         Sets:
-        ------------
-        log_age: [array]
-            Log age values from the Feiden tracks.
-        masses: [array]
-            Mass values from the Feiden tracks.
-        logtlogl: [array]
-            Log T and Log L values from the Feiden tracks.
+        
+            log_age: [array]
+                Log age values from the Feiden tracks.
+            masses: [array]
+                Mass values from the Feiden tracks.
+            logtlogl: [array]
+                Log T and Log L values from the Feiden tracks.
         """
         
         input_file = os.path.join(load_file)
@@ -434,17 +432,17 @@ class Isochrone:
         Set the isochrone tracks based on track_type.
 
         Args:
-        ------------
-        track_type: [str]
-            Type of the tracks to use ('baraffe2015' or 'feiden2016' or 'customize').
-        load_file: [str]
-            the .mat file that contains mass grid, log_age grid, and logt_logl grid
-            Default is '', so if you want to read in the customized datafile, 
-            remember to set up this parameter
+        
+            track_type: [str]
+                Type of the tracks to use ('baraffe2015' or 'feiden2016' or 'customize').
+            load_file: [str]
+                the .mat file that contains mass grid, log_age grid, and logt_logl grid
+                Default is '', so if you want to read in the customized datafile, 
+                remember to set up this parameter
 
         Output:
-        ------------
-        Loads the corresponding track (Baraffe or Feiden) and sets the appropriate attributes.
+        
+            Loads the corresponding track (Baraffe or Feiden) and sets the appropriate attributes.
         """
         if track_type.lower() == 'baraffe2015':
             self.load_baraffe2015_tracks()
@@ -468,9 +466,9 @@ class Isochrone:
         Get the current isochrone tracks (log_age, masses, logtlogl).
 
         Output:
-        ------------
+        
         Returns:
-        ------------
+        
         log_age: [array]
             Array of log(age) values.
         masses: [array]

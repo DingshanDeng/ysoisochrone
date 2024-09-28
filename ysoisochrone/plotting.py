@@ -39,37 +39,37 @@ def plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mas
     Plots the likelihood distributions and the best-fit age and mass.
 
     Args:
-    ------------
-    log_age_dummy: [array]
-        The log of stellar ages.
-    log_masses_dummy: [array]
-        The log of stellar masses.
-    L: [2D array]
-        The likelihood function grid.
-    best_age: [float]
-        The best-fit age in log scale.
-    best_mass: [float]
-        The best-fit mass in log scale.
-    age_unc: [list]
-        The uncertainty range for age.
-    mass_unc: [list]
-        The uncertainty range for mass.
-    source: [str, optional]
-        The source name for labeling the plot.
-    save_fig: [bool, optional]
-        Whether to save the figure.
-    fig_save_dir: [str, optional]
-        Directory to save the figure if save_fig is True.
-    customized_fig_name [str, optional]: 
-        Customized figure name.
+    
+        log_age_dummy: [array]
+            The log of stellar ages.
+        log_masses_dummy: [array]
+            The log of stellar masses.
+        L: [2D array]
+            The likelihood function grid.
+        best_age: [float]
+            The best-fit age in log scale.
+        best_mass: [float]
+            The best-fit mass in log scale.
+        age_unc: [list]
+            The uncertainty range for age.
+        mass_unc: [list]
+            The uncertainty range for mass.
+        source: [str, optional]
+            The source name for labeling the plot.
+        save_fig: [bool, optional]
+            Whether to save the figure.
+        fig_save_dir: [str, optional]
+            Directory to save the figure if save_fig is True.
+        customized_fig_name [str, optional]: 
+            Customized figure name.
         
     Output:
-    ------------
-    a formatted figure (or save to the fig_save_dir)
+    
+        a formatted figure (or save to the fig_save_dir)
     
     Returns:
-    ------------
-    1 if the code could be ran through
+    
+        1 if the code could be ran through
     """
     
     fig = plt.figure(figsize=(6, 5), dpi=300)
@@ -175,43 +175,43 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
     for ages and masses (positions and rotations).
 
     Args:
-    ------------
-    isochrone: [Isochrone]
-        An instance of the Isochrone class containing the evolutionary tracks with attributes:
-        log_age, masses, logtlogl (2D array for Teff and L/Lo).
-    df_prop: [pd.DataFrame, optional]
-        DataFrame containing the stellar properties with columns:
-        ['Source', 'Teff[K]', 'e_Teff[K]', 'Luminosity[Lsun]', 'e_Luminosity[Lsun]'].
-        If None, no scatter points are plotted.
-    ax_set: [axes, optional] Default is None
-        If not None, the ax_set is the ax for the plot
-    ages_to_plot: [list, optional]
-        List of ages in years to plot as isochrones (default: [0.5e6, 1.0e6, 2.0e6, 3.0e6, 5.0e6, 10.0e6, 30.0e6, 100.0e6]).
-    masses_to_plot: [list, optional]
-        List of masses in solar masses to plot as mass tracks (default: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]).
-    age_positions: [list of tuples, optional]
-        List of (x, y) positions for age annotations. Default is automatic placement.
-    mass_positions: [list of tuples, optional]
-        List of (x, y) positions for mass annotations. Default is automatic placement.
-    age_rotation: [list, optional]
-        List of rotation angles (degrees) for the age annotations. Default is 0 for all.
-    mass_rotation: [list, optional]
-        List of rotation angles (degrees) for the mass annotations. Default is 0 for all.
-    age_xycoords: [str, optional]
-        The xycoords for the age annotate. Default is 'data'. Refer to plt.annotate for details on this arg
-    mass_xycoords: [str, optional]
-        The xycoords for the mass annotate. Default is 'data'. Refer to plt.annotate for details on this arg
-    xlim_set: [list, optional]
-        The xlim from left to right [xlim_left, xlim_right]; default is None, so the code set it automatically
-    ylim_set: [list, optional]
-        The ylim from bottom to top [ylim_bottom, ylim_top]; default is None, so the code set it automatically
-    no_uncertainties: [bool, optional]
-        Whether to assume no uncertainties in Teff and Luminosity (default: False).
-    zams_curve: [bool, optional]
-        Whether to plot the curve of zero-age-main-sequence (default it True)
-        If True, the evolutionary tracks after ZAMS will not be plotted
-    bare: [bool, optional]
-        If true, just plot the scatters from the DataFrame, and the isochromes, but do not add the annotates, legend, nor the labels.
+    
+        isochrone: [Isochrone]
+            An instance of the Isochrone class containing the evolutionary tracks with attributes:
+            log_age, masses, logtlogl (2D array for Teff and L/Lo).
+        df_prop: [pd.DataFrame, optional]
+            DataFrame containing the stellar properties with columns:
+            ['Source', 'Teff[K]', 'e_Teff[K]', 'Luminosity[Lsun]', 'e_Luminosity[Lsun]'].
+            If None, no scatter points are plotted.
+        ax_set: [axes, optional] Default is None
+            If not None, the ax_set is the ax for the plot
+        ages_to_plot: [list, optional]
+            List of ages in years to plot as isochrones (default: [0.5e6, 1.0e6, 2.0e6, 3.0e6, 5.0e6, 10.0e6, 30.0e6, 100.0e6]).
+        masses_to_plot: [list, optional]
+            List of masses in solar masses to plot as mass tracks (default: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]).
+        age_positions: [list of tuples, optional]
+            List of (x, y) positions for age annotations. Default is automatic placement.
+        mass_positions: [list of tuples, optional]
+            List of (x, y) positions for mass annotations. Default is automatic placement.
+        age_rotation: [list, optional]
+            List of rotation angles (degrees) for the age annotations. Default is 0 for all.
+        mass_rotation: [list, optional]
+            List of rotation angles (degrees) for the mass annotations. Default is 0 for all.
+        age_xycoords: [str, optional]
+            The xycoords for the age annotate. Default is 'data'. Refer to plt.annotate for details on this arg
+        mass_xycoords: [str, optional]
+            The xycoords for the mass annotate. Default is 'data'. Refer to plt.annotate for details on this arg
+        xlim_set: [list, optional]
+            The xlim from left to right [xlim_left, xlim_right]; default is None, so the code set it automatically
+        ylim_set: [list, optional]
+            The ylim from bottom to top [ylim_bottom, ylim_top]; default is None, so the code set it automatically
+        no_uncertainties: [bool, optional]
+            Whether to assume no uncertainties in Teff and Luminosity (default: False).
+        zams_curve: [bool, optional]
+            Whether to plot the curve of zero-age-main-sequence (default it True)
+            If True, the evolutionary tracks after ZAMS will not be plotted
+        bare: [bool, optional]
+            If true, just plot the scatters from the DataFrame, and the isochromes, but do not add the annotates, legend, nor the labels.
     """
     
     # Default values for ages and masses if not provided
@@ -376,19 +376,19 @@ def plot_likelihood_1d(log_masses_dummy, likelihood, best_log_mass, lower_mass, 
     Plots the likelihood function for stellar mass.
 
     Args:
-    ------------
-    log_masses_dummy: [array]
-        Array of log10(mass) values from the evolutionary track.
-    likelihood: [array]
-        Likelihood function evaluated for each mass point.
-    best_log_mass: [float]
-        The best-fit log10 mass.
-    lower_mass: [float]
-        The lower bound of the uncertainty in log10 mass.
-    upper_mass: [float]
-        The upper bound of the uncertainty in log10 mass.
-    source: [str, optional]
-        The source name to include in the plot title. Default is None.
+    
+        log_masses_dummy: [array]
+            Array of log10(mass) values from the evolutionary track.
+        likelihood: [array]
+            Likelihood function evaluated for each mass point.
+        best_log_mass: [float]
+            The best-fit log10 mass.
+        lower_mass: [float]
+            The lower bound of the uncertainty in log10 mass.
+        upper_mass: [float]
+            The upper bound of the uncertainty in log10 mass.
+        source: [str, optional]
+            The source name to include in the plot title. Default is None.
     """
     
     likelihood[likelihood <= 1e-98] = np.nan
@@ -421,21 +421,21 @@ def plot_comparison(log_age_idl, masses_idl, logtlogl_interp_py, logtlogl_idl, l
     Plots the Python grid (interpolated onto IDL grid), IDL grid, and their differences for both Teff and L/Lo.
 
     Args:
-    ------------
-    log_age_idl: [array]
-        Array of log(age) values from the IDL grid.
-    masses_idl: [array]
-        Array of mass values from the IDL grid.
-    logtlogl_interp_py: [array]
-        Python-generated logtlogl data (Teff and L/Lo) interpolated onto the IDL grid.
-    logtlogl_idl: [array]
-        IDL-generated logtlogl data (Teff and L/Lo).
-    logtlogl_diff: [array]
-        Difference between interpolated Python and IDL logtlogl data.
-    logtlogl_diff_norm: [array]
-        Normalized difference between interpolated Python and IDL logtlogl data.
-    gridnames: [list of strings, optional]
-        The names of the grid names, default is Python and IDL
+        
+        log_age_idl: [array]
+            Array of log(age) values from the IDL grid.
+        masses_idl: [array]
+            Array of mass values from the IDL grid.
+        logtlogl_interp_py: [array]
+            Python-generated logtlogl data (Teff and L/Lo) interpolated onto the IDL grid.
+        logtlogl_idl: [array]
+            IDL-generated logtlogl data (Teff and L/Lo).
+        logtlogl_diff: [array]
+            Difference between interpolated Python and IDL logtlogl data.
+        logtlogl_diff_norm: [array]
+            Normalized difference between interpolated Python and IDL logtlogl data.
+        gridnames: [list of strings, optional]
+            The names of the grid names, default is Python and IDL
     """
     
     fig, axs = plt.subplots(4, 2, figsize=(12, 16), constrained_layout=True)

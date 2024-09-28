@@ -16,28 +16,28 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     derive the mass and ages for a star from a likelihood distribution
     
     Args:
-    ------------
-    log_age_dummy [array]: 
-        The log of stellar ages.
-    log_masses_dummy [array]: 
-        The log of stellar masses.
-    L [2D array]: 
-        The likelihood function grid.
-    confidence_interval [float]:
-        the desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
-    source [str, optional]: 
-        The source name for labeling the plot.
-    save_fig [bool, optional]: 
-        Whether to save the figure.
-    fig_save_dir [str, optional]:
-        Directory to save the figure if save_fig is True.
-    customized_fig_name [str, optional]: 
-        Customized figure name.
+
+        log_age_dummy [array]: 
+            The log of stellar ages.
+        log_masses_dummy [array]: 
+            The log of stellar masses.
+        L [2D array]: 
+            The likelihood function grid.
+        confidence_interval [float]:
+            the desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
+        source [str, optional]: 
+            The source name for labeling the plot.
+        save_fig [bool, optional]: 
+            Whether to save the figure.
+        fig_save_dir [str, optional]:
+            Directory to save the figure if save_fig is True.
+        customized_fig_name [str, optional]: 
+            Customized figure name.
     
     Returns:
-    ------------
-    A tupe with three things: [0] best age and mass and their uncertainties; [1] the logage array and its likelihood function; [2] the logmass array and its likelihood function.
-    [best_age, age_unc, best_mass, mass_unc], np.array([log_age_dummy, L_age_norm]), np.array([log_masses_dummy, L_mass_norm])
+    
+        A tupe with three things: [0] best age and mass and their uncertainties; [1] the logage array and its likelihood function; [2] the logmass array and its likelihood function.
+        [best_age, age_unc, best_mass, mass_unc], np.array([log_age_dummy, L_age_norm]), np.array([log_masses_dummy, L_mass_norm])
     '''
     
     half_sigma_perc = confidence_interval/2.0
@@ -182,56 +182,54 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
     Derives stellar mass and age from evolutionary tracks using a Bayesian framework.
 
     Args:
-    ------------
-    df_prop: [DataFrame]
-        DataFrame containing stellar properties (Teff, Luminosity, etc.).
-        The formated column needs to be: ['Source', 'Teff[K]', 'e_Teff[K]', 'Luminosity[Lsun]', 'e_Luminosity[Lsun]']
-    model: [str, optional] Default: 'Baraffe_n_Feiden'
-        model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
-    isochrone_data_dir: [str, optional]
-        The datadir where all the data files for the isochrones are stored
-    isochrone_mat_file: [str, optional] Default = ''
-        The ABSOLUTE directory for the matrix file for the isochrones that you want to use
-        This is needed if you want to set the model as 'customize'.
-    no_uncertainties: [bool, optional]
-        Whether to assume no uncertainties in Teff and Luminosity (default: False).
-    plot: [bool, optional]
-        Whether to plot the likelihood distributions (default: False).
-    save_fig: [bool, optional]
-        Whether to save the figure (default: False).
-    save_lfunc: [bool, optional]
-        Whether to save the likelihood functions to CSV (default: False).
-    fig_save_dir: [str, optional]
-        Directory where figures are saved if save_fig is True (default: 'figures').
-    csv_save_dir: [str, optional]
-        Directory where likelihood function data is saved if save_lfunc is True (default: 'lfunc_data').
-    verbose: [bool, optional]
-        Whether to print verbose output (default: False).
-    toofaint: [list, optional]
-        A list of target names (in the 'Source' column) that are toofaint, 
-        will assign the median age (that is setup here) to them. If this one is not empty, `median_age` needs to be assigned.
-    toobright: [list, optional]
-        A list of target names (in the 'Source' column) that are toobirght, 
-        will assign the minimum age in the read in evolutionary tracks to them. If this one is not empty, `median_age` needs to be assigned.
-    median_age: [float, optional] unit: Myrs
-        The median age that will be asigned tothe targets that are toofaint.
-    confidence_interval: [float, optional]
-        The desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
-    single_bayesian_for_nolum_target: [bool, optional]
-        Whether to still run a single Bayesian for the target that does not have good luminosity measurement (too bright or faint or anyother). If True, will still run a single Bayesian method to derive the stellar mass with the assumed `median_age`, otherwise will only find the closest track and will not obtain an uncertainty.
     
-    Output:
-    ------------
+        df_prop: [DataFrame]
+            DataFrame containing stellar properties (Teff, Luminosity, etc.).
+            The formated column needs to be: ['Source', 'Teff[K]', 'e_Teff[K]', 'Luminosity[Lsun]', 'e_Luminosity[Lsun]']
+        model: [str, optional] Default: 'Baraffe_n_Feiden'
+            model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
+        isochrone_data_dir: [str, optional]
+            The datadir where all the data files for the isochrones are stored
+        isochrone_mat_file: [str, optional] Default = ''
+            The ABSOLUTE directory for the matrix file for the isochrones that you want to use
+            This is needed if you want to set the model as 'customize'.
+        no_uncertainties: [bool, optional]
+            Whether to assume no uncertainties in Teff and Luminosity (default: False).
+        plot: [bool, optional]
+            Whether to plot the likelihood distributions (default: False).
+        save_fig: [bool, optional]
+            Whether to save the figure (default: False).
+        save_lfunc: [bool, optional]
+            Whether to save the likelihood functions to CSV (default: False).
+        fig_save_dir: [str, optional]
+            Directory where figures are saved if save_fig is True (default: 'figures').
+        csv_save_dir: [str, optional]
+            Directory where likelihood function data is saved if save_lfunc is True (default: 'lfunc_data').
+        verbose: [bool, optional]
+            Whether to print verbose output (default: False).
+        toofaint: [list, optional]
+            A list of target names (in the 'Source' column) that are toofaint, 
+            will assign the median age (that is setup here) to them. If this one is not empty, `median_age` needs to be assigned.
+        toobright: [list, optional]
+            A list of target names (in the 'Source' column) that are toobirght, 
+            will assign the minimum age in the read in evolutionary tracks to them. If this one is not empty, `median_age` needs to be assigned.
+        median_age: [float, optional] unit: Myrs
+            The median age that will be asigned tothe targets that are toofaint.
+        confidence_interval: [float, optional]
+            The desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
+        single_bayesian_for_nolum_target: [bool, optional]
+            Whether to still run a single Bayesian for the target that does not have good luminosity measurement (too bright or faint or anyother). If True, will still run a single Bayesian method to derive the stellar mass with the assumed `median_age`, otherwise will only find the closest track and will not obtain an uncertainty.
+    
     Returns:
-    ------------
-    best_logmass_output: [array]
-        Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
-    best_logage_output: [array]
-        Array containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).
-    lage_all: [dictionary]
-        The likelihood function of age for all target
-    lmass_all: [dictionary]
-        The likelihood function of mass for all target
+    
+        best_logmass_output: [array]
+            Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
+        best_logage_output: [array]
+            Array containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).
+        lage_all: [dictionary]
+            The likelihood function of age for all target
+        lmass_all: [dictionary]
+            The likelihood function of mass for all target
     """
     
     # Prepare output lists
@@ -245,7 +243,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
     for ii in tqdm.tqdm(df_prop.index):
         source_t = df_prop.loc[ii, 'Source']
         if verbose:
-            print('------------------------')
+            print('')
             print(f'Working on: {source_t}')
         
         # Extract current values and uncertainties
@@ -378,56 +376,54 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
     This is the method with the criteria that has been used in Pascucci2016
 
     Args:
-    ------------
-    df_prop: [DataFrame]
-        DataFrame containing stellar properties (Teff, Luminosity, etc.).
-        The formated column needs to be: ['Source', 'Teff[K]', 'e_Teff[K]', 'Luminosity[Lsun]', 'e_Luminosity[Lsun]']
-    model: [str, optional] Default: 'Baraffe_n_Feiden'
-        model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
-    isochrone_data_dir: [str, optional]
-        The datadir where all the data files for the isochrones are stored
-    isochrone_mat_file: [str, optional] Default = ''
-        The ABSOLUTE directory for the matrix file for the isochrones that you want to use
-        This is needed if you want to set the model as 'customize'.
-    no_uncertainties: [bool, optional]
-        Whether to assume no uncertainties in Teff and Luminosity (default: False).
-    plot: [bool, optional]
-        Whether to plot the likelihood distributions (default: False).
-    save_fig: [bool, optional]
-        Whether to save the figure (default: False).
-    save_lfunc: [bool, optional]
-        Whether to save the likelihood functions to CSV (default: False).
-    fig_save_dir: [str, optional]
-        Directory where figures are saved if save_fig is True (default: 'figures').
-    csv_save_dir: [str, optional]
-        Directory where likelihood function data is saved if save_lfunc is True (default: 'lfunc_data').
-    verbose: [bool, optional]
-        Whether to print verbose output (default: False).
-    toofaint: [list, optional]
-        A list of target names (in the 'Source' column) that are toofaint, 
-        will assign the median age (that is setup here) to them. If this one is not empty, `median_age` needs to be assigned.
-    toobright: [list, optional]
-        A list of target names (in the 'Source' column) that are toobirght, 
-        will assign the minimum age in the read in evolutionary tracks to them. If this one is not empty, `median_age` needs to be assigned.
-    median_age: [float, optional] unit: Myrs
-        The median age that will be asigned tothe targets that are toofaint.
-    confidence_interval: [float, optional]
-        The desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
-    single_bayesian_for_nolum_target: [bool, optional]
-        Whether to still run a single Bayesian for the target that does not have good luminosity measurement (too bright or faint or anyother). If True, will still run a single Bayesian method to derive the stellar mass with the assumed `median_age`, otherwise will only find the closest track and will not obtain an uncertainty.
     
-    Output:
-    ------------
+        df_prop: [DataFrame]
+            DataFrame containing stellar properties (Teff, Luminosity, etc.).
+            The formated column needs to be: ['Source', 'Teff[K]', 'e_Teff[K]', 'Luminosity[Lsun]', 'e_Luminosity[Lsun]']
+        model: [str, optional] Default: 'Baraffe_n_Feiden'
+            model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
+        isochrone_data_dir: [str, optional]
+            The datadir where all the data files for the isochrones are stored
+        isochrone_mat_file: [str, optional] Default = ''
+            The ABSOLUTE directory for the matrix file for the isochrones that you want to use
+            This is needed if you want to set the model as 'customize'.
+        no_uncertainties: [bool, optional]
+            Whether to assume no uncertainties in Teff and Luminosity (default: False).
+        plot: [bool, optional]
+            Whether to plot the likelihood distributions (default: False).
+        save_fig: [bool, optional]
+            Whether to save the figure (default: False).
+        save_lfunc: [bool, optional]
+            Whether to save the likelihood functions to CSV (default: False).
+        fig_save_dir: [str, optional]
+            Directory where figures are saved if save_fig is True (default: 'figures').
+        csv_save_dir: [str, optional]
+            Directory where likelihood function data is saved if save_lfunc is True (default: 'lfunc_data').
+        verbose: [bool, optional]
+            Whether to print verbose output (default: False).
+        toofaint: [list, optional]
+            A list of target names (in the 'Source' column) that are toofaint, 
+            will assign the median age (that is setup here) to them. If this one is not empty, `median_age` needs to be assigned.
+        toobright: [list, optional]
+            A list of target names (in the 'Source' column) that are toobirght, 
+            will assign the minimum age in the read in evolutionary tracks to them. If this one is not empty, `median_age` needs to be assigned.
+        median_age: [float, optional] unit: Myrs
+            The median age that will be asigned tothe targets that are toofaint.
+        confidence_interval: [float, optional]
+            The desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
+        single_bayesian_for_nolum_target: [bool, optional]
+            Whether to still run a single Bayesian for the target that does not have good luminosity measurement (too bright or faint or anyother). If True, will still run a single Bayesian method to derive the stellar mass with the assumed `median_age`, otherwise will only find the closest track and will not obtain an uncertainty.
+    
     Returns:
-    ------------
-    best_logmass_output: [array]
-        Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
-    best_logage_output: [array]
-        Array containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).
-    lage_all: [dictionary]
-        The likelihood function of age for all target
-    lmass_all: [dictionary]
-        The likelihood function of mass for all target
+    
+        best_logmass_output: [array]
+            Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
+        best_logage_output: [array]
+            Array containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).
+        lage_all: [dictionary]
+            The likelihood function of age for all target
+        lmass_all: [dictionary]
+            The likelihood function of mass for all target
     """
     
     # Prepare output lists
@@ -566,27 +562,27 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
     Derives stellar mass and age by picking the closest point from the isochrone grid based on Teff and Luminosity.
 
     Args:
-    ------------
-    df_prop: [DataFrame]
-        DataFrame containing stellar properties (Teff, Luminosity, etc.).
-        The format for the columns needs to be: ['Source', 'Teff[K]', 'Luminosity[Lsun]']
-    model: [str, optional] Default: 'Baraffe_n_Feiden'
-        model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
-    isochrone_data_dir: [str, optional] 
-        The directory where the isochrone data is stored.
-        Default = None, and data will be saved to './isochrone_data'
-    isochrone_mat_file: [str, optional] Default = ''
-        The ABSOLUTE directory for the matrix file for the isochrones that you want to use
-        This is needed if you want to set the model as 'customize'.
-    verbose: [bool, optional]
-        Whether to print verbose output. Default is False.
+    
+        df_prop: [DataFrame]
+            DataFrame containing stellar properties (Teff, Luminosity, etc.).
+            The format for the columns needs to be: ['Source', 'Teff[K]', 'Luminosity[Lsun]']
+        model: [str, optional] Default: 'Baraffe_n_Feiden'
+            model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
+        isochrone_data_dir: [str, optional] 
+            The directory where the isochrone data is stored.
+            Default = None, and data will be saved to './isochrone_data'
+        isochrone_mat_file: [str, optional] Default = ''
+            The ABSOLUTE directory for the matrix file for the isochrones that you want to use
+            This is needed if you want to set the model as 'customize'.
+        verbose: [bool, optional]
+            Whether to print verbose output. Default is False.
 
     Returns:
-    ------------
-    best_mass_output: [array] unit Msolar
-        Array containing the closest log10mass for each star.
-    best_age_output: [array] unit yr
-        Array containing the closest log10age for each star.
+    
+        best_mass_output: [array] unit Msolar
+            Array containing the closest log10mass for each star.
+        best_age_output: [array] unit yr
+            Array containing the closest log10age for each star.
     """
     
     # Prepare output lists
@@ -669,39 +665,38 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
     Derives stellar mass assuming a known age, even when luminosity is unavailable, considering uncertainties in Teff.
 
     Args:
-    ------------
-    df_prop: [DataFrame]
-        DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
-        The formatted column needs to be: ['Source', 'Teff[K]', 'e_Teff[K]']
-    assumed_age: [float] unit yrs
-        The assumed age of the stars (in years). Can be a single value or an array.
-    e_assumed_age: [float, optional] unit yrs (NOT considered for now)
-        Uncertainty in the assumed age. Can be a single value or an array. Default is None.
-    model: [str, optional] Default: 'Baraffe_n_Feiden'
-        model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
-    isochrone_data_dir: [str, optional]
-        The directory where the isochrone data is stored.
-    isochrone_mat_file: [str, optional] Default = ''
-        The ABSOLUTE directory for the matrix file for the isochrones that you want to use
-        This is needed if you want to set the model as 'custom'.
-    no_uncertainties: [bool, optional]
-        Whether to assume no uncertainties in Teff and Luminosity (default: False).
-    confidence_interval [float]:
-        the desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
-    verbose: [bool, optional]
-        Whether to print verbose output. Default is False.
-    plot: [bool, optional]
-        Whether to plot the likelihood function for stellar mass. Default is False.
+    
+        df_prop: [DataFrame]
+            DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
+            The formatted column needs to be: ['Source', 'Teff[K]', 'e_Teff[K]']
+        assumed_age: [float] unit yrs
+            The assumed age of the stars (in years). Can be a single value or an array.
+        e_assumed_age: [float, optional] unit yrs (NOT considered for now)
+            Uncertainty in the assumed age. Can be a single value or an array. Default is None.
+        model: [str, optional] Default: 'Baraffe_n_Feiden'
+            model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix."
+        isochrone_data_dir: [str, optional]
+            The directory where the isochrone data is stored.
+        isochrone_mat_file: [str, optional] Default = ''
+            The ABSOLUTE directory for the matrix file for the isochrones that you want to use
+            This is needed if you want to set the model as 'custom'.
+        no_uncertainties: [bool, optional]
+            Whether to assume no uncertainties in Teff and Luminosity (default: False).
+        confidence_interval [float]:
+            the desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
+        verbose: [bool, optional]
+            Whether to print verbose output. Default is False.
+        plot: [bool, optional]
+            Whether to plot the likelihood function for stellar mass. Default is False.
     
 
     NOTE:
-    ------------
-    the e_assumed_age=None has not been considered for now.
+        the e_assumed_age=None has not been considered for now.
     
     Returns:
-    ------------
-    best_logmass_output: [array]
-        Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
+    
+        best_logmass_output: [array]
+            Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).
     """
     
     # Prepare output list for the masses and their uncertainties
@@ -807,25 +802,25 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
     Derives stellar mass assuming a known age by finding the closest track on the isochrone grid based on Teff, without using the Bayesian method.
 
     Args:
-    ------------
-    df_prop: [DataFrame]
-        DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
-        The format for the columns needs to be: ['Source', 'Teff[K]', 'e_Teff[K]']
-    assumed_age: [float] unit yrs
-        The assumed age of the stars (in years). Can be a single value or an array.
-    model: [str, optional] Default: 'Baraffe_n_Feiden'
-        Model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2', 'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file.
-    isochrone_data_dir: [str, optional]
-        The directory where the isochrone data is stored.
-    isochrone_mat_file: [str, optional] Default = ''
-        The ABSOLUTE directory for the matrix file for the isochrones that you want to use if using a custom model.
-    verbose: [bool, optional]
-        Whether to print verbose output. Default is False.
+    
+        df_prop: [DataFrame]
+            DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
+            The format for the columns needs to be: ['Source', 'Teff[K]', 'e_Teff[K]']
+        assumed_age: [float] unit yrs
+            The assumed age of the stars (in years). Can be a single value or an array.
+        model: [str, optional] Default: 'Baraffe_n_Feiden'
+            Model for selecting evolutionary tracks: 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2', 'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file.
+        isochrone_data_dir: [str, optional]
+            The directory where the isochrone data is stored.
+        isochrone_mat_file: [str, optional] Default = ''
+            The ABSOLUTE directory for the matrix file for the isochrones that you want to use if using a custom model.
+        verbose: [bool, optional]
+            Whether to print verbose output. Default is False.
 
     Returns:
-    ------------
-    best_log_mass_output: [array] in Msolar
-        Array containing the closest log10 mass for each star.
+    
+        best_log_mass_output: [array] in Msolar
+            Array containing the closest log10 mass for each star.
     """
     
     # Prepare output list for the masses
