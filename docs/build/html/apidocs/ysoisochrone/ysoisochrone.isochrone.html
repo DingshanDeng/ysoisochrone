@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ysoisochrone.isochrone &mdash; ysoisochrone 0.1.0.alpha documentation</title>
+  <title>ysoisochrone.isochrone &mdash; ysoisochrone 0.3.0.beta documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -14,7 +14,7 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/documentation_options.js?v=89fa07d3"></script>
+        <script src="../../_static/documentation_options.js?v=ec7badc4"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -114,11 +114,16 @@ now it works for Baraffe and Feiden tracks.</p></td>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ysoisochrone.isochrone.</span></span><span class="sig-name descname"><span class="pre">Isochrone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone" title="Link to this definition">¶</a></dt>
 <dd><p>Isochrone class for setting up log_age, masses, and logtlogl attributes
 now it works for Baraffe and Feiden tracks.</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>data_dir: [str, optional]</dt><dd><p>Directory where the isochrone data files are stored. Default is a folder called ‘isochrone_data’ under where you are running the code.</p>
 </dd>
 </dl>
-<dl class="simple">
+</div></blockquote>
+<p>Attributes:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>log_age: [array]</dt><dd><p>Array of log(age) values.</p>
 </dd>
 <dt>masses: [array]</dt><dd><p>Array of mass values.</p>
@@ -126,6 +131,7 @@ now it works for Baraffe and Feiden tracks.</p>
 <dt>logtlogl: [array]</dt><dd><p>Array of log(T) and log(L) values for the evolutionary tracks.</p>
 </dd>
 </dl>
+</div></blockquote>
 <p class="rubric">Initialization</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.prepare_baraffe_tracks">
@@ -137,8 +143,14 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 2. Downloads the file if it doesn’t exist.
 3. Reads the file, creates a meshgrid for log_age and masses, and interpolates logtlogl data.
 4. Saves the resulting grid data to a .mat file.</p>
-<p>None.</p>
-<p>Saves the .mat file to the data directory.</p>
+<p>Args:</p>
+<blockquote>
+<div><p>None.</p>
+</div></blockquote>
+<p>Output:</p>
+<blockquote>
+<div><p>Saves the .mat file to the data directory.</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -151,8 +163,14 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 2. Downloads the file if it doesn’t exist.
 3. Reads the file, creates a meshgrid for log_age and masses, and interpolates logtlogl data.
 4. Saves the resulting grid data to a .mat file.</p>
-<p>None.</p>
-<p>Saves the .mat file to the data directory.</p>
+<p>Args:</p>
+<blockquote>
+<div><p>None.</p>
+</div></blockquote>
+<p>Output:</p>
+<blockquote>
+<div><p>Saves the .mat file to the data directory.</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -165,8 +183,14 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 2. Downloads the file if it doesn’t exist.
 3. Reads the file, creates a meshgrid for log_age and masses, and interpolates logtlogl data.
 4. Saves the resulting grid data to a .mat file.</p>
-<p>None.</p>
-<p>Saves the .mat file to the data directory.</p>
+<p>Args:</p>
+<blockquote>
+<div><p>None.</p>
+</div></blockquote>
+<p>Output:</p>
+<blockquote>
+<div><p>Saves the .mat file to the data directory.</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -179,8 +203,14 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 2. Downloads the file if it doesn’t exist.
 3. Reads the file, creates a meshgrid for log_age and masses, and interpolates logtlogl data.
 4. Saves the resulting grid data to a .mat file.</p>
-<p>None.</p>
-<p>Saves the .mat file to the data directory.</p>
+<p>Args:</p>
+<blockquote>
+<div><p>None.</p>
+</div></blockquote>
+<p>Output:</p>
+<blockquote>
+<div><p>Saves the .mat file to the data directory.</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -193,14 +223,22 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 2. Downloads the file if it doesn’t exist.
 3. Reads the file, creates a meshgrid for log_age and masses, and interpolates logtlogl data.
 4. Saves the resulting grid data to a .mat file.</p>
-<p>None.</p>
-<p>Saves the .mat file to the data directory.</p>
+<p>Args:</p>
+<blockquote>
+<div><p>None.</p>
+</div></blockquote>
+<p>Output:</p>
+<blockquote>
+<div><p>Saves the .mat file to the data directory.</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.load_baraffe2015_tracks">
 <span class="sig-name descname"><span class="pre">load_baraffe2015_tracks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.load_baraffe2015_tracks" title="Link to this definition">¶</a></dt>
 <dd><p>Load Baraffe isochrone tracks from .sav file and set log_age, masses, and logtlogl.</p>
+<p>Output:</p>
+<p>Sets:</p>
 <dl class="simple">
 <dt>log_age: [array]</dt><dd><p>Log age values from the Baraffe tracks.</p>
 </dd>
@@ -215,6 +253,8 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 <dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.load_feiden2016_tracks">
 <span class="sig-name descname"><span class="pre">load_feiden2016_tracks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.load_feiden2016_tracks" title="Link to this definition">¶</a></dt>
 <dd><p>Load Feiden isochrone tracks from .sav file and set log_age, masses, and logtlogl.</p>
+<p>Output:</p>
+<p>Sets:</p>
 <dl class="simple">
 <dt>log_age: [array]</dt><dd><p>Log age values from the Feiden tracks.</p>
 </dd>
@@ -229,6 +269,8 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 <dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.load_parsecv1p2_tracks">
 <span class="sig-name descname"><span class="pre">load_parsecv1p2_tracks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.load_parsecv1p2_tracks" title="Link to this definition">¶</a></dt>
 <dd><p>Load PARSEC v1.2 isochrone tracks from .sav file and set log_age, masses, and logtlogl.</p>
+<p>Output:</p>
+<p>Sets:</p>
 <dl class="simple">
 <dt>log_age: [array]</dt><dd><p>Log age values from the PARSEC v1.2 tracks.</p>
 </dd>
@@ -243,6 +285,8 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 <dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.load_parsecv2p0_tracks">
 <span class="sig-name descname"><span class="pre">load_parsecv2p0_tracks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.load_parsecv2p0_tracks" title="Link to this definition">¶</a></dt>
 <dd><p>Load PARSEC v2.0 isochrone tracks from .sav file and set log_age, masses, and logtlogl.</p>
+<p>Output:</p>
+<p>Sets:</p>
 <dl class="simple">
 <dt>log_age: [array]</dt><dd><p>Log age values from the PARSEC v2.0 tracks.</p>
 </dd>
@@ -257,6 +301,8 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 <dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.load_mistv1p2_tracks">
 <span class="sig-name descname"><span class="pre">load_mistv1p2_tracks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.load_mistv1p2_tracks" title="Link to this definition">¶</a></dt>
 <dd><p>Load MIST v1.2 isochrone tracks from .sav file and set log_age, masses, and logtlogl.</p>
+<p>Output:</p>
+<p>Sets:</p>
 <dl class="simple">
 <dt>log_age: [array]</dt><dd><p>Log age values from the MIST v1.2 tracks.</p>
 </dd>
@@ -271,11 +317,16 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 <dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.load_tracks_from_customize_matrix">
 <span class="sig-name descname"><span class="pre">load_tracks_from_customize_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">load_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.load_tracks_from_customize_matrix" title="Link to this definition">¶</a></dt>
 <dd><p>Load the isochromes from any customized matrix</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>load_file: [str]</dt><dd><p>the .mat file that contains mass grid, log_age grid, and logt_logl grid</p>
 </dd>
 </dl>
-<dl class="simple">
+</div></blockquote>
+<p>Sets:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>log_age: [array]</dt><dd><p>Log age values from the Feiden tracks.</p>
 </dd>
 <dt>masses: [array]</dt><dd><p>Mass values from the Feiden tracks.</p>
@@ -283,13 +334,16 @@ interpolating it into a meshgrid, and saving it as a .mat file.</p>
 <dt>logtlogl: [array]</dt><dd><p>Log T and Log L values from the Feiden tracks.</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.set_tracks">
 <span class="sig-name descname"><span class="pre">set_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.set_tracks" title="Link to this definition">¶</a></dt>
 <dd><p>Set the isochrone tracks based on track_type.</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>track_type: [str]</dt><dd><p>Type of the tracks to use (‘baraffe2015’ or ‘feiden2016’ or ‘customize’).</p>
 </dd>
 <dt>load_file: [str]</dt><dd><p>the .mat file that contains mass grid, log_age grid, and logt_logl grid
@@ -297,13 +351,19 @@ Default is ‘’, so if you want to read in the customized datafile,
 remember to set up this parameter</p>
 </dd>
 </dl>
-<p>Loads the corresponding track (Baraffe or Feiden) and sets the appropriate attributes.</p>
+</div></blockquote>
+<p>Output:</p>
+<blockquote>
+<div><p>Loads the corresponding track (Baraffe or Feiden) and sets the appropriate attributes.</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ysoisochrone.isochrone.Isochrone.get_tracks">
 <span class="sig-name descname"><span class="pre">get_tracks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.isochrone.Isochrone.get_tracks" title="Link to this definition">¶</a></dt>
 <dd><p>Get the current isochrone tracks (log_age, masses, logtlogl).</p>
+<p>Output:</p>
+<p>Returns:</p>
 <dl class="simple">
 <dt>log_age: [array]</dt><dd><p>Array of log(age) values.</p>
 </dd>

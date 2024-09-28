@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ysoisochrone.plotting &mdash; ysoisochrone 0.1.0.alpha documentation</title>
+  <title>ysoisochrone.plotting &mdash; ysoisochrone 0.3.0.beta documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -14,7 +14,7 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/documentation_options.js?v=89fa07d3"></script>
+        <script src="../../_static/documentation_options.js?v=ec7badc4"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -138,7 +138,9 @@ for ages and masses (positions and rotations).</p></td>
 <dt class="sig sig-object py" id="ysoisochrone.plotting.plot_bayesian_results">
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_bayesian_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_age_dummy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_masses_dummy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_age</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age_unc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_unc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'figure'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customized_fig_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.plotting.plot_bayesian_results" title="Link to this definition">¶</a></dt>
 <dd><p>Plots the likelihood distributions and the best-fit age and mass.</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>log_age_dummy: [array]</dt><dd><p>The log of stellar ages.</p>
 </dd>
 <dt>log_masses_dummy: [array]</dt><dd><p>The log of stellar masses.</p>
@@ -162,8 +164,15 @@ for ages and masses (positions and rotations).</p></td>
 <dt>customized_fig_name [str, optional]: </dt><dd><p>Customized figure name.</p>
 </dd>
 </dl>
-<p>a formatted figure (or save to the fig_save_dir)</p>
-<p>1 if the code could be ran through</p>
+</div></blockquote>
+<p>Output:</p>
+<blockquote>
+<div><p>a formatted figure (or save to the fig_save_dir)</p>
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><p>1 if the code could be ran through</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
@@ -172,7 +181,9 @@ for ages and masses (positions and rotations).</p></td>
 <dd><p>Plots the Hertzsprung–Russell diagram with the stars from df_prop and isochrones from the Isochrone class.
 Allows for custom selection of ages and masses to plot, with the option to manually set annotations
 for ages and masses (positions and rotations).</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>isochrone: [Isochrone]</dt><dd><p>An instance of the Isochrone class containing the evolutionary tracks with attributes:
 log_age, masses, logtlogl (2D array for Teff and L/Lo).</p>
 </dd>
@@ -210,13 +221,16 @@ If True, the evolutionary tracks after ZAMS will not be plotted</p>
 <dt>bare: [bool, optional]</dt><dd><p>If true, just plot the scatters from the DataFrame, and the isochromes, but do not add the annotates, legend, nor the labels.</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.plotting.plot_likelihood_1d">
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_likelihood_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_masses_dummy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">likelihood</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_log_mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.plotting.plot_likelihood_1d" title="Link to this definition">¶</a></dt>
 <dd><p>Plots the likelihood function for stellar mass.</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>log_masses_dummy: [array]</dt><dd><p>Array of log10(mass) values from the evolutionary track.</p>
 </dd>
 <dt>likelihood: [array]</dt><dd><p>Likelihood function evaluated for each mass point.</p>
@@ -230,13 +244,16 @@ If True, the evolutionary tracks after ZAMS will not be plotted</p>
 <dt>source: [str, optional]</dt><dd><p>The source name to include in the plot title. Default is None.</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.plotting.plot_comparison">
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_age_idl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">masses_idl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logtlogl_interp_py</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logtlogl_idl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logtlogl_diff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logtlogl_diff_norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gridnames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['Python',</span> <span class="pre">'IDL']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.plotting.plot_comparison" title="Link to this definition">¶</a></dt>
 <dd><p>Plots the Python grid (interpolated onto IDL grid), IDL grid, and their differences for both Teff and L/Lo.</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>log_age_idl: [array]</dt><dd><p>Array of log(age) values from the IDL grid.</p>
 </dd>
 <dt>masses_idl: [array]</dt><dd><p>Array of mass values from the IDL grid.</p>
@@ -252,6 +269,7 @@ If True, the evolutionary tracks after ZAMS will not be plotted</p>
 <dt>gridnames: [list of strings, optional]</dt><dd><p>The names of the grid names, default is Python and IDL</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 </section>

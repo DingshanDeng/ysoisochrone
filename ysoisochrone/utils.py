@@ -278,10 +278,11 @@ def read_baraffe_file(file_path):
             Path to the original BHAC15 tracks file.
 
     Returns:
-    
+
         data_points: [np.array]
             Array of [log_age, mass, teff, luminosity] data points.
     """
+    
     data_points = []
 
     start_reading = False
@@ -392,7 +393,7 @@ def download_feiden_trk_tracks(save_dir='isochrones_data', download_original_trk
             otherwise, only download the tgz file and then untar it
 
     Output:
-    
+
         Downloads (all .iso files and) the tarball from the GitHub folder, saves them, and extracts the tarball.
     """
 

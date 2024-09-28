@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ysoisochrone.bayesian &mdash; ysoisochrone 0.1.0.alpha documentation</title>
+  <title>ysoisochrone.bayesian &mdash; ysoisochrone 0.3.0.beta documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -14,7 +14,7 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/documentation_options.js?v=89fa07d3"></script>
+        <script src="../../_static/documentation_options.js?v=ec7badc4"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -127,7 +127,9 @@ This is the method with the criteria that has been used in Pascucci2016</p></td>
 <dt class="sig sig-object py" id="ysoisochrone.bayesian.bayesian_mass_age">
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.bayesian.</span></span><span class="sig-name descname"><span class="pre">bayesian_mass_age</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_age_dummy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_masses_dummy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.68</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'figure'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customized_fig_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.bayesian.bayesian_mass_age" title="Link to this definition">¶</a></dt>
 <dd><p>derive the mass and ages for a star from a likelihood distribution</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>log_age_dummy [array]: </dt><dd><p>The log of stellar ages.</p>
 </dd>
 <dt>log_masses_dummy [array]: </dt><dd><p>The log of stellar masses.</p>
@@ -145,15 +147,21 @@ This is the method with the criteria that has been used in Pascucci2016</p></td>
 <dt>customized_fig_name [str, optional]: </dt><dd><p>Customized figure name.</p>
 </dd>
 </dl>
-<p>A tupe with three things: [0] best age and mass and their uncertainties; [1] the logage array and its likelihood function; [2] the logmass array and its likelihood function.
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><p>A tupe with three things: [0] best age and mass and their uncertainties; [1] the logage array and its likelihood function; [2] the logmass array and its likelihood function.
 [best_age, age_unc, best_mass, mass_unc], np.array([log_age_dummy, L_age_norm]), np.array([log_masses_dummy, L_mass_norm])</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.bayesian.derive_stellar_mass_age">
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.bayesian.</span></span><span class="sig-name descname"><span class="pre">derive_stellar_mass_age</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_prop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Baraffe_n_Feiden'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isochrone_data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isochrone_mat_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_uncertainties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_lfunc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'figures'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lfunc_data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toofaint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toobright</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">median_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.68</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">single_bayesian_for_nolum_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.bayesian.derive_stellar_mass_age" title="Link to this definition">¶</a></dt>
 <dd><p>Derives stellar mass and age from evolutionary tracks using a Bayesian framework.</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>df_prop: [DataFrame]</dt><dd><p>DataFrame containing stellar properties (Teff, Luminosity, etc.).
 The formated column needs to be: [‘Source’, ‘Teff[K]’, ‘e_Teff[K]’, ‘Luminosity[Lsun]’, ‘e_Luminosity[Lsun]’]</p>
 </dd>
@@ -191,7 +199,10 @@ will assign the minimum age in the read in evolutionary tracks to them. If this 
 <dt>single_bayesian_for_nolum_target: [bool, optional]</dt><dd><p>Whether to still run a single Bayesian for the target that does not have good luminosity measurement (too bright or faint or anyother). If True, will still run a single Bayesian method to derive the stellar mass with the assumed <cite>median_age</cite>, otherwise will only find the closest track and will not obtain an uncertainty.</p>
 </dd>
 </dl>
-<dl class="simple">
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>best_logmass_output: [array]</dt><dd><p>Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).</p>
 </dd>
 <dt>best_logage_output: [array]</dt><dd><p>Array containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).</p>
@@ -201,6 +212,7 @@ will assign the minimum age in the read in evolutionary tracks to them. If this 
 <dt>lmass_all: [dictionary]</dt><dd><p>The likelihood function of mass for all target</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
@@ -208,7 +220,9 @@ will assign the minimum age in the read in evolutionary tracks to them. If this 
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.bayesian.</span></span><span class="sig-name descname"><span class="pre">derive_stellar_mass_age_legacy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_prop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Baraffe_n_Feiden'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isochrone_data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isochrone_mat_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_uncertainties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_lfunc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'figures'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lfunc_data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toofaint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toobright</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">median_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.68</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">single_bayesian_for_nolum_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.bayesian.derive_stellar_mass_age_legacy" title="Link to this definition">¶</a></dt>
 <dd><p>Derives stellar mass and age from evolutionary tracks using a Bayesian framework.
 This is the method with the criteria that has been used in Pascucci2016</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>df_prop: [DataFrame]</dt><dd><p>DataFrame containing stellar properties (Teff, Luminosity, etc.).
 The formated column needs to be: [‘Source’, ‘Teff[K]’, ‘e_Teff[K]’, ‘Luminosity[Lsun]’, ‘e_Luminosity[Lsun]’]</p>
 </dd>
@@ -246,7 +260,10 @@ will assign the minimum age in the read in evolutionary tracks to them. If this 
 <dt>single_bayesian_for_nolum_target: [bool, optional]</dt><dd><p>Whether to still run a single Bayesian for the target that does not have good luminosity measurement (too bright or faint or anyother). If True, will still run a single Bayesian method to derive the stellar mass with the assumed <cite>median_age</cite>, otherwise will only find the closest track and will not obtain an uncertainty.</p>
 </dd>
 </dl>
-<dl class="simple">
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>best_logmass_output: [array]</dt><dd><p>Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).</p>
 </dd>
 <dt>best_logage_output: [array]</dt><dd><p>Array containing the best-fit ages and uncertainties (represent as lower and upper boundaries of the confidence interval).</p>
@@ -256,13 +273,16 @@ will assign the minimum age in the read in evolutionary tracks to them. If this 
 <dt>lmass_all: [dictionary]</dt><dd><p>The likelihood function of mass for all target</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.bayesian.derive_stellar_mass_age_closest_track">
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.bayesian.</span></span><span class="sig-name descname"><span class="pre">derive_stellar_mass_age_closest_track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_prop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Baraffe_n_Feiden'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isochrone_data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isochrone_mat_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.bayesian.derive_stellar_mass_age_closest_track" title="Link to this definition">¶</a></dt>
 <dd><p>Derives stellar mass and age by picking the closest point from the isochrone grid based on Teff and Luminosity.</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>df_prop: [DataFrame]</dt><dd><p>DataFrame containing stellar properties (Teff, Luminosity, etc.).
 The format for the columns needs to be: [‘Source’, ‘Teff[K]’, ‘Luminosity[Lsun]’]</p>
 </dd>
@@ -277,19 +297,25 @@ This is needed if you want to set the model as ‘customize’.</p>
 <dt>verbose: [bool, optional]</dt><dd><p>Whether to print verbose output. Default is False.</p>
 </dd>
 </dl>
-<dl class="simple">
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>best_mass_output: [array] unit Msolar</dt><dd><p>Array containing the closest log10mass for each star.</p>
 </dd>
 <dt>best_age_output: [array] unit yr</dt><dd><p>Array containing the closest log10age for each star.</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.bayesian.derive_stellar_mass_assuming_age">
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.bayesian.</span></span><span class="sig-name descname"><span class="pre">derive_stellar_mass_assuming_age</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_prop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assumed_age</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Baraffe_n_Feiden'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isochrone_data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isochrone_mat_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_uncertainties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.68</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.bayesian.derive_stellar_mass_assuming_age" title="Link to this definition">¶</a></dt>
 <dd><p>Derives stellar mass assuming a known age, even when luminosity is unavailable, considering uncertainties in Teff.</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>df_prop: [DataFrame]</dt><dd><p>DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
 The formatted column needs to be: [‘Source’, ‘Teff[K]’, ‘e_Teff[K]’]</p>
 </dd>
@@ -313,18 +339,27 @@ This is needed if you want to set the model as ‘custom’.</p>
 <dt>plot: [bool, optional]</dt><dd><p>Whether to plot the likelihood function for stellar mass. Default is False.</p>
 </dd>
 </dl>
-<p>the e_assumed_age=None has not been considered for now.</p>
+</div></blockquote>
 <dl class="simple">
+<dt>NOTE:</dt><dd><p>the e_assumed_age=None has not been considered for now.</p>
+</dd>
+</dl>
+<p>Returns:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>best_logmass_output: [array]</dt><dd><p>Array containing the best-fit masses and uncertainties (represent as lower and upper boundaries of the confidence interval).</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.bayesian.derive_stellar_mass_assuming_age_closest_trk">
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.bayesian.</span></span><span class="sig-name descname"><span class="pre">derive_stellar_mass_assuming_age_closest_trk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_prop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assumed_age</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Baraffe_n_Feiden'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isochrone_data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isochrone_mat_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.bayesian.derive_stellar_mass_assuming_age_closest_trk" title="Link to this definition">¶</a></dt>
 <dd><p>Derives stellar mass assuming a known age by finding the closest track on the isochrone grid based on Teff, without using the Bayesian method.</p>
-<dl class="simple">
+<p>Args:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>df_prop: [DataFrame]</dt><dd><p>DataFrame containing stellar properties (Teff) and (optional) Luminosity. 
 The format for the columns needs to be: [‘Source’, ‘Teff[K]’, ‘e_Teff[K]’]</p>
 </dd>
@@ -339,10 +374,14 @@ The format for the columns needs to be: [‘Source’, ‘Teff[K]’, ‘e_Teff[
 <dt>verbose: [bool, optional]</dt><dd><p>Whether to print verbose output. Default is False.</p>
 </dd>
 </dl>
-<dl class="simple">
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><dl class="simple">
 <dt>best_log_mass_output: [array] in Msolar</dt><dd><p>Array containing the closest log10 mass for each star.</p>
 </dd>
 </dl>
+</div></blockquote>
 </dd></dl>
 
 </section>
