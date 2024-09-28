@@ -4,3 +4,4 @@ myst_parser
 sphinx_design
 sphinx-autodoc2
 nbsphinx
+Ipython
