@@ -35,9 +35,12 @@ We also provide two other ways to estimate the stellar masses and ages from thes
 - The classical method that finds the closest point from the isochrones for each YSOs based on their $T_{\rm eff}$ and $L_{\rm bol}$ (the uncertainties are ignored in this method).
 - In some cases, when a good measurement of the stellar luminosity is unavailable,  we provide an option to set up the assumed age and then derive the stellar mass. Some examples when this method is useful include: targets that are very young and exceptionally bright; and targets with an edge-on disk so that the stellar $L_{\rm bol}$ is significantly underestimated.
 
-# Statement of Need and Code Summary
+# Statement of Need
 
 `ysoisochrone` is a `Python3` package that utilizes stellar evolutionary tracks to estimate stellar masses and ages of pre-main sequence stars with a Bayesian framework. While several papers in the literature utilize this method (e.g.,), an open-source code for YSOs is not available. `ysoisochrone` fills this gap. The code provides a uniform platform to handle different evolutionary models along with tutorials and detailed documentation for first users. 
+
 # Acknowledgements
 
 We thank Greg Herczeg for suggesting the blending of the Feiden and Baraffe evolutionary tracks to handle a large range of stellar masses. D.D. and I.P. acknowledge support from Collaborative NSF Astronomy \& Astrophysics Research grant (ID: 2205870).
+
+# References
