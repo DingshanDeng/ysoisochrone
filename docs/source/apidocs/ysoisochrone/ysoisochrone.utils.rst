@@ -226,7 +226,7 @@ API
 
    .. autodoc2-docstring:: ysoisochrone.utils.compare_grids
 
-.. py:function:: find_zams_index(teff_track, lum_track, age_track, last_point=False)
+.. py:function:: find_zams_index(teff_track, lum_track, age_track, massive_stars=True, log_age_max_preset=8.5, last_point=False)
    :canonical: ysoisochrone.utils.find_zams_index
 
    .. autodoc2-docstring:: ysoisochrone.utils.find_zams_index

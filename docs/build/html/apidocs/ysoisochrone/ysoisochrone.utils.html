@@ -492,27 +492,35 @@ Organizes the data into numpy arrays.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.utils.create_meshgrid_legacy">
-<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">create_meshgrid_legacy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.create_meshgrid_legacy" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">create_meshgrid_legacy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.015</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.create_meshgrid_legacy" title="Link to this definition">¶</a></dt>
 <dd><p>Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.
 The choice of the grid is adopted in Pascucci+2016, which worked fine with Feiden and Baraffe tacks
 But this choice cannot be adopted for older targets beyond 50 Myrs.</p>
 <dl class="simple">
-<dt>data_points: [np.array]</dt><dd><p>Array of [log_age, mass, teff, log_luminosity] data points.</p>
+<dt>data_points: [np.array]</dt><dd><p>Array of [mass, log_age, teff, log_luminosity] data points.</p>
 </dd>
 <dt>min_age: [float, optional] unit: Myrs</dt><dd><p>The minimum age that we will cut in this grid. Default = 0.5 Myrs</p>
 </dd>
 <dt>max_age: [float, optional] unit: Myrs</dt><dd><p>The maximum age that we will cut in this grid. Default = 50 Myrs because we are mainly interested in YSOs in this package. We set up a max_age so that we avoid the problem of dealing with the post-main-sequence targets (their luminosity rises up again and will overlay on the pre-main-sequence phase). 
 <strong>NOTE</strong> will add the feature to automatiaclly capture the turn-over point in the future.</p>
 </dd>
+<dt>min_mass: [float, optional] unit: Msolar</dt><dd><p>The minimum mass to include in the grid. Default = 0.015 Msolar</p>
+</dd>
+<dt>max_mass: [float, optional] unit: Msolar</dt><dd><p>The maximum mass to include in the grid. Default = 1.4 Msolar</p>
+</dd>
 <dt>interpolation_method: [str]</dt><dd><p>The interpolation method used in griddata. Default ‘linear’.</p>
 </dd>
 </dl>
 <dl class="simple">
-<dt>log_age_grid: [np.array]</dt><dd><p>2D meshgrid of log age values.</p>
+<dt>log_masses_i: [np.array]</dt><dd><p>1D array of the axis grid of log mass.</p>
 </dd>
-<dt>masses_grid: [np.array]</dt><dd><p>2D meshgrid of mass values.</p>
+<dt>log_age_i: [np.array] </dt><dd><p>1D array of the axis grid of log age.</p>
 </dd>
 <dt>logtlogl_grid: [np.array]</dt><dd><p>2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.</p>
+</dd>
+<dt>log_age_grid: [np.array]</dt><dd><p>2D meshgrid of log age values.</p>
+</dd>
+<dt>log_masses_grid: [np.array]</dt><dd><p>2D meshgrid of log mass values.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -522,7 +530,7 @@ But this choice cannot be adopted for older targets beyond 50 Myrs.</p>
 <span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">create_meshgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.create_meshgrid" title="Link to this definition">¶</a></dt>
 <dd><p>Creates a meshgrid for log_age and masses, and populates it with Teff and luminosity.</p>
 <dl class="simple">
-<dt>data_points: [np.array]</dt><dd><p>Array of [log_age, mass, teff, log_luminosity] data points.</p>
+<dt>data_points: [np.array]</dt><dd><p>Array of [mass, log_age, teff, log_luminosity] data points.</p>
 </dd>
 <dt>min_age: [float, optional] unit: Myrs</dt><dd><p>The minimum age that we will cut in this grid. Default = 0.5 Myrs</p>
 </dd>
@@ -536,11 +544,15 @@ But this choice cannot be adopted for older targets beyond 50 Myrs.</p>
 </dd>
 </dl>
 <dl class="simple">
-<dt>log_age_grid: [np.array]</dt><dd><p>2D meshgrid of log age values.</p>
+<dt>log_masses_i: [np.array]</dt><dd><p>1D array of the axis grid of log mass.</p>
 </dd>
-<dt>masses_grid: [np.array]</dt><dd><p>2D meshgrid of mass values.</p>
+<dt>log_age_i: [np.array] </dt><dd><p>1D array of the axis grid of log age.</p>
 </dd>
 <dt>logtlogl_grid: [np.array]</dt><dd><p>2D array of [log(Teff), log(Luminosity)] values mapped onto the grid.</p>
+</dd>
+<dt>log_age_grid: [np.array]</dt><dd><p>2D meshgrid of log age values.</p>
+</dd>
+<dt>log_masses_grid: [np.array]</dt><dd><p>2D meshgrid of log mass values.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -581,7 +593,7 @@ and plotting the differences.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ysoisochrone.utils.find_zams_index">
-<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">find_zams_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">teff_track</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lum_track</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age_track</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.find_zams_index" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ysoisochrone.utils.</span></span><span class="sig-name descname"><span class="pre">find_zams_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">teff_track</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lum_track</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age_track</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">massive_stars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_age_max_preset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_point</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ysoisochrone.utils.find_zams_index" title="Link to this definition">¶</a></dt>
 <dd><p>Finds the index corresponding to the Zero-Age Main Sequence (ZAMS) for a given stellar track.</p>
 <dl class="simple">
 <dt>teff_track: [array]</dt><dd><p>Array of effective temperatures (Teff) for the stellar track.</p>
@@ -589,6 +601,16 @@ and plotting the differences.</p>
 <dt>lum_track: [array]</dt><dd><p>Array of luminosities (L/Lo) for the stellar track.</p>
 </dd>
 <dt>age_track: [array]</dt><dd><p>Array of stellar ages for the track.</p>
+</dd>
+<dt>massive_stars: [bool, optional]</dt><dd><p>Whether this is a track for massive stars
+The ZAMS condition for massive stars and solar-mass stars are different</p>
+</dd>
+<dt>log_age_max_preset: [float, optional]</dt><dd><p>The maximum age that will be considered in the track
+This is only used for massive stars
+Default is 1.0e8.5 yrs (logage = 8.5).</p>
+</dd>
+<dt>last_point: [bool, optional]</dt><dd><p>Whether to simply use the last point in the trk as the ZAMS point.
+This is often used for very-low-mass stars</p>
 </dd>
 </dl>
 <dl class="simple">

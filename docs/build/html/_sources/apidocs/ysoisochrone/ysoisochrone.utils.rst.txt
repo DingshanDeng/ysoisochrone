@@ -206,7 +206,7 @@ API
 
    .. autodoc2-docstring:: ysoisochrone.utils.read_mist_v1p2_iso_file
 
-.. py:function:: create_meshgrid_legacy(data_points, min_age=0.5, max_age=50.0, interpolation_method='linear')
+.. py:function:: create_meshgrid_legacy(data_points, min_age=0.5, max_age=50.0, min_mass=0.015, max_mass=1.4, interpolation_method='linear')
    :canonical: ysoisochrone.utils.create_meshgrid_legacy
 
    .. autodoc2-docstring:: ysoisochrone.utils.create_meshgrid_legacy
@@ -226,7 +226,7 @@ API
 
    .. autodoc2-docstring:: ysoisochrone.utils.compare_grids
 
-.. py:function:: find_zams_index(teff_track, lum_track, age_track)
+.. py:function:: find_zams_index(teff_track, lum_track, age_track, massive_stars=True, log_age_max_preset=8.5, last_point=False)
    :canonical: ysoisochrone.utils.find_zams_index
 
    .. autodoc2-docstring:: ysoisochrone.utils.find_zams_index

@@ -13,7 +13,7 @@ ADS webpage: https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract
 
 Data are downloaded from http://perso.ens-lyon.fr/isabelle.baraffe/BHAC15dir/
 
-## Feiden et al. (2016)
+## Feiden (2016)
 Models from Feiden 2016, Astronomy & Astrophysics, Volume 593, id.A99, 11 pp. *Magnetic inhibition of convection and the fundamental properties of low-mass stars. III. A consistent 10 Myr age for the Upper Scorpius OB association*.
 
 ADS webpage: https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract
