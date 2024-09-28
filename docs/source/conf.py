@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('..'))
 project = 'ysoisochrone'
 copyright = '2024, Dingshan Deng'
 author = 'Dingshan Deng'
-release = '0.1.0.alpha'
+release = '0.3.2.alpha'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
