@@ -21,6 +21,8 @@ Rachel B. Fernandes, The Pennsylvania State University
 
 ## Installation
 
+First download the package release from the GitHub page. Then unzip the package.
+
 In the terminal and in the directory of this package where `setup.py` exists.
 
 ```bash 
