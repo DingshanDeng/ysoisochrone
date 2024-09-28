@@ -1,9 +1,7 @@
-furo==2021.11.16
 sphinx_rtd_theme
 myst_parser
 sphinx_design
 sphinx-autodoc2
 nbsphinx
-Ipython
+ipykernel
 linkify-it-py
-pandoc
