@@ -165,6 +165,11 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
                     age_positions=None, mass_rotation=None, 
                     age_rotation=None, mass_positions=None,
                     age_xycoords='data', mass_xycoords='data',
+                    color_stars='C0', color_zams='magenta',
+                    color_masses='darkred', color_ages='grey',
+                    color_masses_text='', color_ages_text='',
+                    linestyle_zams='-.',
+                    linestyle_masses='-', linestyle_ages='--',
                     xlim_set = None, ylim_set = None,
                     no_uncertainties = False,
                     zams_curve = True,
@@ -201,6 +206,24 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
             The xycoords for the age annotate. Default is 'data'. Refer to plt.annotate for details on this arg
         mass_xycoords: [str, optional]
             The xycoords for the mass annotate. Default is 'data'. Refer to plt.annotate for details on this arg
+        color_stars: [str, optional]
+            The colors for the stars, default is the default color 'C0' in Python.
+        color_zams: [str, optional]
+            The color for the zams line, default is 'magenta'.
+        color_masses: [str, optional]
+            The color for evolutionary tracks for each mass, default is 'darkred'
+        color_masses_text: [str, optional]
+            The color for texts for evolutionary tracks for each mass, default is the same as color_masses
+        color_ages: [str, optional]
+            The color for isochrones for ages, default is 'grey'
+        color_ages_text: [str, optional]
+            The color for the texts for isochrones for ages, default is 'black'
+        linestyle_zams: [str, optional]
+            The linestyle for zams, default is '-.' (solid dashed lines)
+        linestyle_masses: [str, optional]
+            The linestyle for evolutionary tracks for each mass, default is '-' (solid lines)
+        linestyle_ages: [str, optional]
+            The linestyle for isochrones for ages, default is '--' (dashed lines)
         xlim_set: [list, optional]
             The xlim from left to right [xlim_left, xlim_right]; default is None, so the code set it automatically
         ylim_set: [list, optional]
@@ -222,11 +245,23 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
     if masses_to_plot is None:
         masses_to_plot = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]  # solar masses
 
+    # Set auto positions if not provided
+    if age_positions is None:
+        age_positions = ['auto'] * len(ages_to_plot)
+    if mass_positions is None:
+        mass_positions = ['auto'] * len(masses_to_plot)
+    
     # Set default rotations if not provided
     if age_rotation is None:
         age_rotation = [0] * len(ages_to_plot)
     if mass_rotation is None:
         mass_rotation = [0] * len(masses_to_plot)
+        
+    # set the default color for mass and age texts
+    if color_masses_text == '':
+        color_masses_text = color_masses
+    if color_ages_text == '':
+        color_ages_text = 'k'
 
     # If df_prop is provided, extract values
     if df_prop is not None and not df_prop.empty:
@@ -249,15 +284,15 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
     # Plot stars with error bars if df_prop is not None or empty
     if teff is not None and luminosity is not None:
         if teff_err is not None and luminosity_err is not None:
-            ax.errorbar(teff, luminosity, xerr=teff_err, yerr=luminosity_err, fmt='o', color='blue', label='Stars', alpha=0.7)
+            ax.errorbar(teff, luminosity, xerr=teff_err, yerr=luminosity_err, fmt='o', color=color_stars, label='Stars', alpha=0.7)
         else:
-            ax.scatter(teff, luminosity, color='blue')
+            ax.scatter(teff, luminosity, color=color_stars)
         
     if zams_curve:
         # find the ZAMS
         teff_zams, lum_zams, mask_pms = utils.find_zams_curve(isochrone)
         # Plot ZAMS curve
-        ax.plot(teff_zams, lum_zams, color='magenta', linestyle='-.', label='ZAMS')    
+        ax.plot(teff_zams, lum_zams, color=color_zams, linestyle='-.', label='ZAMS')    
 
     # Convert isochrone logtlogl data to Teff and L/Lo
     teff_iso = 10**isochrone.logtlogl[:, :, 0]  # Teff
@@ -295,13 +330,13 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
             lum_filtered = lum_iso[idx_age, :][mask_pms[idx_age, :]]
 
             # Plot the pre-main-sequence part of the isochrone
-            ax.plot(teff_filtered, lum_filtered, '--', label=f'{10**age/1e6:.1f} Myr', color='grey')
+            ax.plot(teff_filtered, lum_filtered, linestyle_ages, label=f'{10**age/1e6:.1f} Myr', color=color_ages)
         else:
-            ax.plot(teff_iso[idx_age, :], lum_iso[idx_age, :], '--', label=f'{10**age/1e6:.1f} Myr', color='grey')
+            ax.plot(teff_iso[idx_age, :], lum_iso[idx_age, :], linestyle_ages, label=f'{10**age/1e6:.1f} Myr', color=color_ages)
         
         if not bare:
-            # Get automatic annotation position
-            if age_positions is None:
+            if age_positions[i] == 'auto': 
+                # Get automatic annotation position
                 max_teff = np.nanmax(teff_iso[idx_age, :])
                 x_point = np.nanmin([xlim[0], max_teff])
                 idx_max_x_point = np.nanargmin(np.abs(teff_iso[idx_age, :] - x_point))
@@ -314,7 +349,7 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
             ax.annotate(f'{10**age/1e6:.1f} Myr', 
                         xy=age_position,  # Place based on automatic or provided position
                         xycoords=age_xycoords,
-                        ha='left', va='top', fontsize=12, color='black', 
+                        ha='left', va='top', fontsize=12, color=color_ages_text, 
                         rotation=age_rotation[i])
         
     # Plot constant mass lines and annotate them at the top (max Luminosity)
@@ -330,14 +365,13 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
         if zams_curve:
             teff_filtered = teff_iso[:, idx_mass][mask_pms[:, idx_mass]]
             lum_filtered = lum_iso[:, idx_mass][mask_pms[:, idx_mass]]
-            # ax.plot(teff_iso[:, idx_mass], lum_iso[:, idx_mass], label=f'{mass:.1f} Msun', color='pink')
-            ax.plot(teff_filtered, lum_filtered, '-', label=f'{mass:.1f} Msun', color='darkred')
+            ax.plot(teff_filtered, lum_filtered, '-', label=f'{mass:.1f} Msun', color=color_masses)
         else:
-            ax.plot(teff_iso[:, idx_mass], lum_iso[:, idx_mass], '-', label=f'{mass:.1f} Msun', color='darkred')
+            ax.plot(teff_iso[:, idx_mass], lum_iso[:, idx_mass], '-', label=f'{mass:.1f} Msun', color=color_masses)
 
         if not bare:
-            # Get automatic annotation position
-            if mass_positions is None:
+            if mass_positions[i] == 'auto':
+                # Get automatic annotation position
                 x_point = teff_iso[np.nanargmax(lum_iso[:, idx_mass]), idx_mass]
                 max_lum = np.nanmax(lum_iso[:, idx_mass])
                 y_point = np.nanmin([max_lum, ylim[1]])
@@ -349,7 +383,7 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
             ax.annotate(f'{mass:.1f} Msun', 
                         xy=mass_position,  # Place based on automatic or provided position
                         xycoords=mass_xycoords,
-                        ha='center', va='bottom', fontsize=12, color='darkred',
+                        ha='center', va='bottom', fontsize=12, color=color_masses_text,
                         rotation=mass_rotation[i])
     
     ax.set_yscale('log')  # Luminosity is plotted on a logarithmic scale

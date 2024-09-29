@@ -298,10 +298,10 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         if np.any([source_t in toofaint, source_t in toobright]):
             if verbose:
                 if source_t in toofaint:
-                    print('this target %s is too faint, so we assign the closest age and mass instead using Bayesian framework'%(source_t))
+                    print('this target %s is too faint, it is likely to have an edge-on disk, so we assign the median age (%.2f Myrs) of the region to the target'%(source_t, median_age))
                     
                 elif source_t in toobright:
-                    print('this target %s is too bright, so we assign the closest age and mass instead using Bayesian framework'%(source_t))
+                    print('this target %s is too bright, so we assign the smallest age to this target.'%(source_t))
             
             # Handle special cases for faint or bright stars
             if source_t in toofaint:
@@ -313,6 +313,8 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
                 res = derive_stellar_mass_assuming_age(df_prop.loc[[ii]], assumed_age=c_age, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, no_uncertainties=no_uncertainties, confidence_interval=confidence_interval, verbose=verbose, plot=plot)
                 best_logmass_wunc = res[0]
             else:
+                if verbose:
+                    print('we find the closest point from the model to this target (%s) instead of using Bayesian framework'%(source_t))
                 res = derive_stellar_mass_assuming_age_closest_trk(df_prop.loc[[ii]], assumed_age=1.5e6, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, verbose=verbose)
                 best_logmass_wunc = [res[0], 0, 0]
             
@@ -491,10 +493,10 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
         if np.any([source_t in toofaint, source_t in toobright]):
             if verbose:
                 if source_t in toofaint:
-                    print('this target %s is too faint, so we assign the closest age and mass instead using Bayesian framework'%(source_t))
+                    print('this target %s is too faint, it is likely to have an edge-on disk, so we assign the median age (%.2f Myrs) of the region to the target'%(source_t, median_age))
                     
                 elif source_t in toobright:
-                    print('this target %s is too bright, so we assign the closest age and mass instead using Bayesian framework'%(source_t))
+                    print('this target %s is too bright, so we assign the smallest age to this target.'%(source_t))
             
             # Handle special cases for faint or bright stars
             if source_t in toofaint:

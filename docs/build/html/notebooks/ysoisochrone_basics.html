@@ -61,7 +61,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#Estimate-its-age-and-mass-from-Bayesian-inference-approach">Estimate its age and mass from Bayesian inference approach</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Your-first-large-dataset">Your first large dataset</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Read-in-a-csv-table">Read in a csv table</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Have-a-look-on-HRD">Have a look on HRD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Have-a-look-on-HRD-and-define-targets-that-are-toobright-and/or-too-faint">Have a look on HRD and define targets that are toobright and/or too faint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Estimate-Mass-and-Ages">Estimate Mass and Ages</a></li>
 </ul>
 </li>
@@ -240,13 +240,14 @@ If you use the Feiden tracks, please cite from: https://ui.adsabs.harvard.edu/ab
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set up a DataFrame in Python script</span>
-
+<span class="c1"># For this target Sz71, values are from Alcala+2017,</span>
+<span class="c1"># and corrected later with the Gaia DR3 distance in Manara+2023</span>
 <span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;Source&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Sz65&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4060.0</span><span class="p">]),</span>
-    <span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">187.0</span><span class="p">]),</span>
-    <span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.869</span><span class="p">]),</span>
-    <span class="s1">&#39;e_Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3623</span><span class="p">])</span>
+    <span class="s1">&#39;Source&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Sz71&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3632.0</span><span class="p">]),</span>
+    <span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">167.0</span><span class="p">]),</span>
+    <span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.327</span><span class="p">]),</span>
+    <span class="s1">&#39;e_Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1420</span><span class="p">])</span>
 <span class="p">})</span>
 </pre></div>
 </div>
@@ -336,7 +337,7 @@ cool stars (<img class="math" src="../_images/math/71ce0804603ce220a582e69f9711d
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 1/1 [00:00&lt;00:00,  2.50it/s]
+100%|██████████| 1/1 [00:00&lt;00:00,  2.45it/s]
 </pre></div></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">model</span></code> here is for calling different evolutionary tracks, by default we use <code class="docutils literal notranslate"><span class="pre">model='Baraffe_n_Feiden'</span></code>, which is the combination of Baraffe and Feiden tracks. Other choices include: <code class="docutils literal notranslate"><span class="pre">'Baraffe2015'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Feiden2016'</span></code>, <code class="docutils literal notranslate"><span class="pre">'PARSEC_v2p0'</span></code> (same as <code class="docutils literal notranslate"><span class="pre">'PARSEC'</span></code>), <code class="docutils literal notranslate"><span class="pre">'PARSEC_v1p2'</span></code> or <code class="docutils literal notranslate"><span class="pre">'custome'</span></code>. If you want to use your own customized isochrone, you need to set the <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">'custome'</span></code>, and also provide the absolute directory for the isochrone matrix file <code class="docutils literal notranslate"><span class="pre">isochrone_mat_file</span></code>. See
@@ -375,9 +376,9 @@ cool stars (<img class="math" src="../_images/math/71ce0804603ce220a582e69f9711d
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-For target Sz65
-The estimated mass is: 0.68 + 0.20 - 0.14 [Msun]
-The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
+For target Sz71
+The estimated mass is: 0.43 + 0.14 - 0.10 [Msun]
+The estimated age is: 1.73 + 1.97 - 0.94 [Myrs]
 </pre></div></div>
 </div>
 <p>The distribution of the two likelihood functions for mass and age (<code class="docutils literal notranslate"><span class="pre">lmass</span></code> and <code class="docutils literal notranslate"><span class="pre">lage</span></code>) for this target has already been presented in the plot above. But if you want to take a look again, you can read them out follow this plotting script</p>
@@ -400,7 +401,7 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 <span class="n">text_mass</span> <span class="o">=</span> <span class="s1">&#39;estimated mass</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;${</span><span class="si">%.2f</span><span class="s1">}^{+</span><span class="si">%.2f</span><span class="s1">}_{-</span><span class="si">%.2f</span><span class="s1">}\,[M_\odot]$&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">],</span>\
             <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;up_mass[Msun]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">],</span>\
             <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;lw_mass[Msun]&#39;</span><span class="p">])</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text_mass</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text_mass</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\log_</span><span class="si">{10}</span><span class="s1">\,{\rm Mass}\,[M_\odot]$&#39;</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Likelihood&#39;</span><span class="p">)</span>
@@ -430,6 +431,7 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 <img alt="../_images/notebooks_ysoisochrone_basics_18_0.png" src="../_images/notebooks_ysoisochrone_basics_18_0.png" />
 </div>
 </div>
+<p>of course you can save these output</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -445,12 +447,12 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 <section id="Read-in-a-csv-table">
 <h3>Read in a csv table<a class="headerlink" href="#Read-in-a-csv-table" title="Link to this heading">¶</a></h3>
 <p>When dealing with larger dataset, the easiest way is to create a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file using EXCEL or similar software, and this file includes these columns, and then you can utilize <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to read in this file. Later you use this as an input.</p>
-<p>Here we prepared an example file called <code class="docutils literal notranslate"><span class="pre">'example_targets.csv'</span></code> in this tutorial. This is part of the Cham I sample that discussed in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a>.</p>
+<p>Here we prepared an example file called <code class="docutils literal notranslate"><span class="pre">'example_targets.csv'</span></code> in this tutorial. This is the Cham I sample that discussed in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_targets.csv&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_targets.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
 
 <span class="n">df_prop</span>
 </pre></div>
@@ -480,96 +482,94 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
       <th></th>
       <th>Source</th>
       <th>Teff[K]</th>
-      <th>e_Teff[K]</th>
       <th>Luminosity[Lsun]</th>
-      <th>e_Luminosity[Lsun]</th>
+      <th>Ref</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>Sz65</td>
-      <td>4060</td>
-      <td>187.0</td>
-      <td>0.869</td>
-      <td>0.3623</td>
+      <td>J10533978-7712338</td>
+      <td>3560.0</td>
+      <td>0.016</td>
+      <td>M16b</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Sz71</td>
-      <td>3632</td>
-      <td>167.0</td>
-      <td>0.327</td>
-      <td>0.1420</td>
+      <td>J10555973-7724399</td>
+      <td>4060.0</td>
+      <td>0.180</td>
+      <td>M16a</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>J16124373-3815031</td>
-      <td>3705</td>
-      <td>171.0</td>
-      <td>0.390</td>
-      <td>0.2691</td>
+      <td>J10561638-7630530</td>
+      <td>2935.0</td>
+      <td>0.080</td>
+      <td>M16b</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Sz72</td>
-      <td>3560</td>
-      <td>164.0</td>
-      <td>0.272</td>
-      <td>0.1160</td>
+      <td>J10563044-7711393</td>
+      <td>4060.0</td>
+      <td>0.430</td>
+      <td>M16a</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Sz77</td>
-      <td>4060</td>
-      <td>187.0</td>
-      <td>0.593</td>
-      <td>0.2428</td>
+      <td>J10574219-7659356</td>
+      <td>3415.0</td>
+      <td>0.530</td>
+      <td>M16b</td>
     </tr>
     <tr>
-      <th>5</th>
-      <td>J16085324-3914401</td>
-      <td>3415</td>
-      <td>79.0</td>
-      <td>0.198</td>
-      <td>0.1477</td>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>6</th>
-      <td>Sz131</td>
-      <td>3415</td>
-      <td>79.0</td>
-      <td>0.150</td>
-      <td>0.0583</td>
+      <th>88</th>
+      <td>J11173700-7704381</td>
+      <td>3780.0</td>
+      <td>0.420</td>
+      <td>M14</td>
     </tr>
     <tr>
-      <th>7</th>
-      <td>Sz66</td>
-      <td>3415</td>
-      <td>79.0</td>
-      <td>0.216</td>
-      <td>0.0920</td>
+      <th>89</th>
+      <td>J11175211-7629392</td>
+      <td>3198.0</td>
+      <td>0.087</td>
+      <td>L07</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>Sz95</td>
-      <td>3415</td>
-      <td>79.0</td>
-      <td>0.267</td>
-      <td>0.1842</td>
+      <th>90</th>
+      <td>J11183572-7935548</td>
+      <td>3125.0</td>
+      <td>0.260</td>
+      <td>M16b</td>
     </tr>
     <tr>
-      <th>9</th>
-      <td>V1094Sco</td>
-      <td>4205</td>
-      <td>193.0</td>
-      <td>1.210</td>
-      <td>0.8633</td>
+      <th>91</th>
+      <td>J11241186-7630425</td>
+      <td>3060.0</td>
+      <td>0.030</td>
+      <td>M16b</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>J11432669-7804454</td>
+      <td>3060.0</td>
+      <td>0.090</td>
+      <td>M16b</td>
     </tr>
   </tbody>
 </table>
+<p>93 rows × 4 columns</p>
 </div></div>
 </div>
+<p>Reference here: L07 = <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2007ApJS..173..104L/abstract">Luhman (2007)</a>; M14 = <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2014A%26A...568A..18M/abstract">Manara et al. 2014</a>; M16a = <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016A%26A...585A.136M/abstract">Manara et al. 2016a</a>; M16b = <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016A%26A...591L...3M/abstract">Manara et al. 2016b</a>. They are also summarized in the head of the <code class="docutils literal notranslate"><span class="pre">'example_targets.csv'</span></code>.</p>
 <p><strong>NOTE</strong></p>
 <p>The uncertainties for <img class="math" src="../_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/> and <img class="math" src="../_images/math/19eef1966f7c545af3ac8c0fa486974d873e3c65.png" alt="L"/> are required in this approach, if you have no idea on what would be the <code class="docutils literal notranslate"><span class="pre">'e_Teff[K]'</span></code> and/or <code class="docutils literal notranslate"><span class="pre">'e_Luminosity[Lsun]'</span></code> (or just want a quick test), you can turn on the option <code class="docutils literal notranslate"><span class="pre">no_uncertainties=True</span></code> in <code class="docutils literal notranslate"><span class="pre">ysoisochrone.bayesian.derive_stellar_mass_age</span></code>. In this way, the code will automatically assign the uncertainties to your sample following the choice made in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al.
 (2016)</a> with the pre-assumed uncertainties for <img class="math" src="../_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/> and <img class="math" src="../_images/math/19eef1966f7c545af3ac8c0fa486974d873e3c65.png" alt="L"/>:</p>
@@ -578,11 +578,16 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 <li><p><img class="math" src="../_images/math/088d391fbc5ef169c4e4a0cb5ba9e324d08f01d0.png" alt="\sigma(\log_{10}L = 0.1)"/> for all targets</p></li>
 </ul>
 <p>You can also assign these default uncertainties to your <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> (<code class="docutils literal notranslate"><span class="pre">df_prop</span></code>) by calling</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">err_Teff</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_teff</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Teff[K]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">err_Teff</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_teff</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Teff[K]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 <span class="n">err_Lumi</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_lumi</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 <span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Teff</span>
 <span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Luminosity[Lsun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Lumi</span>
 </pre></div>
+</div>
 </div>
 <p><em>we encourage the users to set up your own uncertainties</em> in the input <code class="docutils literal notranslate"><span class="pre">df_prop</span></code> for your targets even you do not have the meausred values. You can do this by changing the numbers in the input <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file or utilize the feature for <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="c1"># An array of the e_Teff you set up</span>
@@ -591,15 +596,61 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 </div>
 <p><strong>TIPS</strong></p>
 <p><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> is a very versatile class. Please refer to <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">Data Frame</a> for how to handle the <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>. It is a powerful tool that you can not only import data from <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files but many other format such as <code class="docutils literal notranslate"><span class="pre">.xlsx</span></code>, <code class="docutils literal notranslate"><span class="pre">.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">.html</span></code>. For theo output files, it can also be utilized to generate <code class="docutils literal notranslate"><span class="pre">latex</span></code> format files <code class="docutils literal notranslate"><span class="pre">.tex</span></code> so it can be easily import to your on going <code class="docutils literal notranslate"><span class="pre">latex</span></code> manuscript.</p>
+<p>One useful script for astronomers could be reading the machine readable tables (MRT), such as the <a class="reference external" href="https://content.cld.iop.org/journals/0004-637X/831/2/125/revision1/apjaa3a39t1_mrt.txt">table 1 in Pascucci et al. 2016</a> (<em>you need to download your own MRT tables</em>)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">astropy.io.ascii</span>
+<span class="c1"># read in the Pasccuci+2016 table 1</span>
+<span class="n">file_t</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_dir_t</span><span class="p">,</span> <span class="s1">&#39;yourtable_mrt.txt&#39;</span><span class="p">)</span>
+<span class="c1"># Read the table with the correct data start line</span>
+<span class="n">table_t</span> <span class="o">=</span> <span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file_t</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
+<span class="c1"># Convert to pandas DataFrame</span>
+<span class="n">df_yourtable</span> <span class="o">=</span> <span class="n">table_t</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
-<section id="Have-a-look-on-HRD">
-<h3>Have a look on HRD<a class="headerlink" href="#Have-a-look-on-HRD" title="Link to this heading">¶</a></h3>
-<p>You can overplot them on the top of the isochrones in the Hertzsprung–Russell diagram (HR diagram).</p>
+<section id="Have-a-look-on-HRD-and-define-targets-that-are-toobright-and/or-too-faint">
+<h3>Have a look on HRD and define targets that are toobright and/or too faint<a class="headerlink" href="#Have-a-look-on-HRD-and-define-targets-that-are-toobright-and/or-too-faint" title="Link to this heading">¶</a></h3>
+<p>You can overplot them on the top of the isochrones in the Hertzsprung–Russell diagram (HR diagram) and check for the targets that are too bright/faint.</p>
+<p><strong>WARNING</strong> Normaly we need to assign ages to the targets that are too bright/faint otherwise the Bayesian method would not give a robust estimate. So we assign the age as follows and find their best-fit masses from the cloest track. - for targets that are too bright, we assign the youngest age from the model grid. - for targets that are too faint (could because it has an edge-on disk), we assign the median age of the star-forming region.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># you need to specify the source names</span>
+<span class="n">toobright</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;J11065906-7718535&#39;</span><span class="p">,</span><span class="s1">&#39;J11094260-7725578&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;J11105597-7645325&#39;</span><span class="p">,</span><span class="s1">&#39;J11183572-7935548&#39;</span><span class="p">]</span>
+<span class="n">toofaint</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;J10533978-7712338&#39;</span><span class="p">,</span><span class="s1">&#39;J11063945-7736052&#39;</span><span class="p">,</span><span class="s1">&#39;J11082570-7716396&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;J11111083-7641574&#39;</span><span class="p">,</span><span class="s1">&#39;J11160287-7624533&#39;</span><span class="p">]</span>
+
+<span class="c1"># the median age for Cham I star-forming region</span>
+<span class="n">median_age</span> <span class="o">=</span> <span class="mf">6.48</span> <span class="c1"># Myrs, the age took from Pasucci+2016 choice</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># form the df_toobright and df_toofaint only for plot</span>
+<span class="n">idx_toobright</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">idx_toofaint</span>  <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">idx_t</span> <span class="ow">in</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_t</span><span class="p">,</span> <span class="s1">&#39;Source&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">toobright</span><span class="p">:</span>
+        <span class="n">idx_toobright</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx_t</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_t</span><span class="p">,</span> <span class="s1">&#39;Source&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">toofaint</span><span class="p">:</span>
+        <span class="n">idx_toofaint</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx_t</span><span class="p">)</span>
+
+<span class="n">df_toobright</span> <span class="o">=</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_toobright</span><span class="p">]</span>
+<span class="n">df_toofaint</span> <span class="o">=</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_toofaint</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ylim_set</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot HDR</span>
+
+<span class="n">ylim_set</span> <span class="o">=</span> <span class="p">[</span><span class="mf">5e-4</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span><span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;wspace&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">})</span>
 
@@ -607,7 +658,23 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 <span class="n">isochrone</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">isochrone</span><span class="o">.</span><span class="n">Isochrone</span><span class="p">()</span>
 <span class="n">isochrone</span><span class="o">.</span><span class="n">set_tracks</span><span class="p">(</span><span class="s1">&#39;Feiden2016&#39;</span><span class="p">)</span>
 
-<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">df_prop</span><span class="p">,</span> <span class="n">ax_set</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlim_set</span><span class="o">=</span><span class="p">[</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">3900</span><span class="p">],</span> <span class="n">ylim_set</span><span class="o">=</span><span class="n">ylim_set</span><span class="p">)</span>
+<span class="c1"># sometimes the automatic algrithm does not give good-looking texts</span>
+<span class="c1"># you can change them like this:</span>
+<span class="c1"># define user customized masses texts</span>
+<span class="n">masses_to_plot_t</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span>   <span class="mf">0.8</span><span class="p">,</span>   <span class="mf">1.0</span><span class="p">,</span>   <span class="mf">1.2</span><span class="p">,</span>   <span class="mf">1.5</span><span class="p">,</span>   <span class="mf">2.0</span><span class="p">]</span>
+<span class="n">mass_positions_t</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span><span class="s1">&#39;auto&#39;</span><span class="p">,(</span><span class="mi">4950</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span> <span class="c1"># the tuple is the data location for this text</span>
+<span class="c1"># you can also change the rotaion of the texts</span>
+<span class="c1"># mass_rotation_t  = [0,      0,     0,     0,      0,    -19]</span>
+
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">df_prop</span><span class="p">,</span> <span class="n">ax_set</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlim_set</span><span class="o">=</span><span class="p">[</span><span class="mi">5400</span><span class="p">,</span> <span class="mi">3900</span><span class="p">],</span> <span class="n">ylim_set</span><span class="o">=</span><span class="n">ylim_set</span><span class="p">,</span>
+                                      <span class="n">color_stars</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span>
+                                      <span class="n">masses_to_plot</span><span class="o">=</span><span class="n">masses_to_plot_t</span><span class="p">,</span>
+                                      <span class="n">mass_positions</span><span class="o">=</span><span class="n">mass_positions_t</span><span class="p">)</span>
+<span class="c1"># some additional useful parameters that can be changed for plot_hr_diagram</span>
+<span class="c1"># mass_rotation=mass_rotation_t,</span>
+<span class="c1"># ages_to_plot=[0.5e6, 1.0e6, 5.0e6, 10.0e6, 100.0e6], # in the unit of yr</span>
+<span class="c1"># age_positions=[&#39;auto&#39;,&#39;auto&#39;,&#39;auto&#39;,&#39;auto&#39;,&#39;auto&#39;]</span>
+<span class="c1"># age_rotation=[0,      0,     0,     0,      0]</span>
 
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Feiden 2016&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -616,10 +683,26 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 <span class="n">isochrone</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">isochrone</span><span class="o">.</span><span class="n">Isochrone</span><span class="p">()</span>
 <span class="n">isochrone</span><span class="o">.</span><span class="n">set_tracks</span><span class="p">(</span><span class="s1">&#39;Baraffe2015&#39;</span><span class="p">)</span>
 
-<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">df_prop</span><span class="p">,</span> <span class="n">ax_set</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xlim_set</span><span class="o">=</span><span class="p">[</span><span class="mi">3900</span><span class="p">,</span> <span class="mi">3000</span><span class="p">],</span> <span class="n">ylim_set</span><span class="o">=</span><span class="n">ylim_set</span><span class="p">)</span>
+<span class="n">masses_to_plot_t</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">df_prop</span><span class="p">,</span> <span class="n">ax_set</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xlim_set</span><span class="o">=</span><span class="p">[</span><span class="mi">3900</span><span class="p">,</span> <span class="mi">2800</span><span class="p">],</span> <span class="n">ylim_set</span><span class="o">=</span><span class="n">ylim_set</span><span class="p">,</span>
+                                      <span class="n">color_stars</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span>
+                                      <span class="n">masses_to_plot</span><span class="o">=</span><span class="n">masses_to_plot_t</span><span class="p">)</span>
 
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Baraffe+2015&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># plot the too bright and too faint ones</span>
+<span class="k">for</span> <span class="n">ax_t</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax_t</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_toobright</span><span class="p">[</span><span class="s1">&#39;Teff[K]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">df_toobright</span><span class="p">[</span><span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax_t</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_toofaint</span><span class="p">[</span><span class="s1">&#39;Teff[K]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">df_toofaint</span><span class="p">[</span><span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Stars too faint </span><span class="se">\n</span><span class="s1">assign region median age = </span><span class="si">%.2f</span><span class="s1"> Myr&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">median_age</span><span class="p">),</span>
+                 <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Starts too bright </span><span class="se">\n</span><span class="s1">assign model min(age) = </span><span class="si">%.2f</span><span class="s1"> Myr&#39;</span><span class="o">%</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">isochrone</span><span class="o">.</span><span class="n">log_age</span><span class="p">)</span><span class="o">/</span><span class="mf">1e6</span><span class="p">),</span>
+                 <span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.80</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -629,7 +712,7 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_ysoisochrone_basics_26_0.png" src="../_images/notebooks_ysoisochrone_basics_26_0.png" />
+<img alt="../_images/notebooks_ysoisochrone_basics_32_0.png" src="../_images/notebooks_ysoisochrone_basics_32_0.png" />
 </div>
 </div>
 </section>
@@ -641,7 +724,9 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_logmass_output</span><span class="p">,</span> <span class="n">best_logage_output</span><span class="p">,</span> <span class="n">lmass_all</span><span class="p">,</span> <span class="n">lage_all</span> <span class="o">=</span>\
-    <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_age</span><span class="p">(</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">)</span>
+    <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_age</span><span class="p">(</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">,</span> <span class="n">toobright</span><span class="o">=</span><span class="n">toobright</span><span class="p">,</span> <span class="n">toofaint</span><span class="o">=</span><span class="n">toofaint</span><span class="p">,</span> <span class="n">median_age</span><span class="o">=</span><span class="n">median_age</span><span class="p">)</span>
+<span class="c1"># other useful options.</span>
+<span class="c1"># isochrone_data_dir=None, no_uncertainties=True, plot=False, save_fig=False, save_lfunc=False, fig_save_dir=&#39;figures&#39;, csv_save_dir=&#39;lfunc_data&#39;, verbose=False</span>
 </pre></div>
 </div>
 </div>
@@ -650,7 +735,7 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 10/10 [00:00&lt;00:00, 39.85it/s]
+100%|██████████| 93/93 [00:02&lt;00:00, 35.98it/s]
 </pre></div></div>
 </div>
 <p>An example of saving these <code class="docutils literal notranslate"><span class="pre">output</span></code> numbers are</p>
@@ -698,8 +783,9 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
       <th></th>
       <th>Source</th>
       <th>Teff[K]</th>
-      <th>e_Teff[K]</th>
       <th>Luminosity[Lsun]</th>
+      <th>Ref</th>
+      <th>e_Teff[K]</th>
       <th>e_Luminosity[Lsun]</th>
       <th>logmass[Msun]</th>
       <th>lw_logmass[Msun]</th>
@@ -718,206 +804,238 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
   <tbody>
     <tr>
       <th>0</th>
-      <td>Sz65</td>
-      <td>4060</td>
-      <td>187.0</td>
-      <td>0.869</td>
-      <td>0.3623</td>
-      <td>-0.165757</td>
-      <td>-0.265757</td>
-      <td>-0.055757</td>
-      <td>6.06897</td>
-      <td>5.75897</td>
-      <td>6.34897</td>
-      <td>0.682720</td>
-      <td>0.542304</td>
-      <td>0.879513</td>
-      <td>1.172114</td>
-      <td>0.574077</td>
-      <td>2.233418</td>
+      <td>J10533978-7712338</td>
+      <td>3560.0</td>
+      <td>0.016</td>
+      <td>M16b</td>
+      <td>163.944059</td>
+      <td>0.003684</td>
+      <td>-0.430000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>6.48000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.371535</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>3.019952</td>
+      <td>0.000001</td>
+      <td>0.000001</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>Sz71</td>
-      <td>3632</td>
-      <td>167.0</td>
-      <td>0.327</td>
-      <td>0.1420</td>
-      <td>-0.370000</td>
-      <td>-0.480000</td>
-      <td>-0.250000</td>
-      <td>6.23897</td>
-      <td>5.89897</td>
-      <td>6.56897</td>
-      <td>0.426580</td>
-      <td>0.331131</td>
-      <td>0.562341</td>
-      <td>1.733684</td>
-      <td>0.792447</td>
-      <td>3.706551</td>
+      <td>J10555973-7724399</td>
+      <td>4060.0</td>
+      <td>0.180</td>
+      <td>M16a</td>
+      <td>186.969910</td>
+      <td>0.041447</td>
+      <td>-0.125757</td>
+      <td>-0.165757</td>
+      <td>-0.045757</td>
+      <td>7.17897</td>
+      <td>6.91897</td>
+      <td>7.44897</td>
+      <td>0.748587</td>
+      <td>0.682720</td>
+      <td>0.900000</td>
+      <td>15.099759</td>
+      <td>8.297935</td>
+      <td>28.117066</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>J16124373-3815031</td>
-      <td>3705</td>
-      <td>171.0</td>
-      <td>0.390</td>
-      <td>0.2691</td>
-      <td>-0.320000</td>
-      <td>-0.430000</td>
-      <td>-0.210000</td>
-      <td>6.23897</td>
-      <td>5.80897</td>
-      <td>6.65897</td>
-      <td>0.478630</td>
-      <td>0.371535</td>
-      <td>0.616595</td>
-      <td>1.733684</td>
-      <td>0.644125</td>
-      <td>4.560054</td>
+      <td>J10561638-7630530</td>
+      <td>2935.0</td>
+      <td>0.080</td>
+      <td>M16b</td>
+      <td>67.580872</td>
+      <td>0.018421</td>
+      <td>-0.960000</td>
+      <td>-1.010000</td>
+      <td>-0.880000</td>
+      <td>5.70897</td>
+      <td>5.69897</td>
+      <td>5.90897</td>
+      <td>0.109648</td>
+      <td>0.097724</td>
+      <td>0.131826</td>
+      <td>0.511646</td>
+      <td>0.500000</td>
+      <td>0.810905</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Sz72</td>
-      <td>3560</td>
-      <td>164.0</td>
-      <td>0.272</td>
-      <td>0.1160</td>
-      <td>-0.410000</td>
-      <td>-0.530000</td>
-      <td>-0.280000</td>
-      <td>6.23897</td>
-      <td>5.87897</td>
-      <td>6.56897</td>
-      <td>0.389045</td>
-      <td>0.295121</td>
-      <td>0.524807</td>
-      <td>1.733684</td>
-      <td>0.756781</td>
-      <td>3.706551</td>
+      <td>J10563044-7711393</td>
+      <td>4060.0</td>
+      <td>0.430</td>
+      <td>M16a</td>
+      <td>186.969910</td>
+      <td>0.099011</td>
+      <td>-0.065757</td>
+      <td>-0.145757</td>
+      <td>0.024243</td>
+      <td>6.60897</td>
+      <td>6.34897</td>
+      <td>6.87897</td>
+      <td>0.859493</td>
+      <td>0.714895</td>
+      <td>1.057408</td>
+      <td>4.064153</td>
+      <td>2.233418</td>
+      <td>7.567806</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>Sz77</td>
-      <td>4060</td>
-      <td>187.0</td>
-      <td>0.593</td>
-      <td>0.2428</td>
-      <td>-0.135757</td>
-      <td>-0.235757</td>
-      <td>-0.035757</td>
-      <td>6.35897</td>
-      <td>6.02897</td>
-      <td>6.67897</td>
-      <td>0.731547</td>
-      <td>0.581089</td>
-      <td>0.920964</td>
-      <td>2.285441</td>
-      <td>1.068981</td>
-      <td>4.774963</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>J16085324-3914401</td>
-      <td>3415</td>
-      <td>79.0</td>
-      <td>0.198</td>
-      <td>0.1477</td>
-      <td>-0.520000</td>
-      <td>-0.590000</td>
-      <td>-0.450000</td>
-      <td>6.20897</td>
-      <td>5.69897</td>
-      <td>6.62897</td>
-      <td>0.301995</td>
-      <td>0.257040</td>
-      <td>0.354813</td>
-      <td>1.617968</td>
-      <td>0.500000</td>
-      <td>4.255690</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Sz131</td>
-      <td>3415</td>
-      <td>79.0</td>
-      <td>0.150</td>
-      <td>0.0583</td>
-      <td>-0.510000</td>
-      <td>-0.580000</td>
-      <td>-0.430000</td>
-      <td>6.45897</td>
-      <td>6.17897</td>
-      <td>6.74897</td>
-      <td>0.309030</td>
-      <td>0.263027</td>
-      <td>0.371535</td>
-      <td>2.877200</td>
-      <td>1.509976</td>
-      <td>5.610092</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Sz66</td>
-      <td>3415</td>
-      <td>79.0</td>
-      <td>0.216</td>
-      <td>0.0920</td>
+      <td>J10574219-7659356</td>
+      <td>3415.0</td>
+      <td>0.530</td>
+      <td>M16b</td>
+      <td>78.633281</td>
+      <td>0.122037</td>
       <td>-0.530000</td>
-      <td>-0.600000</td>
-      <td>-0.460000</td>
-      <td>6.20897</td>
-      <td>5.92897</td>
-      <td>6.48897</td>
+      <td>-0.570000</td>
+      <td>-0.480000</td>
+      <td>5.76897</td>
+      <td>5.69897</td>
+      <td>5.85897</td>
       <td>0.295121</td>
-      <td>0.251189</td>
-      <td>0.346737</td>
-      <td>1.617968</td>
-      <td>0.849122</td>
-      <td>3.082975</td>
+      <td>0.269153</td>
+      <td>0.331131</td>
+      <td>0.587449</td>
+      <td>0.500000</td>
+      <td>0.722720</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>Sz95</td>
-      <td>3415</td>
-      <td>79.0</td>
-      <td>0.267</td>
-      <td>0.1842</td>
-      <td>-0.530000</td>
-      <td>-0.600000</td>
-      <td>-0.460000</td>
-      <td>6.06897</td>
-      <td>5.69897</td>
-      <td>6.41897</td>
-      <td>0.295121</td>
-      <td>0.251189</td>
-      <td>0.346737</td>
-      <td>1.172114</td>
-      <td>0.500000</td>
-      <td>2.624037</td>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>9</th>
-      <td>V1094Sco</td>
-      <td>4205</td>
-      <td>193.0</td>
-      <td>1.210</td>
-      <td>0.8633</td>
-      <td>-0.085757</td>
-      <td>-0.175757</td>
-      <td>0.024243</td>
-      <td>5.94897</td>
+      <th>88</th>
+      <td>J11173700-7704381</td>
+      <td>3780.0</td>
+      <td>0.420</td>
+      <td>M14</td>
+      <td>174.075433</td>
+      <td>0.096709</td>
+      <td>-0.290000</td>
+      <td>-0.400000</td>
+      <td>-0.180000</td>
+      <td>6.25897</td>
+      <td>5.98897</td>
+      <td>6.51897</td>
+      <td>0.512861</td>
+      <td>0.398107</td>
+      <td>0.660693</td>
+      <td>1.815390</td>
+      <td>0.974922</td>
+      <td>3.303467</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>J11175211-7629392</td>
+      <td>3198.0</td>
+      <td>0.087</td>
+      <td>L07</td>
+      <td>73.636671</td>
+      <td>0.020032</td>
+      <td>-0.700000</td>
+      <td>-0.780000</td>
+      <td>-0.630000</td>
+      <td>6.42897</td>
+      <td>6.25897</td>
+      <td>6.59897</td>
+      <td>0.199526</td>
+      <td>0.165959</td>
+      <td>0.234423</td>
+      <td>2.685159</td>
+      <td>1.815390</td>
+      <td>3.971641</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>J11183572-7935548</td>
+      <td>3125.0</td>
+      <td>0.260</td>
+      <td>M16b</td>
+      <td>71.955784</td>
+      <td>0.059867</td>
+      <td>-0.780000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
       <td>5.69897</td>
-      <td>6.27897</td>
-      <td>0.820810</td>
-      <td>0.667179</td>
-      <td>1.057408</td>
-      <td>0.889140</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.165959</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
       <td>0.500000</td>
-      <td>1.900947</td>
+      <td>0.000001</td>
+      <td>0.000001</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>J11241186-7630425</td>
+      <td>3060.0</td>
+      <td>0.030</td>
+      <td>M16b</td>
+      <td>70.459104</td>
+      <td>0.006908</td>
+      <td>-0.920000</td>
+      <td>-1.010000</td>
+      <td>-0.820000</td>
+      <td>6.64897</td>
+      <td>6.47897</td>
+      <td>6.80897</td>
+      <td>0.120226</td>
+      <td>0.097724</td>
+      <td>0.151356</td>
+      <td>4.456255</td>
+      <td>3.012798</td>
+      <td>6.441248</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>J11432669-7804454</td>
+      <td>3060.0</td>
+      <td>0.090</td>
+      <td>M16b</td>
+      <td>70.459104</td>
+      <td>0.020723</td>
+      <td>-0.890000</td>
+      <td>-0.970000</td>
+      <td>-0.820000</td>
+      <td>6.24897</td>
+      <td>6.04897</td>
+      <td>6.54897</td>
+      <td>0.128825</td>
+      <td>0.107152</td>
+      <td>0.151356</td>
+      <td>1.774067</td>
+      <td>1.119361</td>
+      <td>3.539729</td>
     </tr>
   </tbody>
 </table>
+<p>93 rows × 18 columns</p>
 </div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -952,7 +1070,7 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 1/1 [00:00&lt;00:00, 12.82it/s]
+100%|██████████| 1/1 [00:00&lt;00:00, 17.84it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -960,8 +1078,8 @@ The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Working on: Sz65
-Closest match for Sz65: Age = 1.32e+06 yrs, Mass = 6.52e-01 Msun
+Working on: J10533978-7712338
+Closest match for J10533978-7712338: Age = 1.95e+08 yrs, Mass = 3.72e-01 Msun
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -976,7 +1094,7 @@ Closest match for Sz65: Age = 1.32e+06 yrs, Mass = 6.52e-01 Msun
 </section>
 <section id="Assuming-age-to-derive-stellar-masses">
 <h3>Assuming age to derive stellar masses<a class="headerlink" href="#Assuming-age-to-derive-stellar-masses" title="Link to this heading">¶</a></h3>
-<p>In some cases, when a good measurement of stellar luminosity is unavailable, we also provide an option to set up the assumed age (<code class="docutils literal notranslate"><span class="pre">assumed_age=1.5e6</span></code> in the example, it is in the unit of yr) to derive the stellar mass from the Bayesian inference.</p>
+<p>In some cases, when a good measurement of stellar luminosity is unavailable, we also provide an option to set up the assumed age (<code class="docutils literal notranslate"><span class="pre">assumed_age=6.48e6</span></code> in the example, it is in the unit of yr) to derive the stellar mass from the Bayesian inference.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -985,7 +1103,7 @@ Closest match for Sz65: Age = 1.32e+06 yrs, Mass = 6.52e-01 Msun
 <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">df_prop_t</span> <span class="o">=</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">idx</span><span class="p">]]</span>
 
-<span class="n">best_logmass_output_t</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_assuming_age</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">assumed_age</span><span class="o">=</span><span class="mf">1.5e6</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">best_logmass_output_t</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_assuming_age</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">assumed_age</span><span class="o">=</span><span class="mf">6.48e6</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">df_output_mass_t</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logmass_output_t</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logmass[Msun]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logmass[Msun]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logmass[Msun]&#39;</span><span class="p">])</span>
 <span class="n">df_output_t</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">df_output_mass_t</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -1003,7 +1121,7 @@ Closest match for Sz65: Age = 1.32e+06 yrs, Mass = 6.52e-01 Msun
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_ysoisochrone_basics_38_0.png" src="../_images/notebooks_ysoisochrone_basics_38_0.png" />
+<img alt="../_images/notebooks_ysoisochrone_basics_44_0.png" src="../_images/notebooks_ysoisochrone_basics_44_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1011,7 +1129,7 @@ Closest match for Sz65: Age = 1.32e+06 yrs, Mass = 6.52e-01 Msun
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The estimated mass is: 0.65 + 0.13 - 0.11 [Msun]
+The estimated mass is: 0.42 + 0.10 - 0.13 [Msun]
 </pre></div></div>
 </div>
 <p>Or you can simply get the one with closest track, and this is the method adopted in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a> for the targets that do not have good luminosity measurement.</p>
@@ -1023,7 +1141,7 @@ The estimated mass is: 0.65 + 0.13 - 0.11 [Msun]
 <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">df_prop_t</span> <span class="o">=</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">idx</span><span class="p">]]</span>
 
-<span class="n">best_logmass_output_t</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_assuming_age_closest_trk</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">assumed_age</span><span class="o">=</span><span class="mf">1.5e6</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">)</span>
+<span class="n">best_logmass_output_t</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_assuming_age_closest_trk</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">assumed_age</span><span class="o">=</span><span class="mf">6.48e6</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;estimated mass: </span><span class="si">%.2f</span><span class="s1"> [Msun]&#39;</span><span class="o">%</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">best_logmass_output_t</span><span class="p">))</span>
 </pre></div>
@@ -1034,7 +1152,7 @@ The estimated mass is: 0.65 + 0.13 - 0.11 [Msun]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-estimated mass: 0.65 [Msun]
+estimated mass: 0.42 [Msun]
 </pre></div></div>
 </div>
 <p><strong>NOTE</strong> In this way, the uncertainties will not be provided, and only the best fit mass is the out put.</p>
