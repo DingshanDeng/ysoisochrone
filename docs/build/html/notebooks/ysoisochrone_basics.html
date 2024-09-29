@@ -23,7 +23,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Available Methods" href="ysoisochrone_methods.html" />
+    <link rel="next" title="The available stellar evolutionary models" href="../models.html" />
     <link rel="prev" title="ysoisochrone" href="../index.html" /> 
 </head>
 
@@ -48,12 +48,30 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Prepare-your-own-data">Prepare your own data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Estimate-Mass-and-Ages">Estimate Mass and Ages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Install-the-package">Install the package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Download-the-stellar-evolutionary-models">Download the stellar evolutionary models</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ysoisochrone_methods.html">Available Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Your-first-target">Your first target</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Prepare-the-data">Prepare the data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Plot-it-on-the-HRD">Plot it on the HRD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Estimate-its-age-and-mass-from-Bayesian-inference-approach">Estimate its age and mass from Bayesian inference approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Your-first-large-dataset">Your first large dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Read-in-a-csv-table">Read in a csv table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Have-a-look-on-HRD">Have a look on HRD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Estimate-Mass-and-Ages">Estimate Mass and Ages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Quick-demo-on-other-methods">Quick demo on other methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Closest-grid-point-on-isochrone">Closest grid point on isochrone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Assuming-age-to-derive-stellar-masses">Assuming age to derive stellar masses</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../models.html">The available stellar evolutionary models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ysoisochrone_customize_isochrone.html">Using Customized Isochrones</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apidocs/index.html">API Reference</a></li>
@@ -88,6 +106,8 @@
 <p>This is the basics of using ysoisochrone</p>
 <section id="Installation">
 <h2>Installation<a class="headerlink" href="#Installation" title="Link to this heading">¶</a></h2>
+<section id="Install-the-package">
+<h3>Install the package<a class="headerlink" href="#Install-the-package" title="Link to this heading">¶</a></h3>
 <p>The easiest way to install this package is using terminal, and change directory to the root direcotry of this package (where the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> exists).</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>.
 </pre></div>
@@ -102,9 +122,12 @@
 </pre></div>
 </div>
 </div>
+</section>
+<section id="Download-the-stellar-evolutionary-models">
+<h3>Download the stellar evolutionary models<a class="headerlink" href="#Download-the-stellar-evolutionary-models" title="Link to this heading">¶</a></h3>
 <p>When using the package for the first time, it will try to download the isochrones from online sources, so make sure you also have internet access. You might need to download some large files (<img class="math" src="../_images/math/c0bd9a1e4ac9b7e8938c4d708654074e79999a32.png" alt="\sim 1\,"/>GB) for using the isochrones from certain models (such as PARSEC), so you also need to make sure you have a few GB left in the disk where you need to store the data.</p>
 <p>By default, the code will create a folder called <code class="docutils literal notranslate"><span class="pre">isochrones_data</span></code> in the same directory that you are running the <code class="docutils literal notranslate"><span class="pre">Python</span></code> script. You can also change this by editing the <code class="docutils literal notranslate"><span class="pre">save_dir</span></code> argument in the <code class="docutils literal notranslate"><span class="pre">download_xxx</span></code> functions.</p>
-<p>First, let’s try to download the track from Baraffe et al. (2015)</p>
+<p>First, let’s try to download the track from <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract">Baraffe et al. (2015)</a> and <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract">Feiden (2016)</a>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -152,9 +175,57 @@ If you end up using the Baraffe et al. (2015) tracks, please cite from: https://
 <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">download_baraffe_tracks</span><span class="p">(</span><span class="n">save_dir</span><span class="o">=</span><span class="n">save_dir_yourpath</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># download Feiden tracks</span>
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">download_feiden_trk_tracks</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Downloading and extracting all_GS98_p000_p0_y28_mlt1.884.tgz...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Downloading: 100%|█████████████████████████████████████████████| 39.7M/39.7M [00:07&lt;00:00, 5.66MB/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Downloaded isochrones_data/Feiden2016_trk/all_GS98_p000_p0_y28_mlt1.884.tgz
+Extracted isochrones_data/Feiden2016_trk/all_GS98_p000_p0_y28_mlt1.884.tgz into isochrones_data/Feiden2016_trk
+All files downloaded and extracted in isochrones_data/Feiden2016_trk
+If you use the Feiden tracks, please cite from: https://ui.adsabs.harvard.edu/abs/2016IAUS..314...79F/abstract
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1
+</pre></div></div>
+</div>
 </section>
-<section id="Prepare-your-own-data">
-<h2>Prepare your own data<a class="headerlink" href="#Prepare-your-own-data" title="Link to this heading">¶</a></h2>
+</section>
+<section id="Your-first-target">
+<h2>Your first target<a class="headerlink" href="#Your-first-target" title="Link to this heading">¶</a></h2>
+<section id="Prepare-the-data">
+<h3>Prepare the data<a class="headerlink" href="#Prepare-the-data" title="Link to this heading">¶</a></h3>
 <p>Then, you need to prepare your own data. The data needs to be in the format of <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> and with following columns <code class="docutils literal notranslate"><span class="pre">['Source',</span> <span class="pre">'Teff[K]',</span> <span class="pre">'e_Teff[K]',</span> <span class="pre">'Luminosity[Lsun]',</span> <span class="pre">'e_Luminosity[Lsun]']</span></code>.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">'Source'</span></code> is the list of source names. It can be just the ID numbers you prefer.</p></li>
@@ -163,16 +234,223 @@ If you end up using the Baraffe et al. (2015) tracks, please cite from: https://
 <li><p><code class="docutils literal notranslate"><span class="pre">'Luminosity[Lsun]'</span></code> is the bolometric luminosities of these targets un the unit of solar luminosity.</p></li>
 <li><p>and <code class="docutils literal notranslate"><span class="pre">'e_Luminosity[Lsun]'</span></code> is their uncertainties.</p></li>
 </ul>
-<p>The easiest way to do so is to create a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file using EXCEL or similar software, and this file includes these columns, and then you can utilize <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to read in this file. Later you use this as an input.</p>
-<p>Here we prepared an example file called <code class="docutils literal notranslate"><span class="pre">'example_targets.csv'</span></code> in this tutorial. Please go to the folder called <code class="docutils literal notranslate"><span class="pre">tutorial_notebooks</span></code> under the root directory of this package (or you can find it on our GitHub page) to access those tutorials as Jupyter Notebooks.</p>
+<p>Here the uncertainties are <img class="math" src="../_images/math/8d6b2f1ca8fc735ff0516743fca69933c22ecea0.png" alt="1\,\sigma"/> value assuming they follow the Gaussian distribution.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set up a DataFrame in Python script</span>
+
+<span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Source&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Sz65&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4060.0</span><span class="p">]),</span>
+    <span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">187.0</span><span class="p">]),</span>
+    <span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.869</span><span class="p">]),</span>
+    <span class="s1">&#39;e_Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3623</span><span class="p">])</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Plot-it-on-the-HRD">
+<h3>Plot it on the HRD<a class="headerlink" href="#Plot-it-on-the-HRD" title="Link to this heading">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_targets.csv&#39;</span><span class="p">)</span>
+<span class="n">ylim_set</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span><span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;wspace&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">})</span>
+
+<span class="c1"># set up the Isochrone class</span>
+<span class="n">isochrone</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">isochrone</span><span class="o">.</span><span class="n">Isochrone</span><span class="p">()</span>
+<span class="n">isochrone</span><span class="o">.</span><span class="n">set_tracks</span><span class="p">(</span><span class="s1">&#39;Feiden2016&#39;</span><span class="p">)</span>
+
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">df_prop</span><span class="p">,</span> <span class="n">ax_set</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlim_set</span><span class="o">=</span><span class="p">[</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">3900</span><span class="p">],</span> <span class="n">ylim_set</span><span class="o">=</span><span class="n">ylim_set</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Feiden 2016&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># set up the Isochrone class</span>
+<span class="n">isochrone</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">isochrone</span><span class="o">.</span><span class="n">Isochrone</span><span class="p">()</span>
+<span class="n">isochrone</span><span class="o">.</span><span class="n">set_tracks</span><span class="p">(</span><span class="s1">&#39;Baraffe2015&#39;</span><span class="p">)</span>
+
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">df_prop</span><span class="p">,</span> <span class="n">ax_set</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xlim_set</span><span class="o">=</span><span class="p">[</span><span class="mi">3900</span><span class="p">,</span> <span class="mi">3000</span><span class="p">],</span> <span class="n">ylim_set</span><span class="o">=</span><span class="n">ylim_set</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Baraffe+2015&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_ysoisochrone_basics_10_0.png" src="../_images/notebooks_ysoisochrone_basics_10_0.png" />
+</div>
+</div>
+<p>Here the blue points with errorbars are the stars with uncertainties; dark red solid lines are the stellar evolutionary tracks for different stellar masses; dashed grey lines are the isochorones; We also have an algrithm to automatically detect the zero-age-main-sequence (ZAMS) curve in the tracks, and that is shown as magenta dot-dashed line.</p>
+<p><strong>NOTE</strong></p>
+<ul class="simple">
+<li><p><em>On each track, the points that are older than the ZAMS will be ignored in the age/mass determination later.</em></p></li>
+<li><p><em>For the targets that are very close to ZAMS, their estimated ages cannot be trusted blindly, and they are in general less reliable</em></p></li>
+</ul>
+</section>
+</section>
+<section id="Estimate-its-age-and-mass-from-Bayesian-inference-approach">
+<h2>Estimate its age and mass from Bayesian inference approach<a class="headerlink" href="#Estimate-its-age-and-mass-from-Bayesian-inference-approach" title="Link to this heading">¶</a></h2>
+<p>Our primary method is a Bayesian inference approach, and the <code class="docutils literal notranslate"><span class="pre">Python</span></code> code builds on the <code class="docutils literal notranslate"><span class="pre">IDL</span></code> version developed in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a>. The pre-main-sequence evolutionary models from both <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract">Feiden (2016)</a> and <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract">Baraffe et al. (2015)</a> are adopted for hot (<img class="math" src="../_images/math/230b71f5b0b9286b27047f78ddbdd093906884bf.png" alt="T_{\rm eff} &gt; 3,900"/>) and
+cool stars (<img class="math" src="../_images/math/71ce0804603ce220a582e69f9711de3a6bf05200.png" alt="T_{\rm eff} \leq 3,900"/>), respectively.</p>
+<p>We provide a simple way to use this as</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_logmass_output</span><span class="p">,</span> <span class="n">best_logage_output</span><span class="p">,</span> <span class="n">lmass_all</span><span class="p">,</span> <span class="n">lage_all</span> <span class="o">=</span>\
+    <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_age</span><span class="p">(</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+  0%|          | 0/1 [00:00&lt;?, ?it/s]/Users/dingshandeng/github/ysoisochrone/ysoisochrone/plotting.py:129: MatplotlibDeprecationWarning: Starting from Matplotlib 3.6, colorbar() will steal space from the mappable&#39;s axes, rather than from the current axes, to place the colorbar.  To silence this warning, explicitly pass the &#39;ax&#39; argument to colorbar().
+  cb = plt.colorbar(im)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_ysoisochrone_basics_13_1.png" src="../_images/notebooks_ysoisochrone_basics_13_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 1/1 [00:00&lt;00:00,  2.50it/s]
+</pre></div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">model</span></code> here is for calling different evolutionary tracks, by default we use <code class="docutils literal notranslate"><span class="pre">model='Baraffe_n_Feiden'</span></code>, which is the combination of Baraffe and Feiden tracks. Other choices include: <code class="docutils literal notranslate"><span class="pre">'Baraffe2015'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Feiden2016'</span></code>, <code class="docutils literal notranslate"><span class="pre">'PARSEC_v2p0'</span></code> (same as <code class="docutils literal notranslate"><span class="pre">'PARSEC'</span></code>), <code class="docutils literal notranslate"><span class="pre">'PARSEC_v1p2'</span></code> or <code class="docutils literal notranslate"><span class="pre">'custome'</span></code>. If you want to use your own customized isochrone, you need to set the <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">'custome'</span></code>, and also provide the absolute directory for the isochrone matrix file <code class="docutils literal notranslate"><span class="pre">isochrone_mat_file</span></code>. See
+<a class="reference external" href="https://ysoisochrone.readthedocs.io/en/latest/index.html">documentation</a> for details. Here we also turn on the <code class="docutils literal notranslate"><span class="pre">plot</span> <span class="pre">=</span> <span class="pre">True</span></code> to show the intermediate diagnoostic plot.</p>
+<p>The outputs are: (a) <code class="docutils literal notranslate"><span class="pre">best_logmass_output</span></code> (log10 of mass in the unit of solar masses), <code class="docutils literal notranslate"><span class="pre">best_logage_output</span></code> (log10 of age in the unit of yrs) are the arrays that includes the best derived values and their lower and upper boundaries from the 68% confidence intervals. (b) <code class="docutils literal notranslate"><span class="pre">lmass_all</span></code> and <code class="docutils literal notranslate"><span class="pre">lage_all</span></code> are the distributions of the likelihood functions for each source; they could be used to estimate the medians based on the likelihood distributions.</p>
+<p>An example of saving these outputs are</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_output_mass</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logmass_output</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logmass[Msun]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logmass[Msun]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logmass[Msun]&#39;</span><span class="p">])</span>
+<span class="n">df_output_age</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logage_output</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logage[yrs]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logage[yrs]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logage[yrs]&#39;</span><span class="p">])</span>
+<span class="n">df_output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">df_output_mass</span><span class="p">,</span> <span class="n">df_output_age</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logmass[Msun]&#39;</span><span class="p">]</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_mass[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logmass[Msun]&#39;</span><span class="p">]</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_mass[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_logmass[Msun]&#39;</span><span class="p">]</span>
+
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>
+
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">df_output</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;For target </span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;Source&#39;</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The estimated mass is: </span><span class="si">%.2f</span><span class="s1"> + </span><span class="si">%.2f</span><span class="s1"> - </span><span class="si">%.2f</span><span class="s1"> [Msun]&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">],</span>\
+            <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;up_mass[Msun]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">],</span>\
+            <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;lw_mass[Msun]&#39;</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The estimated age is: </span><span class="si">%.2f</span><span class="s1"> + </span><span class="si">%.2f</span><span class="s1"> - </span><span class="si">%.2f</span><span class="s1"> [Myrs]&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;age[Myrs]&#39;</span><span class="p">],</span>\
+            <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;up_age[Myrs]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;age[Myrs]&#39;</span><span class="p">],</span>\
+            <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;age[Myrs]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;lw_age[Myrs]&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+For target Sz65
+The estimated mass is: 0.68 + 0.20 - 0.14 [Msun]
+The estimated age is: 1.17 + 1.06 - 0.60 [Myrs]
+</pre></div></div>
+</div>
+<p>The distribution of the two likelihood functions for mass and age (<code class="docutils literal notranslate"><span class="pre">lmass</span></code> and <code class="docutils literal notranslate"><span class="pre">lage</span></code>) for this target has already been presented in the plot above. But if you want to take a look again, you can read them out follow this plotting script</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">lmass_t</span> <span class="o">=</span> <span class="n">lmass_all</span><span class="p">[</span><span class="s1">&#39;target_</span><span class="si">%i</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">idx</span><span class="p">)]</span>
+<span class="n">lage_t</span> <span class="o">=</span> <span class="n">lage_all</span><span class="p">[</span><span class="s1">&#39;target_</span><span class="si">%i</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">idx</span><span class="p">)]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span><span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;wspace&#39;</span><span class="p">:</span><span class="mf">0.15</span><span class="p">})</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lmass_t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lmass_t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;logmass[Msun]&#39;</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;up_logmass[Msun]&#39;</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;lw_logmass[Msun]&#39;</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+
+<span class="n">text_mass</span> <span class="o">=</span> <span class="s1">&#39;estimated mass</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;${</span><span class="si">%.2f</span><span class="s1">}^{+</span><span class="si">%.2f</span><span class="s1">}_{-</span><span class="si">%.2f</span><span class="s1">}\,[M_\odot]$&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">],</span>\
+            <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;up_mass[Msun]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">],</span>\
+            <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;lw_mass[Msun]&#39;</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text_mass</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\log_</span><span class="si">{10}</span><span class="s1">\,{\rm Mass}\,[M_\odot]$&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Likelihood&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lage_t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lage_t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;logage[yrs]&#39;</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;up_logage[yrs]&#39;</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;lw_logage[yrs]&#39;</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+
+<span class="n">text_age</span> <span class="o">=</span> <span class="s1">&#39;estimated age</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;${</span><span class="si">%.2f</span><span class="s1">}^{+</span><span class="si">%.2f</span><span class="s1">}_{-</span><span class="si">%.2f</span><span class="s1">}\,$[Myrs]&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;age[Myrs]&#39;</span><span class="p">],</span>\
+            <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;up_age[Myrs]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;age[Myrs]&#39;</span><span class="p">],</span>\
+            <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;age[Myrs]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;lw_age[Myrs]&#39;</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text_age</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\log_</span><span class="si">{10}</span><span class="s1">\,{\rm Age}\,[{\rm yrs}]$&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_ysoisochrone_basics_18_0.png" src="../_images/notebooks_ysoisochrone_basics_18_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Then you can save this output file</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;example_target_one_o.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Your-first-large-dataset">
+<h2>Your first large dataset<a class="headerlink" href="#Your-first-large-dataset" title="Link to this heading">¶</a></h2>
+<section id="Read-in-a-csv-table">
+<h3>Read in a csv table<a class="headerlink" href="#Read-in-a-csv-table" title="Link to this heading">¶</a></h3>
+<p>When dealing with larger dataset, the easiest way is to create a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file using EXCEL or similar software, and this file includes these columns, and then you can utilize <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to read in this file. Later you use this as an input.</p>
+<p>Here we prepared an example file called <code class="docutils literal notranslate"><span class="pre">'example_targets.csv'</span></code> in this tutorial. This is part of the Cham I sample that discussed in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_targets.csv&#39;</span><span class="p">)</span>
 
 <span class="n">df_prop</span>
 </pre></div>
@@ -292,72 +570,91 @@ If you end up using the Baraffe et al. (2015) tracks, please cite from: https://
 </table>
 </div></div>
 </div>
-<p><strong>TIPS</strong> <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> is a very versatile class. If you only have a few targets and do not wish to import a chunky <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file or you just want to do everything in one script. You can always define it here utlizing a Dictionary.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<p><strong>NOTE</strong></p>
+<p>The uncertainties for <img class="math" src="../_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/> and <img class="math" src="../_images/math/19eef1966f7c545af3ac8c0fa486974d873e3c65.png" alt="L"/> are required in this approach, if you have no idea on what would be the <code class="docutils literal notranslate"><span class="pre">'e_Teff[K]'</span></code> and/or <code class="docutils literal notranslate"><span class="pre">'e_Luminosity[Lsun]'</span></code> (or just want a quick test), you can turn on the option <code class="docutils literal notranslate"><span class="pre">no_uncertainties=True</span></code> in <code class="docutils literal notranslate"><span class="pre">ysoisochrone.bayesian.derive_stellar_mass_age</span></code>. In this way, the code will automatically assign the uncertainties to your sample following the choice made in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al.
+(2016)</a> with the pre-assumed uncertainties for <img class="math" src="../_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/> and <img class="math" src="../_images/math/19eef1966f7c545af3ac8c0fa486974d873e3c65.png" alt="L"/>:</p>
+<ul class="simple">
+<li><p><img class="math" src="../_images/math/c262197896a548458d926e6c88475b94a354458b.png" alt="\sigma(\log_{10}{T_{\rm eff}}) = 0.02"/> for <img class="math" src="../_images/math/fb3c2945259253d48951a01ab63d9c9bbbec7b13.png" alt="T_{\rm eff} &gt; 3420.0\,{\rm K}"/> and <img class="math" src="../_images/math/3c816963e1c1e200539a2b52d28240e98f11b4f3.png" alt="\sigma(\log_{10}{T_{\rm eff}}) = 0.01"/> for cooler targets.</p></li>
+<li><p><img class="math" src="../_images/math/088d391fbc5ef169c4e4a0cb5ba9e324d08f01d0.png" alt="\sigma(\log_{10}L = 0.1)"/> for all targets</p></li>
+</ul>
+<p>You can also assign these default uncertainties to your <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> (<code class="docutils literal notranslate"><span class="pre">df_prop</span></code>) by calling</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">err_Teff</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_teff</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Teff[K]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">err_Lumi</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">assign_unc_lumi</span><span class="p">(</span><span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Teff</span>
+<span class="n">df_prop</span><span class="p">[</span><span class="s1">&#39;e_Luminosity[Lsun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">err_Lumi</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="c1"># An alternative way to have a df_prop</span>
-
-<span class="n">df_prop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;Source&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Sz65&#39;</span><span class="p">],</span>
-    <span class="s1">&#39;Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4060.0</span><span class="p">]),</span>
-    <span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">187.0</span><span class="p">]),</span>
-    <span class="s1">&#39;Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.869</span><span class="p">]),</span>
-    <span class="s1">&#39;e_Luminosity[Lsun]&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3623</span><span class="p">])</span>
-<span class="p">})</span>
+<p><em>we encourage the users to set up your own uncertainties</em> in the input <code class="docutils literal notranslate"><span class="pre">df_prop</span></code> for your targets even you do not have the meausred values. You can do this by changing the numbers in the input <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file or utilize the feature for <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;e_Teff[K]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="c1"># An array of the e_Teff you set up</span>
+<span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;e_Luminosity[Lsun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="c1"># An array of the e_Luminosity you set up</span>
 </pre></div>
 </div>
-</div>
+<p><strong>TIPS</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> is a very versatile class. Please refer to <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">Data Frame</a> for how to handle the <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>. It is a powerful tool that you can not only import data from <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files but many other format such as <code class="docutils literal notranslate"><span class="pre">.xlsx</span></code>, <code class="docutils literal notranslate"><span class="pre">.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">.html</span></code>. For theo output files, it can also be utilized to generate <code class="docutils literal notranslate"><span class="pre">latex</span></code> format files <code class="docutils literal notranslate"><span class="pre">.tex</span></code> so it can be easily import to your on going <code class="docutils literal notranslate"><span class="pre">latex</span></code> manuscript.</p>
+</section>
+<section id="Have-a-look-on-HRD">
+<h3>Have a look on HRD<a class="headerlink" href="#Have-a-look-on-HRD" title="Link to this heading">¶</a></h3>
 <p>You can overplot them on the top of the isochrones in the Hertzsprung–Russell diagram (HR diagram).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isochrone</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">isochrone</span><span class="o">.</span><span class="n">Isochrone</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ylim_set</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span><span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;wspace&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">})</span>
+
+<span class="c1"># set up the Isochrone class</span>
+<span class="n">isochrone</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">isochrone</span><span class="o">.</span><span class="n">Isochrone</span><span class="p">()</span>
+<span class="n">isochrone</span><span class="o">.</span><span class="n">set_tracks</span><span class="p">(</span><span class="s1">&#39;Feiden2016&#39;</span><span class="p">)</span>
+
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">df_prop</span><span class="p">,</span> <span class="n">ax_set</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlim_set</span><span class="o">=</span><span class="p">[</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">3900</span><span class="p">],</span> <span class="n">ylim_set</span><span class="o">=</span><span class="n">ylim_set</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Feiden 2016&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># set up the Isochrone class</span>
+<span class="n">isochrone</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">isochrone</span><span class="o">.</span><span class="n">Isochrone</span><span class="p">()</span>
 <span class="n">isochrone</span><span class="o">.</span><span class="n">set_tracks</span><span class="p">(</span><span class="s1">&#39;Baraffe2015&#39;</span><span class="p">)</span>
 
-<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">df_prop</span><span class="p">)</span>
+<span class="n">ysoisochrone</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_hr_diagram</span><span class="p">(</span><span class="n">isochrone</span><span class="p">,</span> <span class="n">df_prop</span><span class="p">,</span> <span class="n">ax_set</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xlim_set</span><span class="o">=</span><span class="p">[</span><span class="mi">3900</span><span class="p">,</span> <span class="mi">3000</span><span class="p">],</span> <span class="n">ylim_set</span><span class="o">=</span><span class="n">ylim_set</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Baraffe+2015&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_ysoisochrone_basics_10_0.png" src="../_images/notebooks_ysoisochrone_basics_10_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-1
-</pre></div></div>
+<img alt="../_images/notebooks_ysoisochrone_basics_26_0.png" src="../_images/notebooks_ysoisochrone_basics_26_0.png" />
 </div>
-<p>Here the blue points with errorbars are the stars with uncertainties; dark red solid lines are the stellar evolutionary tracks for different stellar masses; dashed grey lines are the isochorones; We also have an algrithm to automatically detect the zero-age-main-sequence (ZAMS) curve in the tracks, and that is shown as magenta dot-dashed line.</p>
-<p><strong>NOTE</strong> <em>On each track, the points that are older than the ZAMS will be ignored in the age/mass determination later.</em></p>
+</div>
 </section>
 <section id="Estimate-Mass-and-Ages">
-<h2>Estimate Mass and Ages<a class="headerlink" href="#Estimate-Mass-and-Ages" title="Link to this heading">¶</a></h2>
+<h3>Estimate Mass and Ages<a class="headerlink" href="#Estimate-Mass-and-Ages" title="Link to this heading">¶</a></h3>
 <p>Then, to estimate their masses and ages using the Bayesian inference approach</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_logmass_output</span><span class="p">,</span> <span class="n">best_logage_output</span><span class="p">,</span> <span class="n">lmass_all</span><span class="p">,</span> <span class="n">lage_all</span> <span class="o">=</span>\
-    <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_age</span><span class="p">(</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe2015&#39;</span><span class="p">)</span>
+    <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_age</span><span class="p">(</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>The model here is for calling different evolutionary tracks. The choices are: ‘Baraffe_n_Feiden’, ‘Baraffe2015’, ‘Feiden2016’, ‘PARSEC_v2p0’ (same as ‘PARSEC’), ‘PARSEC_v1p2’, ‘MIST_v1p2’ (same as ‘MIST’) or ‘custome’. If you want to use your own customized isochrone, you need to set the <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">'custome'</span></code>, and also provide the absolute directory for the isochrone matrix file <code class="docutils literal notranslate"><span class="pre">isochrone_mat_file</span></code>. See <a class="reference internal" href="ysoisochrone_customize_isochrone.html"><span class="doc">use your own customized isochrone</span></a> for
-details. We summarize all the available_models in <a class="reference internal" href="../models.html"><span class="doc">model</span></a>.</p>
-<p>The outputs are: (a) <code class="docutils literal notranslate"><span class="pre">best_logmass_output</span></code> (log10 of mass in the unit of solar masses), <code class="docutils literal notranslate"><span class="pre">best_logage_output</span></code> (log10 of age in the unit of yrs) are the arrays that includes the best derived values and their lower and upper boundaries from the 68% confidence intervals. (b) <code class="docutils literal notranslate"><span class="pre">lmass_all</span></code> and <code class="docutils literal notranslate"><span class="pre">lage_all</span></code> are the distributions of the likelihood functions for each source; they could be used to estimate the medians based on the likelihood distributions.</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10/10 [00:00&lt;00:00, 39.85it/s]
+</pre></div></div>
+</div>
 <p>An example of saving these <code class="docutils literal notranslate"><span class="pre">output</span></code> numbers are</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
@@ -365,20 +662,383 @@ details. We summarize all the available_models in <a class="reference internal" 
 <span class="n">df_output_age</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logage_output</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logage[yrs]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logage[yrs]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logage[yrs]&#39;</span><span class="p">])</span>
 <span class="n">df_output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_prop</span><span class="p">,</span> <span class="n">df_output_mass</span><span class="p">,</span> <span class="n">df_output_age</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;masses[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logmass[Msun]&#39;</span><span class="p">]</span>
-<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_masses[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logmass[Msun]&#39;</span><span class="p">]</span>
-<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_masses[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_logmass[Msun]&#39;</span><span class="p">]</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logmass[Msun]&#39;</span><span class="p">]</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_mass[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logmass[Msun]&#39;</span><span class="p">]</span>
+<span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_mass[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_logmass[Msun]&#39;</span><span class="p">]</span>
 
 <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>
 <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>
 <span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_age[Myrs]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_logage[yrs]&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span>
 
-<span class="c1"># Then you can save this output file</span>
+<span class="n">df_output</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Source</th>
+      <th>Teff[K]</th>
+      <th>e_Teff[K]</th>
+      <th>Luminosity[Lsun]</th>
+      <th>e_Luminosity[Lsun]</th>
+      <th>logmass[Msun]</th>
+      <th>lw_logmass[Msun]</th>
+      <th>up_logmass[Msun]</th>
+      <th>logage[yrs]</th>
+      <th>lw_logage[yrs]</th>
+      <th>up_logage[yrs]</th>
+      <th>mass[Msun]</th>
+      <th>lw_mass[Msun]</th>
+      <th>up_mass[Msun]</th>
+      <th>age[Myrs]</th>
+      <th>lw_age[Myrs]</th>
+      <th>up_age[Myrs]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sz65</td>
+      <td>4060</td>
+      <td>187.0</td>
+      <td>0.869</td>
+      <td>0.3623</td>
+      <td>-0.165757</td>
+      <td>-0.265757</td>
+      <td>-0.055757</td>
+      <td>6.06897</td>
+      <td>5.75897</td>
+      <td>6.34897</td>
+      <td>0.682720</td>
+      <td>0.542304</td>
+      <td>0.879513</td>
+      <td>1.172114</td>
+      <td>0.574077</td>
+      <td>2.233418</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Sz71</td>
+      <td>3632</td>
+      <td>167.0</td>
+      <td>0.327</td>
+      <td>0.1420</td>
+      <td>-0.370000</td>
+      <td>-0.480000</td>
+      <td>-0.250000</td>
+      <td>6.23897</td>
+      <td>5.89897</td>
+      <td>6.56897</td>
+      <td>0.426580</td>
+      <td>0.331131</td>
+      <td>0.562341</td>
+      <td>1.733684</td>
+      <td>0.792447</td>
+      <td>3.706551</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>J16124373-3815031</td>
+      <td>3705</td>
+      <td>171.0</td>
+      <td>0.390</td>
+      <td>0.2691</td>
+      <td>-0.320000</td>
+      <td>-0.430000</td>
+      <td>-0.210000</td>
+      <td>6.23897</td>
+      <td>5.80897</td>
+      <td>6.65897</td>
+      <td>0.478630</td>
+      <td>0.371535</td>
+      <td>0.616595</td>
+      <td>1.733684</td>
+      <td>0.644125</td>
+      <td>4.560054</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Sz72</td>
+      <td>3560</td>
+      <td>164.0</td>
+      <td>0.272</td>
+      <td>0.1160</td>
+      <td>-0.410000</td>
+      <td>-0.530000</td>
+      <td>-0.280000</td>
+      <td>6.23897</td>
+      <td>5.87897</td>
+      <td>6.56897</td>
+      <td>0.389045</td>
+      <td>0.295121</td>
+      <td>0.524807</td>
+      <td>1.733684</td>
+      <td>0.756781</td>
+      <td>3.706551</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Sz77</td>
+      <td>4060</td>
+      <td>187.0</td>
+      <td>0.593</td>
+      <td>0.2428</td>
+      <td>-0.135757</td>
+      <td>-0.235757</td>
+      <td>-0.035757</td>
+      <td>6.35897</td>
+      <td>6.02897</td>
+      <td>6.67897</td>
+      <td>0.731547</td>
+      <td>0.581089</td>
+      <td>0.920964</td>
+      <td>2.285441</td>
+      <td>1.068981</td>
+      <td>4.774963</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>J16085324-3914401</td>
+      <td>3415</td>
+      <td>79.0</td>
+      <td>0.198</td>
+      <td>0.1477</td>
+      <td>-0.520000</td>
+      <td>-0.590000</td>
+      <td>-0.450000</td>
+      <td>6.20897</td>
+      <td>5.69897</td>
+      <td>6.62897</td>
+      <td>0.301995</td>
+      <td>0.257040</td>
+      <td>0.354813</td>
+      <td>1.617968</td>
+      <td>0.500000</td>
+      <td>4.255690</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Sz131</td>
+      <td>3415</td>
+      <td>79.0</td>
+      <td>0.150</td>
+      <td>0.0583</td>
+      <td>-0.510000</td>
+      <td>-0.580000</td>
+      <td>-0.430000</td>
+      <td>6.45897</td>
+      <td>6.17897</td>
+      <td>6.74897</td>
+      <td>0.309030</td>
+      <td>0.263027</td>
+      <td>0.371535</td>
+      <td>2.877200</td>
+      <td>1.509976</td>
+      <td>5.610092</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Sz66</td>
+      <td>3415</td>
+      <td>79.0</td>
+      <td>0.216</td>
+      <td>0.0920</td>
+      <td>-0.530000</td>
+      <td>-0.600000</td>
+      <td>-0.460000</td>
+      <td>6.20897</td>
+      <td>5.92897</td>
+      <td>6.48897</td>
+      <td>0.295121</td>
+      <td>0.251189</td>
+      <td>0.346737</td>
+      <td>1.617968</td>
+      <td>0.849122</td>
+      <td>3.082975</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Sz95</td>
+      <td>3415</td>
+      <td>79.0</td>
+      <td>0.267</td>
+      <td>0.1842</td>
+      <td>-0.530000</td>
+      <td>-0.600000</td>
+      <td>-0.460000</td>
+      <td>6.06897</td>
+      <td>5.69897</td>
+      <td>6.41897</td>
+      <td>0.295121</td>
+      <td>0.251189</td>
+      <td>0.346737</td>
+      <td>1.172114</td>
+      <td>0.500000</td>
+      <td>2.624037</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>V1094Sco</td>
+      <td>4205</td>
+      <td>193.0</td>
+      <td>1.210</td>
+      <td>0.8633</td>
+      <td>-0.085757</td>
+      <td>-0.175757</td>
+      <td>0.024243</td>
+      <td>5.94897</td>
+      <td>5.69897</td>
+      <td>6.27897</td>
+      <td>0.820810</td>
+      <td>0.667179</td>
+      <td>1.057408</td>
+      <td>0.889140</td>
+      <td>0.500000</td>
+      <td>1.900947</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Then you can save this output file</span>
 <span class="n">df_output</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;example_targets_o.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Now you successfully ran through the code and obtained the estimated mass and ages. We also provide other ways to estimate the stellar masses and ages from these isochrones, and they are described together with examples in <a class="reference internal" href="ysoisochrone_methods.html"><span class="doc">all available methods</span></a>.</p>
+</section>
+</section>
+<section id="Quick-demo-on-other-methods">
+<h2>Quick demo on other methods<a class="headerlink" href="#Quick-demo-on-other-methods" title="Link to this heading">¶</a></h2>
+<p>Now you already know how to work with your dataset, here we provide a quick demo on how to utilize other methods provided in this package</p>
+<section id="Closest-grid-point-on-isochrone">
+<h3>Closest grid point on isochrone<a class="headerlink" href="#Closest-grid-point-on-isochrone" title="Link to this heading">¶</a></h3>
+<p>Of course we provide this option for you to simply estimate the stellar masses and ages from the grid point that has the closest <img class="math" src="../_images/math/7728f1bd0239710eeeb6fc1a493c467de82f9b11.png" alt="T_{\rm eff}"/> and <img class="math" src="../_images/math/12079d764aeacb39059132d872b3c6b8caa750ee.png" alt="L_{\rm bol}"/> to the target without using any Bayesian inference. This was the approach adopted in many literature works.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_prop_t</span> <span class="o">=</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">best_logmass_output</span><span class="p">,</span> <span class="n">best_logage_output</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_age_closest_track</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 1/1 [00:00&lt;00:00, 12.82it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Working on: Sz65
+Closest match for Sz65: Age = 1.32e+06 yrs, Mass = 6.52e-01 Msun
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<p><strong>NOTE</strong> In this method, we do not estimate the uncertainties. The output best-fit logmass and logage are the closest track and no uncertainties are provided.</p>
+</section>
+<section id="Assuming-age-to-derive-stellar-masses">
+<h3>Assuming age to derive stellar masses<a class="headerlink" href="#Assuming-age-to-derive-stellar-masses" title="Link to this heading">¶</a></h3>
+<p>In some cases, when a good measurement of stellar luminosity is unavailable, we also provide an option to set up the assumed age (<code class="docutils literal notranslate"><span class="pre">assumed_age=1.5e6</span></code> in the example, it is in the unit of yr) to derive the stellar mass from the Bayesian inference.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># only take one target as an example</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">df_prop_t</span> <span class="o">=</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">idx</span><span class="p">]]</span>
+
+<span class="n">best_logmass_output_t</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_assuming_age</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">assumed_age</span><span class="o">=</span><span class="mf">1.5e6</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">df_output_mass_t</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">best_logmass_output_t</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logmass[Msun]&#39;</span><span class="p">,</span> <span class="s1">&#39;lw_logmass[Msun]&#39;</span><span class="p">,</span> <span class="s1">&#39;up_logmass[Msun]&#39;</span><span class="p">])</span>
+<span class="n">df_output_t</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">df_output_mass_t</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;logmass[Msun]&#39;</span><span class="p">]</span>
+<span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_mass[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;lw_logmass[Msun]&#39;</span><span class="p">]</span>
+<span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_mass[Msun]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;up_logmass[Msun]&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The estimated mass is: </span><span class="si">%.2f</span><span class="s1"> + </span><span class="si">%.2f</span><span class="s1"> - </span><span class="si">%.2f</span><span class="s1"> [Msun]&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">],</span>\
+                      <span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;up_mass[Msun]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">],</span>\
+                      <span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;mass[Msun]&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df_output_t</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;lw_mass[Msun]&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_ysoisochrone_basics_38_0.png" src="../_images/notebooks_ysoisochrone_basics_38_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The estimated mass is: 0.65 + 0.13 - 0.11 [Msun]
+</pre></div></div>
+</div>
+<p>Or you can simply get the one with closest track, and this is the method adopted in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P/abstract">Pascucci et al. (2016)</a> for the targets that do not have good luminosity measurement.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># only take one target as an example</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">df_prop_t</span> <span class="o">=</span> <span class="n">df_prop</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">idx</span><span class="p">]]</span>
+
+<span class="n">best_logmass_output_t</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_assuming_age_closest_trk</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">assumed_age</span><span class="o">=</span><span class="mf">1.5e6</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;estimated mass: </span><span class="si">%.2f</span><span class="s1"> [Msun]&#39;</span><span class="o">%</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">best_logmass_output_t</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+estimated mass: 0.65 [Msun]
+</pre></div></div>
+</div>
+<p><strong>NOTE</strong> In this way, the uncertainties will not be provided, and only the best fit mass is the out put.</p>
+</section>
 </section>
 </section>
 
@@ -387,7 +1047,7 @@ details. We summarize all the available_models in <a class="reference internal" 
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../index.html" class="btn btn-neutral float-left" title="ysoisochrone" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="ysoisochrone_methods.html" class="btn btn-neutral float-right" title="Available Methods" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../models.html" class="btn btn-neutral float-right" title="The available stellar evolutionary models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
