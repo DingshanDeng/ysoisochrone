@@ -342,7 +342,17 @@ cool stars (<img class="math" src="../_images/math/71ce0804603ce220a582e69f9711d
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">model</span></code> here is for calling different evolutionary tracks, by default we use <code class="docutils literal notranslate"><span class="pre">model='Baraffe_n_Feiden'</span></code>, which is the combination of Baraffe and Feiden tracks. Other choices include: <code class="docutils literal notranslate"><span class="pre">'Baraffe2015'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Feiden2016'</span></code>, <code class="docutils literal notranslate"><span class="pre">'PARSEC_v2p0'</span></code> (same as <code class="docutils literal notranslate"><span class="pre">'PARSEC'</span></code>), <code class="docutils literal notranslate"><span class="pre">'PARSEC_v1p2'</span></code> or <code class="docutils literal notranslate"><span class="pre">'custome'</span></code>. If you want to use your own customized isochrone, you need to set the <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">'custome'</span></code>, and also provide the absolute directory for the isochrone matrix file <code class="docutils literal notranslate"><span class="pre">isochrone_mat_file</span></code>. See
 <a class="reference external" href="https://ysoisochrone.readthedocs.io/en/latest/index.html">documentation</a> for details. Here we also turn on the <code class="docutils literal notranslate"><span class="pre">plot</span> <span class="pre">=</span> <span class="pre">True</span></code> to show the intermediate diagnoostic plot.</p>
-<p>The outputs are: (a) <code class="docutils literal notranslate"><span class="pre">best_logmass_output</span></code> (log10 of mass in the unit of solar masses), <code class="docutils literal notranslate"><span class="pre">best_logage_output</span></code> (log10 of age in the unit of yrs) are the arrays that includes the best derived values and their lower and upper boundaries from the 68% confidence intervals. (b) <code class="docutils literal notranslate"><span class="pre">lmass_all</span></code> and <code class="docutils literal notranslate"><span class="pre">lage_all</span></code> are the distributions of the likelihood functions for each source; they could be used to estimate the medians based on the likelihood distributions.</p>
+<p>The outputs are:</p>
+<ul class="simple">
+<li><ol class="loweralpha simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">best_logmass_output</span></code> (log10 of mass in the unit of solar masses), <code class="docutils literal notranslate"><span class="pre">best_logage_output</span></code> (log10 of age in the unit of yrs) are the arrays that includes the best derived values and their lower and upper boundaries from the 68% confidence intervals.</p></li>
+</ol>
+</li>
+<li><ol class="loweralpha simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">lmass_all</span></code> and <code class="docutils literal notranslate"><span class="pre">lage_all</span></code> are the distributions of the likelihood functions for each source; they could be used to estimate the medians based on the likelihood distributions.</p></li>
+</ol>
+</li>
+</ul>
 <p>An example of saving these outputs are</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -610,7 +620,11 @@ The estimated age is: 1.73 + 1.97 - 0.94 [Myrs]
 <section id="Have-a-look-on-HRD-and-define-targets-that-are-toobright-and/or-too-faint">
 <h3>Have a look on HRD and define targets that are toobright and/or too faint<a class="headerlink" href="#Have-a-look-on-HRD-and-define-targets-that-are-toobright-and/or-too-faint" title="Link to this heading">¶</a></h3>
 <p>You can overplot them on the top of the isochrones in the Hertzsprung–Russell diagram (HR diagram) and check for the targets that are too bright/faint.</p>
-<p><strong>WARNING</strong> Normaly we need to assign ages to the targets that are too bright/faint otherwise the Bayesian method would not give a robust estimate. So we assign the age as follows and find their best-fit masses from the cloest track. - for targets that are too bright, we assign the youngest age from the model grid. - for targets that are too faint (could because it has an edge-on disk), we assign the median age of the star-forming region.</p>
+<p><strong>WARNING</strong> Normaly we need to assign ages to the targets that are too bright/faint otherwise the Bayesian method would not give a robust estimate. So we assign the age as follows and find their best-fit masses from the cloest track.</p>
+<ul class="simple">
+<li><p>for targets that are too bright, we assign the youngest age from the model grid.</p></li>
+<li><p>for targets that are too faint (could because it has an edge-on disk), we assign the median age of the star-forming region.</p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
