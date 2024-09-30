@@ -31,9 +31,9 @@ pip install .
 
 ## Quick Start
 
-A [Quick Start Guide](https://github.com/DingshanDeng/ysoisochrone/blob/main/tutorial_notebooks/tutorial1_quick_start.ipynb) is provided as a `Jupyter Notebook` together with other [tutorial `Jupyter Notebooks`](https://github.com/DingshanDeng/ysoisochrone/tree/main/tutorial_notebooks).
+A [Quick Start Guide](https://github.com/DingshanDeng/ysoisochrone/blob/main/tutorial_notebooks/tutorial1_quick_start.ipynb) is provided as a `Jupyter Notebook` together with other [tutorial `Jupyter Notebooks`](https://github.com/DingshanDeng/ysoisochrone/tree/main/tutorial_notebooks). You can also find these tutorial notebooks in the folder called `tutorial_notebooks`.
 
-For detailed description and usage, please refer to this [documentation](https://ysoisochrone.readthedocs.io/en/latest/index.html) .
+This Guide is also provided in the [documentation](https://ysoisochrone.readthedocs.io/en/latest/index.html) together with some other detailed explainations.
 
 ## Citations
 If you use `ysoisochrone` as part of your research, please cite the xxx
