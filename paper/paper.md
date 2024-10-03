@@ -12,13 +12,17 @@ authors:
 	affiliation: 1
   - name: Rachel B. Fernandes
 	orcid: 0000-0002-3853-7327
-	affiliation: 2
+	affiliation: 2, 3, 4
 affiliations:
  - name: Lunar and Planetary Laboratory, the University of Arizona, Tucson, AZ 85721, USA
    index: 1
- - name: Department of Astronomy & Astrophysics, Center for Exoplanets and Habitable Worlds, The Pennsylvania State University, University Park, PA 16802
+ - name: President’s Postdoctoral Fellow
    index: 2
-date: 28 September 2024
+ - name: Department of Astronomy \& Astrophysics, 525 Davey Laboratory, The Pennsylvania State University, University Park, PA 16802, USA
+   index: 3
+ - name: Center for Exoplanets and Habitable Worlds, 525 Davey Laboratory, The Pennsylvania State University, University Park, PA 16802, USA
+   index: 4
+date: 03 October 2024
 bibliography: paper.bib
 ---
 
