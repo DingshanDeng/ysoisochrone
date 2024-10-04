@@ -5,16 +5,16 @@ tags:
   - astronomy
 authors:
   - name: Dingshan Deng
-  orcid: 0000-0003-0777-7392
-  affiliation: 1
+    orcid: 0000-0003-0777-7392
+    affiliation: 1
   - name: Ilaria Pascucci
-  orcid: 0000-0001-7962-1683
-  affiliation: 1
+    orcid: 0000-0001-7962-1683
+    affiliation: 1
   - name: Rachel B. Fernandes
-  orcid: 0000-0002-3853-7327
-  affiliation: 2, 3, 4
+    orcid: 0000-0002-3853-7327
+    affiliation: "2, 3, 4"
 affiliations:
-  - name: Lunar and Planetary Laboratory, the University of Arizona, Tucson, AZ 85721, USA
+ - name: Lunar and Planetary Laboratory, the University of Arizona, Tucson, AZ 85721, USA
    index: 1
  - name: President’s Postdoctoral Fellow
    index: 2
