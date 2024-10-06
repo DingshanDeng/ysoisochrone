@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quick Start &mdash; ysoisochrone 0.3.0.beta documentation</title>
+  <title>Quick Start &mdash; ysoisochrone 0.3.1.beta documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -15,7 +15,7 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/documentation_options.js?v=ec7badc4"></script>
+        <script src="../_static/documentation_options.js?v=7339395e"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -1157,7 +1157,7 @@ The estimated mass is: 0.42 + 0.10 - 0.13 [Msun]
 
 <span class="n">best_logmass_output_t</span> <span class="o">=</span> <span class="n">ysoisochrone</span><span class="o">.</span><span class="n">bayesian</span><span class="o">.</span><span class="n">derive_stellar_mass_assuming_age_closest_trk</span><span class="p">(</span><span class="n">df_prop_t</span><span class="p">,</span> <span class="n">assumed_age</span><span class="o">=</span><span class="mf">6.48e6</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;Baraffe_n_Feiden&#39;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;estimated mass: </span><span class="si">%.2f</span><span class="s1"> [Msun]&#39;</span><span class="o">%</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">best_logmass_output_t</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;estimated mass: </span><span class="si">%.2f</span><span class="s1"> [Msun]&#39;</span><span class="o">%</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">best_logmass_output_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 </div>
 </div>

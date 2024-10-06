@@ -1,6 +1,6 @@
 import os
 import scipy.io
-from scipy.interpolate import griddata
+# from scipy.interpolate import griddata
 from ysoisochrone import utils
 
 class Isochrone:

@@ -1,9 +1,15 @@
-import os, sys, copy
+import os # , sys, copy
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from scipy.integrate import simps
-from scipy.interpolate import interp1d
+# import matplotlib.pyplot as plt
+# from scipy.integrate import simps
+try:
+    # Try to import simpson (the newer version)
+    from scipy.integrate import simpson
+except ImportError:
+    # If simpson doesn't exist, fallback to simps (the older version)
+    from scipy.integrate import simps as simpson
+# from scipy.interpolate import interp1d
 
 import tqdm
 
@@ -48,8 +54,8 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     #     print('the shape of L', L.shape)
         
     # Integrate L over mstar for each age bin
-    L_age = np.array([simps(L[jj, :], log_masses_dummy) for jj in range(len(log_age_dummy))])
-    L_age /= simps(L_age, log_age_dummy)
+    L_age = np.array([simpson(L[jj, :], log_masses_dummy) for jj in range(len(log_age_dummy))])
+    L_age /= simpson(L_age, log_age_dummy)
     
     # if verbose: # for debugging
     #     print('L_age:', L_age)
@@ -108,8 +114,8 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
                 age_unc[1] = log_age_dummy[best_age_idx + np.argmin(np.abs(L_age_array[best_age_idx:] - (L_age_array[best_age_idx] + half_sigma_perc)))]
     
     # Integrate L over age for each mass bin
-    L_mass = np.array([simps(L[:, jj], log_age_dummy) for jj in range(len(log_masses_dummy))])
-    L_mass /= simps(L_mass, log_masses_dummy)
+    L_mass = np.array([simpson(L[:, jj], log_age_dummy) for jj in range(len(log_masses_dummy))])
+    L_mass /= simpson(L_mass, log_masses_dummy)
     
     best_mass_idx = np.argmax(L_mass)
     best_log_mass = best_mass = log_masses_dummy[best_mass_idx]
@@ -766,7 +772,7 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         likelihood[np.logical_not(mask_pms)[idx_age, :]] = np.nanmin(likelihood) # 1e-99 # Ignore main-sequence and post-main-sequence positions
         
         # Normalize the likelihood
-        likelihood /= simps(likelihood, np.log10(masses_dummy))
+        likelihood /= simpson(likelihood, np.log10(masses_dummy))
         
         # Find the best-fit mass
         best_mass_idx = np.argmax(likelihood)

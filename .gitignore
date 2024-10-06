@@ -4,6 +4,7 @@ tests/lfunc_data/
 tests/data/
 tutorial_notebooks/isochrones_data/
 tutorial_notebooks/lfunc_data/
+tutorial_notebooks/_o.csv
 
 # Ignore DSstore
 .DS_Store
