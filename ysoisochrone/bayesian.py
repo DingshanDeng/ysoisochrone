@@ -54,8 +54,8 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     #     print('the shape of L', L.shape)
         
     # Integrate L over mstar for each age bin
-    L_age = np.array([simpson(L[jj, :], log_masses_dummy) for jj in range(len(log_age_dummy))])
-    L_age /= simpson(L_age, log_age_dummy)
+    L_age = np.array([simpson(L[jj, :], x=log_masses_dummy) for jj in range(len(log_age_dummy))])
+    L_age /= simpson(L_age, x=log_age_dummy)
     
     # if verbose: # for debugging
     #     print('L_age:', L_age)
@@ -114,8 +114,8 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
                 age_unc[1] = log_age_dummy[best_age_idx + np.argmin(np.abs(L_age_array[best_age_idx:] - (L_age_array[best_age_idx] + half_sigma_perc)))]
     
     # Integrate L over age for each mass bin
-    L_mass = np.array([simpson(L[:, jj], log_age_dummy) for jj in range(len(log_masses_dummy))])
-    L_mass /= simpson(L_mass, log_masses_dummy)
+    L_mass = np.array([simpson(L[:, jj], x=log_age_dummy) for jj in range(len(log_masses_dummy))])
+    L_mass /= simpson(L_mass, x=log_masses_dummy)
     
     best_mass_idx = np.argmax(L_mass)
     best_log_mass = best_mass = log_masses_dummy[best_mass_idx]
@@ -772,7 +772,7 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         likelihood[np.logical_not(mask_pms)[idx_age, :]] = np.nanmin(likelihood) # 1e-99 # Ignore main-sequence and post-main-sequence positions
         
         # Normalize the likelihood
-        likelihood /= simpson(likelihood, np.log10(masses_dummy))
+        likelihood /= simpson(likelihood, x=np.log10(masses_dummy))
         
         # Find the best-fit mass
         best_mass_idx = np.argmax(likelihood)
