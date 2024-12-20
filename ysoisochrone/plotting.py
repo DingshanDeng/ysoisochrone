@@ -3,6 +3,8 @@ import copy
 import os
 
 import matplotlib.pyplot as plt
+from matplotlib import gridspec
+
 # style = [
 #     'seaborn-ticks',
 #     {
@@ -73,12 +75,51 @@ def plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mas
     """
     
     fig = plt.figure(figsize=(6, 5), dpi=300)
-    ratio = 3
-    gs = plt.GridSpec(ratio+1, ratio+1)
+    # Use constrained_layout=True to automatically adjust spacing
+    fig.subplots_adjust(wspace=0.05, hspace=0.05)
     
-    ax_joint = fig.add_subplot(gs[1:, :-1])
-    ax_marg_x = fig.add_subplot(gs[0, :-1], sharex=ax_joint)
-    ax_marg_y = fig.add_subplot(gs[1:, -1], sharey=ax_joint)
+    # ratio = 3
+    # gs = plt.GridSpec(ratio+1, ratio+1)
+    # # gs = plt.GridSpec(4, 4, figure=fig, width_ratios=[1, 1, 1, 0.1], height_ratios=[0.25, 1, 1, 1])
+    
+    # ax_joint = fig.add_subplot(gs[1:, :-1])
+    # ax_marg_x = fig.add_subplot(gs[0, :-1], sharex=ax_joint)
+    # ax_marg_y = fig.add_subplot(gs[1:, -1], sharey=ax_joint)
+    # # Define a new axis for the colorbar
+    # cbar_ax = fig.add_axes([0.85, 0.15, 0.03, 0.7])  # [left, bottom, width, height]
+    
+    # Define the size of the main grid for the panels
+    grid_width = 0.8  # Fraction of the figure width allocated to the grid (80%)
+    grid_height = 0.8  # Fraction of the figure height allocated to the grid (80%)
+
+    # Define the positions of the grid and colorbar
+    left_margin = 0.1  # Left margin for the grid
+    bottom_margin = 0.1  # Bottom margin for the grid
+    colorbar_width = 0.03  # Width of the colorbar
+    spacing = 0.02  # Spacing between the grid and the colorbar
+
+    # Create the main grid layout
+    gs = gridspec.GridSpec(
+        4, 4,
+        left=left_margin,
+        bottom=bottom_margin,
+        right=left_margin + grid_width,
+        top=bottom_margin + grid_height,
+        wspace=0.05, hspace=0.05
+    )
+
+    # Axes for the main panels
+    ax_marg_x = fig.add_subplot(gs[0, :-1])  # Top marginal plot
+    ax_joint = fig.add_subplot(gs[1:, :-1])  # Main joint plot
+    ax_marg_y = fig.add_subplot(gs[1:, -1])  # Right marginal plot
+
+    # Add an independent axis for the colorbar
+    cbar_ax = fig.add_axes([
+        left_margin + grid_width + spacing,  # Left position of colorbar
+        bottom_margin,    # Bottom position of colorbar
+        colorbar_width,   # Width of colorbar
+        grid_height*0.75  # Height of colorbar
+    ])
     
     ax_joint.tick_params(bottom=True, top=True, right=True, left=True, which='major')
     ax_joint.tick_params(bottom=True, top=True, right=True, left=True, which='minor')
@@ -126,7 +167,8 @@ def plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mas
                          origin='lower', aspect='auto', cmap='viridis', vmin=-3)
     
     # Add colorbar for the likelihood
-    cb = plt.colorbar(im)
+    # cb = plt.colorbar(im, ax=[ax_joint, ax_marg_y], location='right', pad=0.02)
+    cb = fig.colorbar(im, cax=cbar_ax)
     cb.set_label(r'$\log_{10}{\rm Likelihood}$', labelpad=15, y=0.5, rotation=270., fontsize=12)
 
     # Mark the best-fit point on the joint plot
@@ -143,7 +185,7 @@ def plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mas
     
     # Add legend and title
     # ax_joint.legend(loc='lower left', bbox_to_anchor=(1.10,1.20), frameon=False)
-    ax_joint.annotate(f'{source}'+'\nBest Fit:\nage = %.2e [yrs]\nmass = %.2f[ms]'%(10**best_age, 10**best_mass), xy=(1.05, 1.05), xycoords='axes fraction', va='bottom', ha='left')
+    ax_joint.annotate(f'{source}'+'\nBest Fit:\nage = %.2e [yrs]\nmass = %.2f[ms]'%(10**best_age, 10**best_mass), xy=(1.02, 1.02), xycoords='axes fraction', va='bottom', ha='left')
     # fig.suptitle(f'{source}')
 
     # Save the figure if needed
