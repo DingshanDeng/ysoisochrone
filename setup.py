@@ -19,5 +19,6 @@ setup(
         'scipy',
         'requests',
         'tqdm',
+        'jupyter',
     ],
 )
