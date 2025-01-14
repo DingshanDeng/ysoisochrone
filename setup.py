@@ -20,5 +20,6 @@ setup(
         'requests',
         'tqdm',
         'jupyter',
+        'pytest',
     ],
 )
