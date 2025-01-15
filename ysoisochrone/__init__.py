@@ -12,7 +12,7 @@ from . import utils
 from . import plotting
 from . import isochrone
 
-__version__ = "0.3.2.beta"
+__version__ = "0.4.0.beta"
 __author__ = "Dingshan Deng"
 __copyright__ = "Copyright (C) 2024 Dingshan Deng"
 __all__ = ["isochrone", "bayesian", "plotting", "utils"]
