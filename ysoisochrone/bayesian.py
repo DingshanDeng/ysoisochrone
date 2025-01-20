@@ -183,7 +183,7 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     return [best_age, age_unc, best_mass, mass_unc], np.array([log_age_dummy, L_age_norm]), np.array([log_masses_dummy, L_mass_norm])
 
 
-def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=False):
+def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=True):
     """
     Derives stellar mass and age from evolutionary tracks using a Bayesian framework.
 
@@ -223,8 +223,8 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             The median age that will be asigned tothe targets that are toofaint.
         confidence_interval: [float, optional]
             The desired percentage for describing uncertainties, default is 68% which is corresponding to the 1 sigma (68%) from Gaussian distribution.
-        single_bayesian_for_nolum_target: [bool, optional]
-            Whether to still run a single Bayesian for the target that does not have good luminosity measurement (too bright or faint or anyother). If True, will still run a single Bayesian method to derive the stellar mass with the assumed `median_age`, otherwise will only find the closest track and will not obtain an uncertainty.
+        single_bayesian_for_nolum_target: [bool, optional] Default: True
+            Whether to still run a single Bayesian for the target that does not have good luminosity measurement (too bright or faint or anyother). If True, will still run a single Bayesian method to derive the stellar mass with the assumed `median_age`, otherwise will only find the closest track and will not obtain an uncertainty. Turn this to False to simply find the closest model grid point as in Pascucci+2016.
     
     Returns:
     
@@ -236,6 +236,8 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             The likelihood function of age for all target
         lmass_all: [dictionary]
             The likelihood function of mass for all target
+        flag_all: [list of strs]
+            The list of flags (in string) for all target
     """
     
     # Prepare output lists
@@ -244,6 +246,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
     best_logmass_output = []
     lage_all = {}
     lmass_all = {}
+    flag_all = []
     
     # Loop through each star in the source list
     for ii in tqdm.tqdm(df_prop.index):
@@ -300,7 +303,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
 
-        # Check if the source is in the toofaint or toobright lists
+        # Check if the source is in the toofaint or toobright lists 
         if np.any([source_t in toofaint, source_t in toobright]):
             if verbose:
                 if source_t in toofaint:
@@ -322,13 +325,13 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
                 if verbose:
                     print('we find the closest point from the model to this target (%s) instead of using Bayesian framework'%(source_t))
                 res = derive_stellar_mass_assuming_age_closest_trk(df_prop.loc[[ii]], assumed_age=1.5e6, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, verbose=verbose)
-                best_logmass_wunc = [res[0], 0, 0]
+                best_logmass_wunc = [res[0], np.nan, np.nan]
             
             # this_age = np.where(log_age_dummy == c_age)
             # Tdiff_index = np.abs(logtlogl_dummy[this_age, :, 0] - c_logT).argmin()
             
-            # best_mass = [np.log10(masses_dummy[Tdiff_index]), 0, 0]
-            best_logage_wunc = [c_age, 0, 0]
+            # best_mass = [np.log10(masses_dummy[Tdiff_index]), np.nan, np.nan]
+            best_logage_wunc = [c_age, np.nan, np.nan]
         else:
             # Compute the likelihood using the Bayesian framework
             lfunc = utils.get_likelihood_andrews2013(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
@@ -374,8 +377,15 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         if verbose:
             print(f'Results for target: {source_t}')
             print(f'Best Mass: {10**best_logmass_wunc[0]:.2f} [Msun], Age: {10**best_logage_wunc[0]:.2e} [yrs]')
-    
-    return np.array(best_logmass_output), np.array(best_logage_output), lmass_all, lage_all
+
+        if source_t in toobright:        
+            flag_all.append('toobright')
+        elif source_t in toofaint:
+            flag_all.append('toofaint')
+        else:
+            flag_all.append('good')
+        
+    return np.array(best_logmass_output), np.array(best_logage_output), lmass_all, lage_all, flag_all
 
 
 def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=False):

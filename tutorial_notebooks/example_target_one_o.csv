@@ -1,2 +1,2 @@
-Source,Teff[K],e_Teff[K],Luminosity[Lsun],e_Luminosity[Lsun],logmass[Msun],lw_logmass[Msun],up_logmass[Msun],logage[yrs],lw_logage[yrs],up_logage[yrs],mass[Msun],lw_mass[Msun],up_mass[Msun],age[Myrs],lw_age[Myrs],up_age[Myrs]
-Sz71,3632.0,167.0,0.327,0.142,-0.36999999999999855,-0.47999999999999865,-0.24999999999999847,6.238970004336007,5.8989700043360145,6.568970004336,0.42657951880159406,0.3311311214825921,0.5623413251903511,1.7336842522626121,0.7924465962305488,3.706551206504429
+Source,Teff[K],e_Teff[K],Luminosity[Lsun],e_Luminosity[Lsun],logmass[Msun],lw_logmass[Msun],up_logmass[Msun],logage[yrs],lw_logage[yrs],up_logage[yrs],mass[Msun],lw_mass[Msun],up_mass[Msun],age[Myrs],lw_age[Myrs],up_age[Myrs],flag
+Sz71,3632.0,167.0,0.327,0.142,-0.36999999999999855,-0.47999999999999865,-0.24999999999999847,6.238970004336007,5.8989700043360145,6.568970004336,0.42657951880159406,0.3311311214825921,0.5623413251903511,1.7336842522626121,0.7924465962305488,3.706551206504429,good
