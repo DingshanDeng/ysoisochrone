@@ -43,6 +43,8 @@ The MIST stellar evolutionary tracks are computed with the [Modules for Experime
 
 See their website for details and references: https://waps.cfa.harvard.edu/MIST/.
 
+## Useful Links
+
 > There is also another Python package [isochrones](https://github.com/timothydmorton/isochrones/tree/master), that is capable of handling all the MIST isochrones.
 > 
 > We also refer the users to the Python package [`MADYS`](https://madys.readthedocs.io/en/latest/), which can handle MIST, PARSEC (1.2 and 2.0), Feiden, Baraffe and many other models for pre-MS or MS stars, and can be used to derive stellar age and mass using multi-wavelengths photometric data with extinction corrected according to extinction maps and laws.
