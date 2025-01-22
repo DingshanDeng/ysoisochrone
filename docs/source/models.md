@@ -21,7 +21,7 @@ ADS webpage: https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract
 
 Data are downloaded from https://github.com/gfeiden/MagneticUpperSco/?tab=readme-ov-file
 
-By default, we use the standard nonmagnetic tracks that are in the public repo from here: https://github.com/gfeiden/MagneticUpperSco/tree/master/models/trk/std
+By default, we use the **nonmagnetic** tracks that are in the public repo from here: https://github.com/gfeiden/MagneticUpperSco/tree/master/models/trk/std
 
 **Caution**: There are known issues with model isochrones at very young ages (below 10 Myr). Proceed with caution. Updated models that rectify known issues are available from the author. 
 
