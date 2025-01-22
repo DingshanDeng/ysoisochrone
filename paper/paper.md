@@ -28,20 +28,17 @@ bibliography: paper.bib
 
 # Background and Methods
 There has been a long history of estimating **stellar ages and masses** from the stellar evolutionary models [e.g., @Baraffe_2015; @Feiden_2016; @Siess_2000]. Different methods have been employed, from finding the closest track to an object's luminosity and temperature [e.g., @Manara_2023_PPVII] to employing a Bayesian approach which enables estimating uncertainties on the inferred ages and masses [e.g., @Andrews_2013; @Gennaro_2012;  @Jorgensen_n_Lindergren_2005]. Our primary method is a Bayesian inference approach, and the `Python` code builds on the `IDL` version developed by @Pascucci_2016. **The code estimates the stellar mass, age, and associated uncertainties by comparing a star's effective temperature ($T_{\rm eff}$), bolometric luminosity ($L_{\rm bol}$)**, and their uncertainties with different stellar evolutionary models, including those specifically developed for young stellar objects **(YSOs)**. **The conditional likelihood function assumes log-uniform priors and can be written as:**
-<!-- $$
-\mathcal{L}(\log_{10}T_{i}, \log_{10}L_{i} | \log_{10}T_{\rm obs}, \log_{10}L_{\rm obs}) = \frac{1}{2\pi \sigma_{\log_{10}T_{\rm obs}} \sigma_{\log_{10}L_{\rm obs}}} \exp\left( -\frac{1}{2} \left[ \frac{(\log_{10}T_{\rm obs} - \log_{10}T_{i})^2}{\sigma_{\log_{10}T_{\rm obs}}^2} + \frac{(\log_{10}L_{\rm obs} - \log_{10}L_{i})^2}{\sigma_{\log_{10}L_{\rm obs}}^2} \right] \right), \tag{1}
-$$ -->
 $$
 \begin{aligned}
-&\mathcal{L}(\log_{10}T_{i}, \log_{10}L_{i} \mid \log_{10}T_{\rm obs}, \log_{10}L_{\rm obs}) = 
-\frac{1}{2\pi \sigma_{\log_{10}T_{\rm obs}} \sigma_{\log_{10}L_{\rm obs}}} \\
+&\mathcal{L}(\log T_{i}, \log L_{i} \mid \log T_{\rm obs}, \log L_{\rm obs}) = 
+\frac{1}{2\pi \sigma_{\log T_{\rm obs}} \sigma_{\log L_{\rm obs}}} \\
 &\quad \times \exp\left( -\frac{1}{2} \left[ 
-\frac{(\log_{10}T_{\rm obs} - \log_{10}T_{i})^2}{\sigma_{\log_{10}T_{\rm obs}}^2} 
-+ \frac{(\log_{10}L_{\rm obs} - \log_{10}L_{i})^2}{\sigma_{\log_{10}L_{\rm obs}}^2} 
+\frac{(\log T_{\rm obs} - \log T_{i})^2}{\sigma_{\log T_{\rm obs}}^2} 
++ \frac{(\log L_{\rm obs} - \log L_{i})^2}{\sigma_{\log L_{\rm obs}}^2} 
 \right] \right),
 \end{aligned} \tag{1}
 $$
-where the $T$ and $L$ are the effective temperature and bolometric luminosity, respectively. $T_i, L_i$ are the values from the evolutionary model grids, and $T_{\rm obs}, L_{\rm obs}$ are the observed values for each target with their uncertainties ($1\,\sigma$ from the assumed Gaussian distribution **log-scale**) described as $\sigma_{\log_{10}T_{\rm obs}}, \sigma_{\log_{10}L_{\rm obs}}$.
+where the $T$ and $L$ are the effective temperature and bolometric luminosity, respectively. $T_i, L_i$ are the values from the evolutionary model grids, and $T_{\rm obs}, L_{\rm obs}$ are the observed values for each target with their uncertainties ($1\,\sigma$ from the assumed Gaussian distribution **log-scale**) described as $\sigma_{\log T_{\rm obs}}, \sigma_{\log L_{\rm obs}}$.
 **In this first released version, we assume log-uniform priors for $T$ and $L$ in this likelihood function following the `IDL` code used in @Pascucci_2016. This is because both initial mass function of stars and their evolutionary timescales imply that the occurrence of stars decreases as a function of $T_{\rm eff}$ and $L_{\rm bol}$, which is represented by the log-uniform priors. Different likelihood function can be added in the future versions.**
 
 **We choose $T_{\rm eff}$ and $L_{\rm bol}$ to estimate the stellar age and mass because extinction is significant for young stars especially when embedded in the natal cloud. Although the $T_{\rm eff}$ and $L_{\rm bol}$ are not directly observed quantities, they are the two main quantities that evolutionary models can be compared with. When median or high-resolution spectroscopy is employed on individual targets, $T_{\rm eff}$ and $L_{\rm bol}$ can be well determined, and the best estimates for YSOs are from works where a stellar spectrum is fitted simutaneously with extinction and accretional heating [e.g., @alcala_x-shooter_2017]. To ensure the best results, we recommend using $T_{\rm eff}$ and $L_{\rm bol}$ (with their uncertainties) that are derived simutaneously through spectroscopy.**
