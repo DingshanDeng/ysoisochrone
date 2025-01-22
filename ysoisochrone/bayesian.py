@@ -334,7 +334,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             best_logage_wunc = [c_age, np.nan, np.nan]
         else:
             # Compute the likelihood using the Bayesian framework
-            lfunc = utils.get_likelihood_andrews2013(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
+            lfunc = utils.get_likelihood_p2016(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
             lfunc[np.isnan(lfunc)] = 1e-99 # Set NaN positions to 1e-99 to ignore them
             
             """
@@ -534,7 +534,7 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
             best_logage_wunc = [c_age, 0, 0]
         else:
             # Compute the likelihood using the Bayesian framework
-            lfunc = utils.get_likelihood_andrews2013(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
+            lfunc = utils.get_likelihood_p2016(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
             lfunc[np.isnan(lfunc)] = 1e-99 # Set NaN positions to 1e-99 to ignore them
             
             # Create the mask to mask out the trks after zero-age-main-sequence

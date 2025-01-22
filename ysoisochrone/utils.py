@@ -103,10 +103,17 @@ def assign_unc_lumi(lumi_ar, sigma_logL_set=None):
     return err_lumi_ar
 
 
-def get_likelihood_andrews2013(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL):
+def get_likelihood_p2016(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL):
     """
     Calculates the likelihood function lfunc given the input log temperature and luminosity.
-    L is the likelihood function see eq. 1 in Andrews2013 (or anyone you would like to set up)
+    L is the likelihood function see eq. 1 in Pasucci+2016
+    **NOTE** in Pascucci+2016, eq. 1 appears using Teff and Lbol in linear space
+    but the code actually uses logTeff and logLbol, so the prior is log-uniform for both.
+    This gives more accurate results than the linear-uniform for Teff and Lbol
+    because linearly uniform priors would create a bias for hotter and brighter stars. 
+    Both the shape of the initial mass function of stars and their evolutionary timescales 
+    imply that the occurrence of stars decreases as a function of Teff and L.
+    Therefore a log-uniform prior as adopted here is more accurate.
     
     Args:
     
