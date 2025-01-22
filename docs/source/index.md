@@ -52,16 +52,19 @@ If you end up using this package, please cite xxx (TBA)
 
 If you use any [stellar evolutionary models](./models.md), please also refer to their original work/website for citations.
 
+## Community Guidelines
+We welcome contributions, issue reports, and questions about `ysoisochrone`! If you encounter a bug or issue, check out the [Issues page](https://github.com/DingshanDeng/ysoisochrone/issues) and provide a report with details about the problem and steps to reproduce it. For general support, usage questions and suggestions, you can start a discussion in [Discussions page](https://github.com/DingshanDeng/ysoisochrone/discussions), and of course feel free to send emails directly to us. If you want to contribute, feel free to fork the repository and create pull requests here. `ysoisochrone` is licensed under MIT license, so feel free to make use of the source code in any part of your own work/software.
+
 ## Useful links
 
 There are a few other useful tools and packages that can be used to handle stellar evolutionary tracks and to estimate stellar mass and age for pre-main sequence stars. Including:
 
 - [`MADYS`](https://madys.readthedocs.io/en/latest/) is `Python` package that can be used to derive ages and masses for pre-main sequence stars from multi-wavelengths photometric data with the extinction corrected according to extinction maps and laws; and it could ustilize different stellar evolutionary models, including MIST, PARSEC (v1.2 and 2.0), Feiden, Baraffe and many other models for pre-MS or MS stars.
 
-- `PARSEC` team provides a [web interface](http://stev.oapd.inaf.it/PARSEC/tools.html) to access different versions of their tracks together with some useful web-based tools. 
-  
 - [`isochrones`](https://github.com/timothydmorton/isochrones) is a `Python` package that provides interface to access the [MIST](https://waps.cfa.harvard.edu/MIST/) grids.
 
+- `PARSEC` team provides a [web interface](http://stev.oapd.inaf.it/PARSEC/tools.html) to access different versions of their tracks together with some useful web-based tools. 
+  
 ## Contents:
 ```{toctree}
 notebooks/ysoisochrone_basics
