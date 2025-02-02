@@ -628,7 +628,7 @@ def simple_plot_hr_diagram_feiden_n_baraffe(df_prop=None, ax_set=None):
         xlim_set=xlim_set, ylim_set=ylim_set,
         ages_to_plot=ages_to_plot_t,
         masses_to_plot=masses_to_plot_f,
-        teff_range=np.array([xlim_set[0], 3750]),
+        teff_range=np.array([xlim_set[0], 3700]),
         age_positions=age_positions_set,
         age_rotation=age_rotation_t,
         mass_rotation=mass_ration_set
@@ -644,7 +644,7 @@ def simple_plot_hr_diagram_feiden_n_baraffe(df_prop=None, ax_set=None):
         xlim_set=xlim_set, ylim_set=ylim_set,
         ages_to_plot=ages_to_plot_t,
         masses_to_plot=masses_to_plot_b,
-        teff_range=np.array([xlim_set[1], 4150]),
+        teff_range=np.array([xlim_set[1], 4200]),
         bool_age_annotate=False,
         bool_labels=False,
         mass_rotation=mass_ration_set
