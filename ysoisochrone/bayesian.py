@@ -330,22 +330,20 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             # this_age = np.where(log_age_dummy == c_age)
             # Tdiff_index = np.abs(logtlogl_dummy[this_age, :, 0] - c_logT).argmin()
             
+            """
+            the targets that are too bright or too faint are are assigned with age without uncertainties
+            """
             # best_mass = [np.log10(masses_dummy[Tdiff_index]), np.nan, np.nan]
             best_logage_wunc = [c_age, np.nan, np.nan]
+            
         else:
             # Compute the likelihood using the Bayesian framework
             lfunc = utils.get_likelihood_p2016(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
             lfunc[np.isnan(lfunc)] = 1e-99 # Set NaN positions to 1e-99 to ignore them
             
-            """
-            In this legacy version, we do not consider where is the zams curve
-            we simply remove all the tracks beyond 50 Myrs
-            """
-            # # Create the mask to mask out the trks after zero-age-main-sequence
-            # _, _, mask_pms = utils.find_zams_curve(isochrone)
-            # lfunc[np.logical_not(mask_pms)] = 1e-99 # Set the main-sequence and post-main-sequence positions to 1e-99
-            idx_age = np.nanargmin(np.abs(isochrone.log_age - np.log10(50.0e6)))  # Find the closest age
-            lfunc[idx_age:, :] = 1e-99
+            # Create the mask to mask out the trks after zero-age-main-sequence
+            _, _, mask_pms = utils.find_zams_curve(isochrone)
+            lfunc[np.logical_not(mask_pms)] = 1e-99 # Set the main-sequence and post-main-sequence positions to 1e-99
             
             # Use Bayesian mass and age estimation
             bayes_res, lage_res, lmass_res = bayesian_mass_age(log_age_dummy, np.log10(masses_dummy), lfunc, plot=plot, source=source_t, verbose=verbose, save_fig=save_fig, fig_save_dir=fig_save_dir, confidence_interval=confidence_interval)
@@ -450,6 +448,7 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
     best_logmass_output = []
     lage_all = {}
     lmass_all = {}
+    flag_all = []
     
     # Loop through each star in the source list
     for ii in tqdm.tqdm(df_prop.index):
@@ -530,16 +529,25 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
             # this_age = np.where(log_age_dummy == c_age)
             # Tdiff_index = np.abs(logtlogl_dummy[this_age, :, 0] - c_logT).argmin()
             
+            """
+            In this legacy version, the targets that are too bright or too faint are are assigned with age without uncertainties
+            """
             # best_mass = [np.log10(masses_dummy[Tdiff_index]), 0, 0]
-            best_logage_wunc = [c_age, 0, 0]
+            best_logage_wunc = [c_age, np.nan, np.nan]
         else:
             # Compute the likelihood using the Bayesian framework
             lfunc = utils.get_likelihood_p2016(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
             lfunc[np.isnan(lfunc)] = 1e-99 # Set NaN positions to 1e-99 to ignore them
             
-            # Create the mask to mask out the trks after zero-age-main-sequence
-            _, _, mask_pms = utils.find_zams_curve(isochrone)
-            lfunc[np.logical_not(mask_pms)] = 1e-99 # Set the main-sequence and post-main-sequence positions to 1e-99
+            """
+            In this legacy version, we do not consider where is the zams curve
+            we simply remove all the tracks beyond 50 Myrs
+            """
+            # # Create the mask to mask out the trks after zero-age-main-sequence
+            # _, _, mask_pms = utils.find_zams_curve(isochrone)
+            # lfunc[np.logical_not(mask_pms)] = 1e-99 # Set the main-sequence and post-main-sequence positions to 1e-99
+            idx_age = np.nanargmin(np.abs(isochrone.log_age - np.log10(50.0e6)))  # Find the closest age
+            lfunc[idx_age:, :] = 1e-99
             
             # Use Bayesian mass and age estimation
             bayes_res, lage_res, lmass_res = bayesian_mass_age(log_age_dummy, np.log10(masses_dummy), lfunc, plot=plot, source=source_t, verbose=verbose, save_fig=save_fig, fig_save_dir=fig_save_dir, confidence_interval=confidence_interval)
@@ -571,8 +579,15 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
         if verbose:
             print(f'Results for target: {source_t}')
             print(f'Best Mass: {10**best_logmass_wunc[0]:.2f} [Msun], Age: {10**best_logage_wunc[0]:.2e} [yrs]')
-    
-    return np.array(best_logmass_output), np.array(best_logage_output), lmass_all, lage_all
+
+        if source_t in toobright:        
+            flag_all.append('toobright')
+        elif source_t in toofaint:
+            flag_all.append('toofaint')
+        else:
+            flag_all.append('good')
+        
+    return np.array(best_logmass_output), np.array(best_logage_output), lmass_all, lage_all, flag_all
 
 
 def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', verbose=False):
