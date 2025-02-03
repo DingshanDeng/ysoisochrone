@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ysoisochrone"
+version = "0.4.1.beta"
+authors = [
+  { name="Dingshan Deng", email="dingshandeng@arizona.edu" },
+]
+description = "Python package handles the young-stellar-objects isochrones, and one primary goal is to derive the stellar mass and ages from the isochrones."
+dependencies = [
+  "numpy",
+  "pandas",
+  "matplotlib>=3.3.4",
+  "scipy",
+  "requests",
+  "tqdm",
+  "jupyter",
+  "pytest",
+]
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = {file = "LICEN[CS]E*"}
+
+[project.urls]
+Homepage = "https://github.com/DingshanDeng/ysoisochrone"
+Issues = "https://github.com/DingshanDeng/ysoisochrone/issues"
