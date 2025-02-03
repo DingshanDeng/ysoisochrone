@@ -49,7 +49,7 @@ We also provide two other ways to estimate the stellar masses and ages from thes
 
 1. In some cases, when a good measurement of the stellar luminosity is unavailable,  we provide an option to set up the assumed age and then derive the stellar mass. Some examples when this method is useful include: targets that are very young and exceptionally bright; and targets with an edge-on disk so that the stellar $L_{\rm bol}$ is significantly underestimated. 
    
-2. The classical method that finds the closest point from the isochrones for each YSOs based on their $T_{\rm eff}$ and $L_{\rm bol}$. **We note that this stand alone function is primarily used for verification purposes against literature [e.g., @Manara_2023_PPVII; @Pascucci_2016] as it does not provide uncertainties**. 
+2. The classical method that finds the closest point from the isochrones for each YSOs based on their $T_{\rm eff}$ and $L_{\rm bol}$. We note that this stand alone function is primarily used for verification purposes against literature [e.g., @Manara_2023_PPVII; @Pascucci_2016] as it does not provide uncertainties. 
 
 # Statement of Need
 
