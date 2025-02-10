@@ -22,7 +22,7 @@ affiliations:
    index: 3
  - name: Center for Exoplanets and Habitable Worlds, 525 Davey Laboratory, The Pennsylvania State University, University Park, PA 16802, USA
    index: 4
-date: 03 February 2025
+date: 10 February 2025
 bibliography: paper.bib
 ---
 
