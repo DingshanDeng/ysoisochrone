@@ -26,7 +26,14 @@ date: 10 February 2025
 bibliography: paper.bib
 ---
 
+# Statement of Need
+
+At this moment, there are a few existing tools and packages that can be used to handle stellar evolutionary tracks and to estimate stellar mass and age for pre-main sequence stars. For example, [`isochrones`](https://github.com/timothydmorton/isochrones) provides a `Python` interface to access the [MIST](https://waps.cfa.harvard.edu/MIST/) grids, and the `PARSEC` team provides a [web interface](http://stev.oapd.inaf.it/PARSEC/tools.html) to access different versions of their tracks together with some useful web-based tools. More recently, @squicciarini_madys_2022 developed and published another `Python` package [`MADYS`](https://madys.readthedocs.io/en/latest/), which can be used to derive ages and masses for pre-main sequence stars from multi-wavelengths photometric data with the extinction corrected according to extinction maps and laws. This code could also utilize different stellar evolutionary models. `MADYS` provides easy access to obtaining photometric age and mass estimates for large groups of young stellar or substellar objects.
+
+Here we introduce `ysoisochrone`, a `Python3` package that utilizes stellar evolutionary tracks to estimate stellar masses and ages of pre-main sequence stars with a Bayesian framework. While several papers in the literature utilize this method [e.g., @Fernandes_2023; @Jorgensen_n_Lindergren_2005; @Pascucci_2016], an open-source tool implementing this method is not available. `ysoisochrone` fills this gap and provides a uniform platform to handle different evolutionary models with easy access to Bayesian framework along with tutorials and detailed documentation for first users. 
+
 # Background and Methods
+
 There has been a long history of estimating stellar ages and masses from stellar evolutionary models [e.g., @Baraffe_2015; @Feiden_2016; @Siess_2000]. Different methods have been employed, from finding the closest track to an object's luminosity and temperature [e.g., @Manara_2023_PPVII] to employing a Bayesian approach which enables estimating uncertainties on the inferred ages and masses [e.g., @Andrews_2013; @Gennaro_2012;  @Jorgensen_n_Lindergren_2005]. Our primary method is a Bayesian inference approach, and the `Python` code builds on the `IDL` version developed by @Pascucci_2016. The code estimates the stellar mass, age, and associated uncertainties by comparing a star's effective temperature ($T_{\rm eff}$), bolometric luminosity ($L_{\rm bol}$), and their uncertainties with different stellar evolutionary models, including those specifically developed for young stellar objects (YSOs). The conditional likelihood function assumes log-uniform priors and can be written as:
 $$
 \begin{aligned}
@@ -50,12 +57,6 @@ We also provide two other ways to estimate the stellar masses and ages from thes
 1. In some cases, when a good measurement of the stellar luminosity is unavailable,  we provide an option to set up the assumed age and then derive the stellar mass. Some examples when this method is useful include: targets that are very young and exceptionally bright; and targets with an edge-on disk so that the stellar $L_{\rm bol}$ is significantly underestimated. 
    
 2. The classical method that finds the closest point from the isochrones for each YSOs based on their $T_{\rm eff}$ and $L_{\rm bol}$. We note that this stand alone function is primarily used for verification purposes against literature [e.g., @Manara_2023_PPVII; @Pascucci_2016] as it does not provide uncertainties. 
-
-# Statement of Need
-
-At this moment, there are a few existing tools and packages that can be used to handle stellar evolutionary tracks and to estimate stellar mass and age for pre-main sequence stars. For example, [`isochrones`](https://github.com/timothydmorton/isochrones) provides a `Python` interface to access the [MIST](https://waps.cfa.harvard.edu/MIST/) grids, and the `PARSEC` team provides a [web interface](http://stev.oapd.inaf.it/PARSEC/tools.html) to access different versions of their tracks together with some useful web-based tools. More recently, @squicciarini_madys_2022 developed and published another `Python` package [`MADYS`](https://madys.readthedocs.io/en/latest/), which can be used to derive ages and masses for pre-main sequence stars from multi-wavelengths photometric data with the extinction corrected according to extinction maps and laws. This code could also utilize different stellar evolutionary models. `MADYS` provides easy access to obtaining photometric age and mass estimates for large groups of young stellar or substellar objects.
-
-Here we introduce `ysoisochrone`, a `Python3` package that utilizes stellar evolutionary tracks to estimate stellar masses and ages of pre-main sequence stars with a Bayesian framework. While several papers in the literature utilize this method [e.g., @Fernandes_2023; @Jorgensen_n_Lindergren_2005; @Pascucci_2016], an open-source tool implementing this method is not available. `ysoisochrone` fills this gap and provides a uniform platform to handle different evolutionary models with easy access to Bayesian framework along with tutorials and detailed documentation for first users. 
 
 # Acknowledgements
 
