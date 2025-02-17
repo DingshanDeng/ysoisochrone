@@ -47,7 +47,22 @@ A [Quick Start Guide](https://github.com/DingshanDeng/ysoisochrone/blob/main/tut
 This Guide is also provided in the [documentation](https://ysoisochrone.readthedocs.io/en/latest/index.html) together with some other detailed explainations.
 
 ## Citations
-If you use `ysoisochrone` as part of your research, please cite the xxx
+If you use `ysoisochrone` as part of your research, please cite 
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.07493/status.svg)](https://doi.org/10.21105/joss.07493)
+
+```
+@article{Deng2025,
+doi = {10.21105/joss.07493},
+url = {https://doi.org/10.21105/joss.07493},
+year = {2025},
+publisher = {The Open Journal},
+volume = {10},
+number = {106},
+pages = {7493},
+author = {Dingshan Deng and Ilaria Pascucci and Rachel B. Fernandes},
+title = {ysoisochrone: A Python package to estimate masses and ages for YSOs}, journal = {Journal of Open Source Software}
+}
+```
 
 If you use any [stellar evolutionary models](./models.md), please also refer to their original work/website for citations.
 
