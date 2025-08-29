@@ -2,6 +2,8 @@
 
 `ysoisochrone` is a `Python3` package that handles the isochrones for young-stellar-objects. One of the primary goals of this package is to derive the stellar mass and ages from the isochrones.
 
+The `GitHub` repo is located at: https://github.com/DingshanDeng/ysoisochrone
+
 ## Background
 There has been a long history of estimating stellar age and masses from stellar evolutionary models (e.g., [Siess et al. 2000](https://ui.adsabs.harvard.edu/abs/2000A&A...358..593S), [Feiden 2016](https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract), [Baraffe 2015](https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract)). Different methods have been employed, from finding the closest track to an object's luminosity and temperature (e.g., [Manara et al. 2022](https://ui.adsabs.harvard.edu/abs/2023ASPC..534..539M/abstract)) to employing a Bayesian approach which enables estimating uncertainties on the inferred ages and masses (e.g., [Jørgensen & Lindegren 2005](https://ui.adsabs.harvard.edu/abs/2005A%26A...436..127J/abstract), [Gennaro et al. 2012](https://ui.adsabs.harvard.edu/abs/2012MNRAS.420..986G/abstract), [Andrews et al. 2013](https://ui.adsabs.harvard.edu/abs/2013ApJ...771..129A/abstract)). 
 
@@ -51,6 +53,9 @@ Then you can start check out the [Quick Start Guide](./notebooks/ysoisochrone_ba
 If you use `ysoisochrone` as part of your research, please cite 
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.07493/status.svg)](https://doi.org/10.21105/joss.07493)
 
+with the recommended phrase: 
+"This work uses `ysoisochrone` package by Deng et al. (2025), based on the `IDL` code developed by Pascucci et al. (2016)."
+
 ```
 @article{Deng2025,
 doi = {10.21105/joss.07493},
@@ -62,6 +67,25 @@ number = {106},
 pages = {7493},
 author = {Dingshan Deng and Ilaria Pascucci and Rachel B. Fernandes},
 title = {ysoisochrone: A Python package to estimate masses and ages for YSOs}, journal = {Journal of Open Source Software}
+}
+
+@article{Pascucci2016,
+author = {{Pascucci}, I. and {Testi}, L. and {Herczeg}, G.~J. and {Long}, F. and {Manara}, C.~F. and {Hendler}, N. and {Mulders}, G.~D. and {Krijt}, S. and {Ciesla}, F. and {Henning}, Th. and {Mohanty}, S. and {Drabek-Maunder}, E. and {Apai}, D. and {Sz{\H{u}}cs}, L. and {Sacco}, G. and {Olofsson}, J.},
+title = {A Steeper than Linear Disk Mass-Stellar Mass Scaling Relation},
+journal = {The Astrophysical Journal},
+keywords = {brown dwarfs, protoplanetary disks, stars: pre-main sequence, submillimeter: planetary systems, Astrophysics - Earth and Planetary Astrophysics, Astrophysics - Solar and Stellar Astrophysics},
+year = 2016,
+month = nov,
+volume = {831},
+number = {2},
+eid = {125},
+pages = {125},
+doi = {10.3847/0004-637X/831/2/125},
+archivePrefix = {arXiv},
+eprint = {1608.03621},
+primaryClass = {astro-ph.EP},
+adsurl = {https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P},
+adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 }
 ```
 
