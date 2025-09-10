@@ -141,6 +141,77 @@ def get_likelihood_p2016(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
     return lfunc
 
 
+def _normalize_pdf(arr, method='maxone'):
+    """
+    Normalize a non-negative array for numerical stability.
+    method: 'maxone' (default), 'sumone', or 'none'
+    """
+    arr = np.asarray(arr, dtype=float)
+    arr = np.clip(arr, 0.0, np.inf)
+    if method == 'maxone':
+        m = np.max(arr)
+        return arr / m if m > 0 else arr
+    elif method == 'sumone':
+        s = np.sum(arr)
+        return arr / s if s > 0 else arr
+    else:
+        return arr
+    
+
+def _eval_1d_prior_on_grid(prior_spec, x_grid, normalize='maxone', name='prior'):
+    """
+    Evaluate a 1D prior on an arbitrary grid (x_grid).
+
+    prior_spec can be:
+      - callable: f(x) -> pdf (array-like or scalar)
+      - dict with keys:
+          'grid': 1D array of x locations (must be monotonic),
+          'pdf':  1D array of non-negative values,
+          'extrapolate': 'edge' (default) or 'zero'
+          'normalize': override normalization (default 'maxone')
+
+    Returns an array of shape x_grid.shape with non-negative values.
+    """
+    x_grid = np.asarray(x_grid, dtype=float)
+
+    if prior_spec is None:
+        # Uniform prior (constant 1.0) on this axis
+        return np.ones_like(x_grid)
+
+    # Callable case
+    if callable(prior_spec):
+        vals = np.asarray(prior_spec(x_grid), dtype=float)
+        vals = np.clip(vals, 0.0, np.inf)
+        return _normalize_pdf(vals, method=(normalize or 'maxone'))
+
+    # Tabulated 1D case
+    if isinstance(prior_spec, dict):
+        g = np.asarray(prior_spec.get('grid', []), dtype=float)
+        p = np.asarray(prior_spec.get('pdf', []), dtype=float)
+        if g.ndim != 1 or p.ndim != 1 or g.size != p.size or g.size < 2:
+            raise ValueError(f"{name}: tabulated prior must have 1D 'grid' and 'pdf' of same length >= 2.")
+        # Ensure monotonic grid for interpolation
+        if not (np.all(np.diff(g) > 0) or np.all(np.diff(g) < 0)):
+            raise ValueError(f"{name}: 'grid' must be strictly monotonic for interpolation.")
+        # If decreasing, flip
+        if g[0] > g[-1]:
+            g = g[::-1]; p = p[::-1]
+        p = np.clip(p, 0.0, np.inf)
+
+        extrap = prior_spec.get('extrapolate', 'edge')
+        if extrap == 'edge':
+            vals = np.interp(x_grid, g, p, left=p[0], right=p[-1])
+        elif extrap == 'zero':
+            vals = np.interp(x_grid, g, p, left=0.0, right=0.0)
+        else:
+            raise ValueError(f"{name}: unsupported 'extrapolate' option: {extrap}")
+
+        norm_method = prior_spec.get('normalize', normalize or 'maxone')
+        return _normalize_pdf(vals, method=norm_method)
+
+    raise TypeError(f"{name}: prior must be a callable or a dict describing a tabulated 1D prior.")
+    
+
 def download_file_simple(url, save_path):
     """
     Downloads a file from a given URL and saves it to the specified path.
