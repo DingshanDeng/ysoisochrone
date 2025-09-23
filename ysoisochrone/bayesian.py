@@ -17,7 +17,7 @@ from ysoisochrone import plotting
 from ysoisochrone import utils
 from ysoisochrone.isochrone import Isochrone
 
-def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=None, confidence_interval=0.68, verbose=False, save_fig=False, fig_save_dir='figure', customized_fig_name=''):
+def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=None, confidence_interval=0.68, verbose=False, save_fig=False, fig_save_dir='figure', customized_fig_name='', force_through=False):
     ''' 
     derive the mass and ages for a star from a likelihood distribution
     
@@ -39,6 +39,11 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
             Directory to save the figure if save_fig is True.
         customized_fig_name [str, optional]: 
             Customized figure name.
+        force_through [bool, optional, DANGEROUS]: 
+            (DANGEROUS: Only use for testing and debugging proposes!!!)
+            if True, do not raise when best mass is at the upper grid edge; 
+            proceed with plotting and set the upper mass uncertainty
+            to the grid maximum (with a warning if verbose).
     
     Returns:
     
@@ -169,7 +174,20 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
             if mass_unc[0] == min(log_masses_dummy):
                 mass_unc[0] = log_masses_dummy[np.argmin(np.abs(L_mass_array[:best_mass_idx] - (L_mass_array[best_mass_idx] - half_sigma_perc)))]
             else:
-                raise ValueError('The mass is the largest in the grid. This needs to be sorted out!')
+                # Upper edge case: previously raised ValueError; now optionally force through
+                if force_through:
+                    if verbose:
+                        print(
+                            "[force_through] Best mass / CI hits the upper grid edge; "
+                            "setting upper mass uncertainty to the grid maximum. "
+                            "Consider extending the mass grid upward for unbiased CI."
+                        )
+                    mass_unc[1] = log_masses_dummy[-1]
+                    # Ensure the interval is non-decreasing
+                    if mass_unc[1] < mass_unc[0]:
+                        mass_unc[1] = mass_unc[0]
+                else:
+                    raise ValueError('The mass is the largest in the grid. This needs to be sorted out! Consider extending the isochrone grid or removing this target from the list.')
     
     #
     # save the normalized probability distributions
