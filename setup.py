@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ysoisochrone',
-    version='1.0.0',
+    version='1.0.2',
     description='Python package handles the young-stellar-objects isochrones, and one primary goal is to derive the stellar mass and ages from the isochrones.',
     author='Dingshan Deng',
     author_email='dingshandeng@arizona.edu',
