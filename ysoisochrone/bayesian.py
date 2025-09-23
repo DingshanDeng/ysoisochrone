@@ -201,7 +201,7 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     return [best_age, age_unc, best_mass, mass_unc], np.array([log_age_dummy, L_age_norm]), np.array([log_masses_dummy, L_mass_norm])
 
 
-def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=True, prior_age=None, prior_mass=None, prior_joint=None, prior_normalize='maxone'):
+def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=True, prior_age=None, prior_mass=None, prior_joint=None, prior_normalize='maxone', force_through=False):
     """
     Derives stellar mass and age from evolutionary tracks using a Bayesian framework.
 
@@ -253,6 +253,12 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         prior_joint: callable taking (log_age_yrs, log_mass_msun) and returning a 2D density.
             NOTE: if provided, it overrides the separable prior_age/prior_mass product.
         prior_normalize: default normalization used for 1D priors if not specified in the dict.
+        === DANGER ZONE ===
+        force_through [bool, optional, DANGEROUS]: 
+            (DANGEROUS: Only use for testing and debugging proposes!!!)
+            if True, do not raise when best mass is at the upper grid edge; 
+            proceed with plotting and set the upper mass uncertainty
+            to the grid maximum (with a warning if verbose).
     
     Returns:
     
@@ -438,7 +444,8 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             bayes_res, lage_res, lmass_res = bayesian_mass_age(
                 log_age_dummy, log_masses_dummy, post_2d,
                 plot=plot, source=source_t, verbose=verbose,
-                save_fig=save_fig, fig_save_dir=fig_save_dir, confidence_interval=confidence_interval
+                save_fig=save_fig, fig_save_dir=fig_save_dir, confidence_interval=confidence_interval,
+                force_through=force_through
                 )
             best_logmass_wunc = [bayes_res[2], bayes_res[3][0], bayes_res[3][1]]
             best_logage_wunc = [bayes_res[0], bayes_res[1][0], bayes_res[1][1]]
