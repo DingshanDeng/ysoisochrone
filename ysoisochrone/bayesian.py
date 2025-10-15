@@ -256,7 +256,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         === DANGER ZONE ===
         force_through [bool, optional, DANGEROUS]: 
             (DANGEROUS: Only use for testing and debugging proposes!!!)
-            if True, do not raise when best mass is at the upper grid edge; 
+            if True, do not raise errors when best mass is at the upper grid edge; 
             proceed with plotting and set the upper mass uncertainty
             to the grid maximum (with a warning if verbose).
     
@@ -439,7 +439,6 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
                     print("WARNING: posterior collapsed to zero; falling back to likelihood-only for stability.")
                 post_2d = lfunc.copy()
 
-            
             # Use Bayesian mass and age estimation
             bayes_res, lage_res, lmass_res = bayesian_mass_age(
                 log_age_dummy, log_masses_dummy, post_2d,
