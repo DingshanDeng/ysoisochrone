@@ -291,6 +291,34 @@ def extract_tarball(tar_file_path, extract_dir):
     print(f"Extracted {tar_file_path} into {extract_dir}")
 
 
+def load_builtin_matrix(filename):
+    """
+    Load a .mat grid that is shipped with the ysoisochrone package.
+
+    Args:
+    
+        filename: [str]
+            Name of the .mat file in the ysoisochrone/data directory, e.g.
+            'Feiden_B_AgeMassGrid_YSO_matrix.mat'.
+
+    Output:
+
+        data: [dict]
+            Dictionary as returned by scipy.io.loadmat.
+    """
+    # This file (utils.py) lives in the same package directory as "data"
+    pkg_dir = os.path.dirname(__file__)
+    mat_path = os.path.join(pkg_dir, "data", filename)
+
+    if not os.path.exists(mat_path):
+        raise FileNotFoundError(
+            f"Packaged grid '{filename}' not found at {mat_path}"
+        )
+
+    data = scipy.io.loadmat(mat_path)
+    return data
+
+
 def download_baraffe_tracks(save_dir='isochrones_data'):
     """
     Downloads the Baraffe BHAC15 tracks file and saves it to the specified directory.

@@ -24,7 +24,32 @@ class Isochrone:
     """
 
     def __init__(self, data_dir=None):
-        self.data_dir = data_dir if data_dir else os.path.join(os.getcwd(), 'isochrones_data')
+        """
+        Initialize Isochrone object.
+
+        Args:
+            data_dir: [str or None]
+                - None  → use the built-in isochrone matrices packaged
+                        inside ysoisochrone/data.
+                - path  → load isochrone matrices from this directory
+                        (user-supplied custom matrices).
+        """
+        # self.data_dir = data_dir if data_dir else os.path.join(os.getcwd(), 'isochrones_data')
+        
+        if data_dir is None:
+            # Use packaged built-in grids
+            self.use_builtin = True
+            self.data_dir = None          # Don't point to a local folder
+            print("using the built in isochrones")
+            print("-----------------------")
+        else:
+            # User-specified directory
+            self.use_builtin = False
+            self.data_dir = data_dir
+            print("using the user-specified isochrones inside")
+            print("%s"%(self.data_dir))
+            print("-----------------------")
+
         self.log_age = None
         self.masses = None
         self.logtlogl = None
@@ -246,7 +271,8 @@ class Isochrone:
     def load_baraffe2015_tracks(self):
         """
         Load Baraffe isochrone tracks from .sav file and set log_age, masses, and logtlogl.
-
+        Uses packaged built-in matrix by default, unless user provides a custom data_dir.
+        
         Output:
         
         Sets:
@@ -264,13 +290,27 @@ class Isochrone:
         # self.log_age = data['log_age']
         # self.logtlogl = data['logt_logl']
         
-        input_file = os.path.join(self.data_dir, 'Baraffe_AgeMassGrid_YSO_matrix.mat')
-        # Check if the original Baraffe 2015 data file exists, download if necessary
-        if not os.path.exists(input_file):
-            self.prepare_baraffe_tracks()
-            
-        data = scipy.io.loadmat(input_file)
+        # input_file = os.path.join(self.data_dir, 'Baraffe_AgeMassGrid_YSO_matrix.mat')
+        # # Check if the original Baraffe 2015 data file exists, download if necessary
+        # if not os.path.exists(input_file):
+        #     self.prepare_baraffe_tracks()
         
+        # data = scipy.io.loadmat(input_file)
+        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('Baraffe_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory
+        else:
+            input_file = os.path.join(self.data_dir, 'Baraffe_AgeMassGrid_YSO_matrix.mat')
+
+            if not os.path.exists(input_file):
+                # Build from raw tracks if needed
+                self.prepare_baraffe_tracks()
+
+            data = scipy.io.loadmat(input_file)
+             
         self.masses = data['mass'][0]
         self.log_age = data['log_age'][0]
         self.logtlogl = data['logt_logl']
@@ -298,18 +338,83 @@ class Isochrone:
         # self.log_age = data['log_age']
         # self.logtlogl = data['logt_logl']
         
-        input_file = os.path.join(self.data_dir, 'Feiden_AgeMassGrid_YSO_matrix.mat')
-        # Check if the original Feiden 2016 data file exists, download if necessary
-        if not os.path.exists(input_file):
-            self.prepare_feiden_tracks()
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('Feiden_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory
+        else:
+            input_file = os.path.join(self.data_dir, 'Feiden_AgeMassGrid_YSO_matrix.mat')
+            # Check if the original Feiden 2016 data file exists, download if necessary
+            if not os.path.exists(input_file):
+                self.prepare_feiden_tracks()
             
-        data = scipy.io.loadmat(input_file)
+            data = scipy.io.loadmat(input_file)
         
         self.masses = data['mass'][0]
         self.log_age = data['log_age'][0]
         self.logtlogl = data['logt_logl']
         
         return 1
+    
+    
+    def load_feiden2016_magnetic_tracks(self):
+        """
+        Load Feiden isochrone tracks from .sav file and set log_age, masses, and logtlogl.
+        
+        Only the built-in corrected matrix is supported. The original Feiden
+        magnetic grids contain known issues at ages < 10 Myr, and a corrected
+        version is provided in the ysoisochrone built-in matrices.
+        
+        Output:
+        
+        Sets:
+        
+        log_age: [array]
+            Log age values from the Feiden tracks.
+        masses: [array]
+            Mass values from the Feiden tracks.
+        logtlogl: [array]
+            Log T and Log L values from the Feiden tracks.
+        """
+        # file_path = os.path.join(self.data_dir, 'Feiden_AgeMassGrid.sav')
+        # data = scipy.io.readsav(file_path)
+        # self.masses = data['mass']
+        # self.log_age = data['log_age']
+        # self.logtlogl = data['logt_logl']
+        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('Feiden_B_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory → NOT allowed for magnetic tracks
+        else:
+            msg = (
+                "\nERROR: Feiden magnetic tracks cannot be generated from the "
+                "raw Feiden database because the original magnetic models contain "
+                "known issues at ages younger than 10 Myr.\n\n"
+                "The built-in matrix included in ysoisochrone contains corrections "
+                "for these issues.\n\n"
+                "To use the corrected magnetic tracks:\n"
+                "    -> Initialize Isochrone without specifying data_dir:\n"
+                "           iso = Isochrone()\n"
+                "    -> And then use:\n"
+                "           iso.set_tracks('Feiden2016_magnetic')\n\n"
+                "If you want to use your own customized magnetic grid, you must\n"
+                "manually supply a corrected matrix at and use the function\n"
+                "    -> iso = ysoisochrone.isochrone.Isochrone()\n"
+                "Then set the absolute path to your matrix file, for example\n"
+                "    -> mat_file_dir = 'User/isochrones/Feiden_B_AgeMassGrid_YSO_customized_matrix.mat'\n"
+                "    -> isochrone.set_tracks('customize', load_file=mat_file_dir)\n"
+            )
+            raise ValueError(msg)
+        
+        self.masses = data['mass'][0]
+        self.log_age = data['log_age'][0]
+        self.logtlogl = data['logt_logl']
+        
+        return 1
+    
     
     def load_parsecv1p2_tracks(self):
         """
@@ -421,6 +526,10 @@ class Isochrone:
         input_file = os.path.join(load_file)
         data = scipy.io.loadmat(input_file)
         
+        print("using the user-specified isochrone matrix of")
+        print("%s"%(load_file))
+        print("-----------------------")
+        
         self.masses = data['mass'][0]
         self.log_age = data['log_age'][0]
         self.logtlogl = data['logt_logl']
@@ -446,8 +555,10 @@ class Isochrone:
         """
         if track_type.lower() == 'baraffe2015':
             self.load_baraffe2015_tracks()
-        elif track_type.lower() == 'feiden2016':
+        elif track_type.lower() in ['feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic']:
             self.load_feiden2016_tracks()
+        elif track_type.lower() in ['feiden2016_b', 'feiden2016_magnetic']:
+            self.load_feiden2016_magnetic_tracks()
         elif track_type.lower() in ['parsec', 'parsec_v2p0']:
             self.load_parsecv2p0_tracks()
         elif track_type.lower() == 'parsec_v1p2':
@@ -457,7 +568,7 @@ class Isochrone:
         elif track_type.lower() == 'customize':
             self.load_tracks_from_customize_matrix(load_file)
         else:
-            raise ValueError("Invalid track type. Please choose either 'Baraffe2015' or 'Feiden2016'.")
+            raise ValueError("Invalid track type. Please choose from available tracks: 'Baraffe2015' 'Feiden2016', 'parsec_v1p2', 'parsec_v2p0', 'mist_v1p2'.")
         
         return 1
 
