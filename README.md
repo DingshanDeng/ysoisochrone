@@ -10,9 +10,14 @@ Ilaria Pascucci, The University of Arizona
 
 Rachel B. Fernandes, The Pennsylvania State University
 
+Luigi Zallio, University of Milan
+
 ## Feature 
 
 - Handle different formats of the isochrones from different reference sources. The available evolutionary models include [Baraffe et al. (2015)](https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract), [Feiden (2016)](https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract), and [PARSEC (both version 1.2 and 2.0)](http://stev.oapd.inaf.it/PARSEC/index.html). Other tracks will also be added in the future.
+
+**NEW TRACKS AVAILABLE in v1.1.0:** [Siess et al. (2000)](https://ui.adsabs.harvard.edu/abs/2000A%26A...358..593S/abstract); Feiden Magnetic Tracks [(Feiden 2016)](https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract); SPOTS Tracks with different cold photospheric
+spot coverages [(Somers et al. 2020)](https://ui.adsabs.harvard.edu/abs/2020ApJ...891...29S/abstract).
 
 - Derive the stellar masses and ages from the isochrones by:
 

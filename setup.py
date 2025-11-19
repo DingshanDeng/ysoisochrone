@@ -2,12 +2,18 @@ from setuptools import setup, find_packages
 
 setup(
     name='ysoisochrone',
-    version='1.0.2',
+    version='1.1.0',
     description='Python package handles the young-stellar-objects isochrones, and one primary goal is to derive the stellar mass and ages from the isochrones.',
     author='Dingshan Deng',
     author_email='dingshandeng@arizona.edu',
     url="https://github.com/DingshanDeng/ysoisochrone",
     packages=find_packages(),
+    # >>> NEW: include data files inside the package <<<
+    include_package_data=True,
+    package_data={
+        # This assumes ysoisochrone/data/*.mat
+        "ysoisochrone": ["data/*.mat"],
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

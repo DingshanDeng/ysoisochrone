@@ -1,6 +1,6 @@
 """
- ysoisochrone v1.0.2
- Dingshan Deng, Sep 2024 - Sep 2025
+ ysoisochrone v1.1.0
+ Dingshan Deng, Sep 2024 - Dec 2025
 """
 
 # from . import constants
@@ -12,7 +12,7 @@ from . import utils
 from . import plotting
 from . import isochrone
 
-__version__ = "1.0.2"
+__version__ = "1.1.0"
 __author__ = "Dingshan Deng"
 __copyright__ = "Copyright (C) 2024 Dingshan Deng"
 __all__ = ["isochrone", "bayesian", "plotting", "utils"]
