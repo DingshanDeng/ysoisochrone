@@ -504,6 +504,263 @@ class Isochrone:
         return 1
     
     
+    def load_siess2000_tracks(self):
+        """
+        Load Feiden isochrone tracks from .sav file and set log_age, masses, and logtlogl.
+        
+        Only the built-in corrected matrix is supported. 
+        
+        Output:
+        
+        Sets:
+        
+        log_age: [array]
+            Log age values from the Feiden tracks.
+        masses: [array]
+            Mass values from the Feiden tracks.
+        logtlogl: [array]
+            Log T and Log L values from the Feiden tracks.
+        """
+        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('Siess_combined_final_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory → NOT allowed for magnetic tracks
+        else:
+            msg = (
+                "\nERROR: Feiden magnetic tracks cannot be generated from the "
+                "raw Feiden database because the original magnetic models contain "
+                "known issues at ages younger than 10 Myr.\n\n"
+                "The built-in matrix included in ysoisochrone contains corrections "
+                "for these issues.\n\n"
+                "To use the corrected magnetic tracks:\n"
+                "    -> Initialize Isochrone without specifying data_dir:\n"
+                "           iso = Isochrone()\n"
+                "    -> And then use:\n"
+                "           iso.set_tracks('Feiden2016_magnetic')\n\n"
+                "If you want to use your own customized magnetic grid, you must\n"
+                "manually supply a corrected matrix at and use the function\n"
+                "    -> iso = ysoisochrone.isochrone.Isochrone()\n"
+                "Then set the absolute path to your matrix file, for example\n"
+                "    -> mat_file_dir = 'User/isochrones/AgeMassGrid_YSO_customized_matrix.mat'\n"
+                "    -> isochrone.set_tracks('customize', load_file=mat_file_dir)\n"
+            )
+            raise ValueError(msg)
+        
+        self.masses = data['mass'][0]
+        self.log_age = data['log_age'][0]
+        self.logtlogl = data['logt_logl']
+        
+        return 1
+    
+    
+    def load_spots0169_tracks(self):
+        """
+        Load Feiden isochrone tracks from .sav file and set log_age, masses, and logtlogl.
+        
+        Only the built-in corrected matrix is supported. 
+        
+        Output:
+        
+        Sets:
+        
+        log_age: [array]
+            Log age values from the Feiden tracks.
+        masses: [array]
+            Mass values from the Feiden tracks.
+        logtlogl: [array]
+            Log T and Log L values from the Feiden tracks.
+        """
+        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('SPOTS_Fspot_0169_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory → NOT allowed for magnetic tracks
+        else:
+            msg = (
+                "\nERROR: Feiden magnetic tracks cannot be generated from the "
+                "raw Feiden database because the original magnetic models contain "
+                "known issues at ages younger than 10 Myr.\n\n"
+                "The built-in matrix included in ysoisochrone contains corrections "
+                "for these issues.\n\n"
+                "To use the corrected magnetic tracks:\n"
+                "    -> Initialize Isochrone without specifying data_dir:\n"
+                "           iso = Isochrone()\n"
+                "    -> And then use:\n"
+                "           iso.set_tracks('Feiden2016_magnetic')\n\n"
+                "If you want to use your own customized magnetic grid, you must\n"
+                "manually supply a corrected matrix at and use the function\n"
+                "    -> iso = ysoisochrone.isochrone.Isochrone()\n"
+                "Then set the absolute path to your matrix file, for example\n"
+                "    -> mat_file_dir = 'User/isochrones/AgeMassGrid_YSO_customized_matrix.mat'\n"
+                "    -> isochrone.set_tracks('customize', load_file=mat_file_dir)\n"
+            )
+            raise ValueError(msg)
+        
+        self.masses = data['mass'][0]
+        self.log_age = data['log_age'][0]
+        self.logtlogl = data['logt_logl']
+        
+        return 1
+    
+    
+    def load_spots0339_tracks(self):
+        """
+        Load Feiden isochrone tracks from .sav file and set log_age, masses, and logtlogl.
+        
+        Only the built-in corrected matrix is supported. 
+        
+        Output:
+        
+        Sets:
+        
+        log_age: [array]
+            Log age values from the Feiden tracks.
+        masses: [array]
+            Mass values from the Feiden tracks.
+        logtlogl: [array]
+            Log T and Log L values from the Feiden tracks.
+        """
+        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('SPOTS_Fspot_0339_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory → NOT allowed for magnetic tracks
+        else:
+            msg = (
+                "\nERROR: Feiden magnetic tracks cannot be generated from the "
+                "raw Feiden database because the original magnetic models contain "
+                "known issues at ages younger than 10 Myr.\n\n"
+                "The built-in matrix included in ysoisochrone contains corrections "
+                "for these issues.\n\n"
+                "To use the corrected magnetic tracks:\n"
+                "    -> Initialize Isochrone without specifying data_dir:\n"
+                "           iso = Isochrone()\n"
+                "    -> And then use:\n"
+                "           iso.set_tracks('Feiden2016_magnetic')\n\n"
+                "If you want to use your own customized magnetic grid, you must\n"
+                "manually supply a corrected matrix at and use the function\n"
+                "    -> iso = ysoisochrone.isochrone.Isochrone()\n"
+                "Then set the absolute path to your matrix file, for example\n"
+                "    -> mat_file_dir = 'User/isochrones/AgeMassGrid_YSO_customized_matrix.mat'\n"
+                "    -> isochrone.set_tracks('customize', load_file=mat_file_dir)\n"
+            )
+            raise ValueError(msg)
+        
+        self.masses = data['mass'][0]
+        self.log_age = data['log_age'][0]
+        self.logtlogl = data['logt_logl']
+        
+        return 1
+    
+    
+    
+    def load_spots0508_tracks(self):
+        """
+        Load Feiden isochrone tracks from .sav file and set log_age, masses, and logtlogl.
+        
+        Only the built-in corrected matrix is supported. 
+        
+        Output:
+        
+        Sets:
+        
+        log_age: [array]
+            Log age values from the Feiden tracks.
+        masses: [array]
+            Mass values from the Feiden tracks.
+        logtlogl: [array]
+            Log T and Log L values from the Feiden tracks.
+        """
+        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('SPOTS_Fspot_0508_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory → NOT allowed for magnetic tracks
+        else:
+            msg = (
+                "\nERROR: Feiden magnetic tracks cannot be generated from the "
+                "raw Feiden database because the original magnetic models contain "
+                "known issues at ages younger than 10 Myr.\n\n"
+                "The built-in matrix included in ysoisochrone contains corrections "
+                "for these issues.\n\n"
+                "To use the corrected magnetic tracks:\n"
+                "    -> Initialize Isochrone without specifying data_dir:\n"
+                "           iso = Isochrone()\n"
+                "    -> And then use:\n"
+                "           iso.set_tracks('Feiden2016_magnetic')\n\n"
+                "If you want to use your own customized magnetic grid, you must\n"
+                "manually supply a corrected matrix at and use the function\n"
+                "    -> iso = ysoisochrone.isochrone.Isochrone()\n"
+                "Then set the absolute path to your matrix file, for example\n"
+                "    -> mat_file_dir = 'User/isochrones/AgeMassGrid_YSO_customized_matrix.mat'\n"
+                "    -> isochrone.set_tracks('customize', load_file=mat_file_dir)\n"
+            )
+            raise ValueError(msg)
+        
+        self.masses = data['mass'][0]
+        self.log_age = data['log_age'][0]
+        self.logtlogl = data['logt_logl']
+        
+        return 1
+    
+    
+    
+    def load_spots0847_tracks(self):
+        """
+        Load Feiden isochrone tracks from .sav file and set log_age, masses, and logtlogl.
+        
+        Only the built-in corrected matrix is supported. 
+        
+        Output:
+        
+        Sets:
+        
+        log_age: [array]
+            Log age values from the Feiden tracks.
+        masses: [array]
+            Mass values from the Feiden tracks.
+        logtlogl: [array]
+            Log T and Log L values from the Feiden tracks.
+        """
+        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('SPOTS_Fspot_0847_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory → NOT allowed for magnetic tracks
+        else:
+            msg = (
+                "\nERROR: Feiden magnetic tracks cannot be generated from the "
+                "raw Feiden database because the original magnetic models contain "
+                "known issues at ages younger than 10 Myr.\n\n"
+                "The built-in matrix included in ysoisochrone contains corrections "
+                "for these issues.\n\n"
+                "To use the corrected magnetic tracks:\n"
+                "    -> Initialize Isochrone without specifying data_dir:\n"
+                "           iso = Isochrone()\n"
+                "    -> And then use:\n"
+                "           iso.set_tracks('Feiden2016_magnetic')\n\n"
+                "If you want to use your own customized magnetic grid, you must\n"
+                "manually supply a corrected matrix at and use the function\n"
+                "    -> iso = ysoisochrone.isochrone.Isochrone()\n"
+                "Then set the absolute path to your matrix file, for example\n"
+                "    -> mat_file_dir = 'User/isochrones/AgeMassGrid_YSO_customized_matrix.mat'\n"
+                "    -> isochrone.set_tracks('customize', load_file=mat_file_dir)\n"
+            )
+            raise ValueError(msg)
+        
+        self.masses = data['mass'][0]
+        self.log_age = data['log_age'][0]
+        self.logtlogl = data['logt_logl']
+        
+        return 1
+    
+    
     def load_tracks_from_customize_matrix(self, load_file):
         """
         Load the isochromes from any customized matrix
@@ -565,10 +822,20 @@ class Isochrone:
             self.load_parsecv1p2_tracks()
         elif track_type.lower() in ['mist', 'mist_v1p2']:
             self.load_mistv1p2_tracks()
+        elif track_type.lower() in ['siess2000']:
+            self.load_siess2000_tracks()
+        elif track_type.lower() in ['spots0169']:
+            self.load_spots0169_tracks()
+        elif track_type.lower() in ['spots0339']:
+            self.load_spots0339_tracks()
+        elif track_type.lower() in ['spots0508']:
+            self.load_spots0508_tracks()
+        elif track_type.lower() in ['spots0847']:
+            self.load_spots0847_tracks()
         elif track_type.lower() == 'customize':
             self.load_tracks_from_customize_matrix(load_file)
         else:
-            raise ValueError("Invalid track type. Please choose from available tracks: 'Baraffe2015' 'Feiden2016', 'parsec_v1p2', 'parsec_v2p0', 'mist_v1p2'.")
+            raise ValueError("Invalid track type. Please choose from available tracks: 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'parsec_v1p2', 'parsec_v2p0', 'mist_v1p2', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847'.")
         
         return 1
 
