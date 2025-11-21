@@ -320,7 +320,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             if verbose:
                 print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
                 
-        elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
             isochrone.set_tracks(model.lower())
             
             if verbose:
@@ -587,7 +587,7 @@ def derive_stellar_mass_age_uniprior(df_prop, model='Baraffe_n_Feiden', isochron
             if verbose:
                 print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
                 
-        elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
             isochrone.set_tracks(model.lower())
             
             if verbose:
@@ -790,7 +790,7 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
             if verbose:
                 print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
                 
-        elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
             isochrone.set_tracks(model.lower())
             
             if verbose:
@@ -962,7 +962,7 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
                 isochrone.set_tracks('Feiden2016')
             else:
                 isochrone.set_tracks('Baraffe2015')
-        elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
             isochrone.set_tracks(model.lower())
         elif model.lower() == 'customize':
             isochrone.set_tracks('customize', load_file=isochrone_mat_file)
@@ -1076,7 +1076,7 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
                 isochrone.set_tracks('Feiden2016')
             else:
                 isochrone.set_tracks('Baraffe2015')
-        elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
             isochrone.set_tracks(model.lower())
         elif model.lower() == 'customize':
             isochrone.set_tracks('customize', load_file=isochrone_mat_file)
@@ -1230,7 +1230,7 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
                 isochrone.set_tracks('Feiden2016')
             else:
                 isochrone.set_tracks('Baraffe2015')
-        elif model.lower() in ['baraffe2015', 'feiden2016', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
             isochrone.set_tracks(model.lower())
         elif model.lower() == 'customize':
             isochrone.set_tracks('customize', load_file=isochrone_mat_file)
