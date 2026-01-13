@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ysoisochrone"
-version = "1.1.1"
+version = "1.1.2"
 authors = [
   { name="Dingshan Deng", email="dingshandeng@arizona.edu" },
 ]
@@ -25,7 +25,8 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-license = {file = "LICEN[CS]E*"}
+# license = {file = "LICEN[CS]E*"}
+license = "MIT"
 
 [project.urls]
 Homepage = "https://github.com/DingshanDeng/ysoisochrone"
@@ -36,3 +37,7 @@ include-package-data = true
 
 [tool.setuptools.package-data]
 "ysoisochrone" = ["data/*.mat"]
+
+[tool.setuptools.packages.find]
+include = ["ysoisochrone*"]
+exclude = ["paper*", "tutorial_notebooks*"]
