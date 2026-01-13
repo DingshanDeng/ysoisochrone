@@ -1,7 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# author: Dingshan Deng @ University of Arizona
+# contact: dingshandeng@arizona.edu
+# created: 01/14/2025
+
 import os
 import scipy.io
 # from scipy.interpolate import griddata
 from ysoisochrone import utils
+from ysoisochrone import registry
 
 class Isochrone:
     """
@@ -845,7 +852,7 @@ class Isochrone:
         
         return 1
 
-    def set_tracks(self, track_type, load_file=''):
+    def set_tracks_legacy(self, track_type, load_file=''):
         """
         Set the isochrone tracks based on track_type.
 
@@ -892,8 +899,74 @@ class Isochrone:
             # raise ValueError("Invalid track type. Please choose from available tracks: 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'parsec_v1p2', 'parsec_v2p0', 'mist_v1p2', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847'.")
             
             model = str(track_type)
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
         
+        return 1
+    
+    def set_tracks(self, track_type, load_file='', verbose=False):
+        """
+        Set the isochrone tracks based on track_type.
+
+        Args:
+        
+            track_type: [str]
+                Type of the tracks to use ('baraffe2015' or 'feiden2016' or 'customize').
+            load_file: [str]
+                the .mat file that contains mass grid, log_age grid, and logt_logl grid
+                Default is '', so if you want to read in the customized datafile, 
+                remember to set up this parameter
+            verbose: [bool]
+                If True, print additional information during track loading. Default is False.
+
+        Output:
+        
+            Loads the corresponding track (Baraffe or Feiden) and sets the appropriate attributes.
+        """
+        canonical = registry.normalize_track_name(track_type)
+
+        # Map canonical names -> loader methods
+        loaders = {
+            "baraffe2015": self.load_baraffe2015_tracks,
+            "feiden2016": self.load_feiden2016_tracks,
+            "feiden2016_magnetic": self.load_feiden2016_magnetic_tracks,
+            "parsec_v2p0": self.load_parsecv2p0_tracks,
+            "parsec_v1p2": self.load_parsecv1p2_tracks,
+            "mist_v1p2": self.load_mistv1p2_tracks,
+            "siess2000": self.load_siess2000_tracks,
+            "spots0169": self.load_spots0169_tracks,
+            "spots0339": self.load_spots0339_tracks,
+            "spots0508": self.load_spots0508_tracks,
+            "spots0847": self.load_spots0847_tracks,
+            "pisa": self.load_pisa_tracks,
+            # customize handled below
+        }
+
+        if canonical == "customize":
+            if not load_file:
+                # standardized message + extra hint
+                raise ValueError(
+                    registry.invalid_track_message(track_type)
+                    + " (You did not pass load_file=...)"
+                )
+            self.load_tracks_from_customize_matrix(load_file)
+            if verbose:
+                print("Using the user-specified isochrone matrix of")
+                print(f"{load_file}")
+            return 1
+
+        # dispatch
+        try:
+            loaders[canonical]()
+            if verbose:
+                print(f"Isochrone tracks set to '{canonical}'.")
+        except KeyError:
+            # Should never happen if registry + loaders stay consistent,
+            # but gives a clean error if you forget to add a loader.
+            raise RuntimeError(
+                f"Track '{canonical}' is registered but has no loader in Isochrone.set_tracks(). "
+                "Add it to the loaders dict."
+            )
+
         return 1
 
     def get_tracks(self):

@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# author: Dingshan Deng @ University of Arizona
+# contact: dingshandeng@arizona.edu
+# created: 01/14/2025
+
 import os # , sys, copy
 import numpy as np
 import pandas as pd
@@ -16,6 +22,7 @@ import tqdm
 from ysoisochrone import plotting
 from ysoisochrone import utils
 from ysoisochrone.isochrone import Isochrone
+from ysoisochrone import registry
 
 def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=None, confidence_interval=0.68, verbose=False, save_fig=False, fig_save_dir='figure', customized_fig_name='', force_through=False):
     ''' 
@@ -241,8 +248,8 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     #
     # save the normalized probability distributions
     #
-    L_age_norm = L_age / np.trapz(L_age, log_age_dummy) # / max(L_age) * (max(log_masses_dummy) - min(log_masses_dummy)) # + min(log_masses_dummy)
-    L_mass_norm = L_mass / np.trapz(L_mass, log_masses_dummy) # / max(L_mass) * (max(log_age_dummy) - min(log_age_dummy)) # + min(log_age_dummy)
+    L_age_norm = L_age / np.trapezoid(L_age, log_age_dummy) # / max(L_age) * (max(log_masses_dummy) - min(log_masses_dummy)) # + min(log_masses_dummy)
+    L_mass_norm = L_mass / np.trapezoid(L_mass, log_masses_dummy) # / max(L_mass) * (max(log_age_dummy) - min(log_age_dummy)) # + min(log_age_dummy)
     
     if plot:
         plotting.plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mass, age_unc, mass_unc, source, save_fig, fig_save_dir, customized_fig_name)
@@ -358,31 +365,57 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         # Initialize the isochrone class with default data directory
         isochrone = Isochrone(isochrone_data_dir)
         
-        # Select tracks based on model
-        if model.lower() == 'baraffe_n_feiden':
-            # Select appropriate evolutionary tracks based on Teff
+        # # Select tracks based on model
+        # if model.lower() == 'baraffe_n_feiden':
+        #     # Select appropriate evolutionary tracks based on Teff
+        #     if T_this > 3900.0:
+        #         isochrone.set_tracks('Feiden2016')
+        #     else:
+        #         isochrone.set_tracks('Baraffe2015')
+                
+        #     if verbose:
+        #         print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
+                
+        # elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
+        #     isochrone.set_tracks(model.lower())
+            
+        #     if verbose:
+        #         print(f'Adopted the %s track.'%(model))
+                
+        # elif model.lower() == 'customize':
+        #     isochrone.set_tracks('customize', load_file=isochrone_mat_file)
+            
+        #     if verbose:
+        #         print(f'Adopted the customize track from %s.'%(isochrone_mat_file))
+                
+        # else:
+        #     raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+        
+        # --- Select tracks based on model ---
+        m = model.lower()
+
+        if m == "baraffe_n_feiden":
+            # Your special “hybrid” logic stays special
             if T_this > 3900.0:
-                isochrone.set_tracks('Feiden2016')
+                isochrone.set_tracks("Feiden2016")
+                if verbose:
+                    print("Adopted the Feiden track.")
             else:
-                isochrone.set_tracks('Baraffe2015')
-                
+                isochrone.set_tracks("Baraffe2015")
+                if verbose:
+                    print("Adopted the Baraffe track.")
+
+        elif m == "customize":
+            # customize needs a file
+            isochrone.set_tracks("customize", load_file=isochrone_mat_file)
             if verbose:
-                print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
-                
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
-            isochrone.set_tracks(model.lower())
-            
-            if verbose:
-                print(f'Adopted the %s track.'%(model))
-                
-        elif model.lower() == 'customize':
-            isochrone.set_tracks('customize', load_file=isochrone_mat_file)
-            
-            if verbose:
-                print(f'Adopted the customize track from %s.'%(isochrone_mat_file))
-                
+                print(f"Adopted the customize track from {isochrone_mat_file}.")
+
         else:
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            # Everything else: let Isochrone+registry handle aliases + validation + error message
+            isochrone.set_tracks(model)  # <-- keep original casing ok
+            if verbose:
+                print(f"Adopted the {model} track.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
@@ -666,33 +699,61 @@ def derive_stellar_mass_age_uniprior(df_prop, model='Baraffe_n_Feiden', isochron
         # Initialize the isochrone class with default data directory
         isochrone = Isochrone(isochrone_data_dir)
         
-        # Select tracks based on model
-        if model.lower() == 'baraffe_n_feiden':
-            # Select appropriate evolutionary tracks based on Teff
-            if T_this > 3900.0:
-                isochrone.set_tracks('Feiden2016')
-            else:
-                isochrone.set_tracks('Baraffe2015')
+        # # Select tracks based on model
+        # if model.lower() == 'baraffe_n_feiden':
+        #     # Select appropriate evolutionary tracks based on Teff
+        #     if T_this > 3900.0:
+        #         isochrone.set_tracks('Feiden2016')
+        #     else:
+        #         isochrone.set_tracks('Baraffe2015')
                 
-            if verbose:
-                print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
+        #     if verbose:
+        #         print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
                 
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
-            isochrone.set_tracks(model.lower())
+        # elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
+        #     isochrone.set_tracks(model.lower())
             
-            if verbose:
-                print(f'Adopted the %s track.'%(model))
+        #     if verbose:
+        #         print(f'Adopted the %s track.'%(model))
                 
-        elif model.lower() == 'customize':
-            isochrone.set_tracks('customize', load_file=isochrone_mat_file)
+        # elif model.lower() == 'customize':
+        #     isochrone.set_tracks('customize', load_file=isochrone_mat_file)
             
-            if verbose:
-                print(f'Adopted the customize track from %s.'%(isochrone_mat_file))
+        #     if verbose:
+        #         print(f'Adopted the customize track from %s.'%(isochrone_mat_file))
                 
-        else:
-            # raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+        # else:
+        #     # raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
         
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+        #     raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+        
+        # Initialize the isochrone class with default data directory
+        isochrone = Isochrone(isochrone_data_dir)
+
+        m = str(model).strip().lower()
+
+        if m == "baraffe_n_feiden":
+            # Select appropriate evolutionary tracks based on Teff
+            chosen = "feiden2016" if T_this > 3900.0 else "baraffe2015"
+            isochrone.set_tracks(chosen)
+            if verbose:
+                print(f"Adopted the {'Feiden' if chosen=='feiden2016' else 'Baraffe'} track.")
+        else:
+            # Everything else goes through the registry-aware set_tracks()
+            try:
+                if m == "customize":
+                    isochrone.set_tracks("customize", load_file=isochrone_mat_file)
+                    if verbose:
+                        print(f"Adopted the customize track from {isochrone_mat_file}.")
+                else:
+                    # This accepts canonical names or any alias in registry.TRACK_ALIASES
+                    isochrone.set_tracks(m)
+                    if verbose:
+                        print(f"Adopted the {model} track.")
+            except ValueError as e:
+                # Ensure the user sees the standardized list of tracks
+                # (normalize_track_name already formats this nicely, but this makes it explicit)
+                raise ValueError(registry.invalid_track_message(model)) from e
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
@@ -1031,33 +1092,49 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
         # Initialize the isochrone class with default data directory
         isochrone = Isochrone(isochrone_data_dir)
         
+        # # # Select tracks based on model
+        # # if model == 'Baraffe_n_Feiden':
+        # #     # Select appropriate evolutionary tracks based on Teff
+        # #     if T_this > 3900.0:
+        # #         isochrone.set_tracks('Feiden2016')
+        # #     else:
+        # #         isochrone.set_tracks('Baraffe2015')
+        # # elif model == 'Feiden2016':
+        # #     isochrone.set_tracks('Feiden2016')
+        # # elif model == 'Baraffe2015':
+        # #     isochrone.set_tracks('Baraffe2015')
+        # # else:
+        # #     raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Feiden2016', or 'Baraffe2015'.")
+        
         # # Select tracks based on model
-        # if model == 'Baraffe_n_Feiden':
+        # if model.lower() == 'baraffe_n_feiden':
         #     # Select appropriate evolutionary tracks based on Teff
         #     if T_this > 3900.0:
         #         isochrone.set_tracks('Feiden2016')
         #     else:
         #         isochrone.set_tracks('Baraffe2015')
-        # elif model == 'Feiden2016':
-        #     isochrone.set_tracks('Feiden2016')
-        # elif model == 'Baraffe2015':
-        #     isochrone.set_tracks('Baraffe2015')
+        # elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
+        #     isochrone.set_tracks(model.lower())
+        # elif model.lower() == 'customize':
+        #     isochrone.set_tracks('customize', load_file=isochrone_mat_file)
         # else:
-        #     raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Feiden2016', or 'Baraffe2015'.")
+        #     raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
         
-        # Select tracks based on model
-        if model.lower() == 'baraffe_n_feiden':
-            # Select appropriate evolutionary tracks based on Teff
-            if T_this > 3900.0:
-                isochrone.set_tracks('Feiden2016')
-            else:
-                isochrone.set_tracks('Baraffe2015')
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
-            isochrone.set_tracks(model.lower())
-        elif model.lower() == 'customize':
-            isochrone.set_tracks('customize', load_file=isochrone_mat_file)
+        m = str(model).strip().lower()
+
+        if m == "baraffe_n_feiden":
+            chosen = "feiden2016" if T_this > 3900.0 else "baraffe2015"
+            isochrone.set_tracks(chosen)
+
+        elif m == "customize":
+            isochrone.set_tracks("customize", load_file=isochrone_mat_file)
+
         else:
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            try:
+                # accepts canonical names or any alias in registry.TRACK_ALIASES
+                isochrone.set_tracks(m)
+            except ValueError as e:
+                raise ValueError(registry.invalid_track_message(model)) from e
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
@@ -1159,20 +1236,33 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         # Initialize the isochrone class with the default data directory
         isochrone = Isochrone(isochrone_data_dir)
         
-        # Select tracks based on model
-        if model.lower() == 'baraffe_n_feiden':
-            # Select appropriate evolutionary tracks based on Teff
-            if T_this > 3900.0:
-                isochrone.set_tracks('Feiden2016')
-            else:
-                isochrone.set_tracks('Baraffe2015')
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
-            isochrone.set_tracks(model.lower())
-        elif model.lower() == 'customize':
-            isochrone.set_tracks('customize', load_file=isochrone_mat_file)
-        else:
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+        # # Select tracks based on model
+        # if model.lower() == 'baraffe_n_feiden':
+        #     # Select appropriate evolutionary tracks based on Teff
+        #     if T_this > 3900.0:
+        #         isochrone.set_tracks('Feiden2016')
+        #     else:
+        #         isochrone.set_tracks('Baraffe2015')
+        # elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
+        #     isochrone.set_tracks(model.lower())
+        # elif model.lower() == 'customize':
+        #     isochrone.set_tracks('customize', load_file=isochrone_mat_file)
+        # else:
+        #     raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
+        m = str(model).strip().lower()
+        if m == "baraffe_n_feiden":
+            chosen = "feiden2016" if T_this > 3900.0 else "baraffe2015"
+            isochrone.set_tracks(chosen)
+        elif m == "customize":
+            isochrone.set_tracks("customize", load_file=isochrone_mat_file)
+        else:
+            try:
+                # accepts canonical names or any alias in registry.TRACK_ALIASES
+                isochrone.set_tracks(m)
+            except ValueError as e:
+                raise ValueError(registry.invalid_track_message(model)) from e
+        
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
         log_masses_dummy = np.log10(masses_dummy)
@@ -1313,20 +1403,33 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
         # Initialize the isochrone class with the default data directory
         isochrone = Isochrone(isochrone_data_dir)
         
-        # Select tracks based on model
-        if model.lower() == 'baraffe_n_feiden':
-            # Select appropriate evolutionary tracks based on Teff
-            if T_this > 3900.0:
-                isochrone.set_tracks('Feiden2016')
-            else:
-                isochrone.set_tracks('Baraffe2015')
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
-            isochrone.set_tracks(model.lower())
-        elif model.lower() == 'customize':
-            isochrone.set_tracks('customize', load_file=isochrone_mat_file)
-        else:
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+        # # Select tracks based on model
+        # if model.lower() == 'baraffe_n_feiden':
+        #     # Select appropriate evolutionary tracks based on Teff
+        #     if T_this > 3900.0:
+        #         isochrone.set_tracks('Feiden2016')
+        #     else:
+        #         isochrone.set_tracks('Baraffe2015')
+        # elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
+        #     isochrone.set_tracks(model.lower())
+        # elif model.lower() == 'customize':
+        #     isochrone.set_tracks('customize', load_file=isochrone_mat_file)
+        # else:
+        #     raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
+        m = str(model).strip().lower()
+        if m == "baraffe_n_feiden":
+            chosen = "feiden2016" if T_this > 3900.0 else "baraffe2015"
+            isochrone.set_tracks(chosen)
+        elif m == "customize":
+            isochrone.set_tracks("customize", load_file=isochrone_mat_file)
+        else:
+            try:
+                # accepts canonical names or any alias in registry.TRACK_ALIASES
+                isochrone.set_tracks(m)
+            except ValueError as e:
+                raise ValueError(registry.invalid_track_message(model)) from e
+        
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
         

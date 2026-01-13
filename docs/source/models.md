@@ -23,6 +23,8 @@ Data are downloaded from https://github.com/gfeiden/MagneticUpperSco/?tab=readme
 
 By default, we use the **nonmagnetic** tracks that are in the public repo from here: https://github.com/gfeiden/MagneticUpperSco/tree/master/models/trk/std
 
+**NOTE**: in the updated version (v1.1+), the magnetic tracks are also added.  
+
 **Caution**: There are known issues with model isochrones at very young ages (below 10 Myr). Proceed with caution. Updated models that rectify known issues are available from the author. 
 
 See the GitHub page from the author: https://github.com/gfeiden/MagneticUpperSco/?tab=readme-ov-file
@@ -42,6 +44,14 @@ By default, we adopt the tracks with solar metallicity, and do not include rotat
 The MIST stellar evolutionary tracks are computed with the [Modules for Experiments in Stellar Astrophysics (MESA)](http://mesa.sourceforge.net/index.html).
 
 See their website for details and references: https://waps.cfa.harvard.edu/MIST/.
+
+## SPOTS
+
+References TBA.
+
+## Pisa
+
+See the paper on ads [Tognelli et al. 2011](https://scixplorer.org/abs/2011A%26A...533A.109T/abstract).
 
 ## Useful Links
 

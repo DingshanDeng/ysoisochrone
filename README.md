@@ -12,6 +12,8 @@ Rachel B. Fernandes, The Pennsylvania State University
 
 Luigi Zallio, University of Milan
 
+Min Fang, Purple Mountain Observatory
+
 ## Feature 
 
 - Handle different formats of the isochrones from different reference sources. The available evolutionary models include [Baraffe et al. (2015)](https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract), [Feiden (2016)](https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract), and [PARSEC (both version 1.2 and 2.0)](http://stev.oapd.inaf.it/PARSEC/index.html). Other tracks will also be added in the future.
