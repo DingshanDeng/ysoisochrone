@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools >= 61.0"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -25,8 +25,9 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-# license = {file = "LICEN[CS]E*"}
-license = "MIT"
+license = {file = "LICEN[CS]E*"}
+# license = { text = "MIT" }
+# license-files = ["LICENSE", "LICENCE", "COPYING", "NOTICE", "LICENSE.*", "LICENCE.*"]
 
 [project.urls]
 Homepage = "https://github.com/DingshanDeng/ysoisochrone"
