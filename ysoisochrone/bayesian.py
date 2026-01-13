@@ -17,6 +17,12 @@ except ImportError:
     from scipy.integrate import simps as simpson
 # from scipy.interpolate import interp1d
 
+# NumPy compat: trapezoid (new) vs trapz (old)
+try:
+    _trapz = np.trapezoid
+except AttributeError:
+    _trapz = np.trapz
+
 import tqdm
 
 from ysoisochrone import plotting
@@ -234,9 +240,9 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
                 if force_through:
                     if verbose:
                         print(
-                            "[force_through] Best mass / CI hits the upper grid edge; "
+                            "[force_through] Best mass hits the upper grid edge; "
                             "setting upper mass uncertainty to the grid maximum. "
-                            "Consider extending the mass grid upward for unbiased CI."
+                            "Consider extending the mass grid upward for unbiased estimates."
                         )
                     mass_unc[1] = log_masses_dummy[-1]
                     # Ensure the interval is non-decreasing
@@ -248,8 +254,8 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     #
     # save the normalized probability distributions
     #
-    L_age_norm = L_age / np.trapezoid(L_age, log_age_dummy) # / max(L_age) * (max(log_masses_dummy) - min(log_masses_dummy)) # + min(log_masses_dummy)
-    L_mass_norm = L_mass / np.trapezoid(L_mass, log_masses_dummy) # / max(L_mass) * (max(log_age_dummy) - min(log_age_dummy)) # + min(log_age_dummy)
+    L_age_norm = L_age / _trapz(L_age, log_age_dummy) # / max(L_age) * (max(log_masses_dummy) - min(log_masses_dummy)) # + min(log_masses_dummy)
+    L_mass_norm = L_mass / _trapz(L_mass, log_masses_dummy) # / max(L_mass) * (max(log_age_dummy) - min(log_age_dummy)) # + min(log_age_dummy)
     
     if plot:
         plotting.plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mass, age_unc, mass_unc, source, save_fig, fig_save_dir, customized_fig_name)

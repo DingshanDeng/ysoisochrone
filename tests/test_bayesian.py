@@ -10,6 +10,12 @@ import numpy as np
 import pandas as pd
 from ysoisochrone.bayesian import bayesian_mass_age, derive_stellar_mass_age
 
+# NumPy compat: trapezoid (new) vs trapz (old)
+try:
+    _trapz = np.trapezoid
+except AttributeError:
+    _trapz = np.trapz
+
 # Mock inputs for testing
 log_age_dummy = np.linspace(6, 8, 10)  # log(age) from 1 Myr to 10 Myr
 log_masses_dummy = np.linspace(np.log10(0.5), np.log10(3), 10)  # log(mass) from 0.5 to 3 Msun
@@ -33,8 +39,8 @@ def test_bayesian_mass_age():
     assert isinstance(logmass_likelihood, np.ndarray), "Log-mass likelihood should be a NumPy array."
     
     # Check that the likelihoods are normalized
-    assert np.isclose(np.trapezoid(logage_likelihood[1], logage_likelihood[0]), 1), "Log-age likelihood should be normalized."
-    assert np.isclose(np.trapezoid(logmass_likelihood[1], logmass_likelihood[0]), 1), "Log-mass likelihood should be normalized."
+    assert np.isclose(_trapz(logage_likelihood[1], logage_likelihood[0]), 1), "Log-age likelihood should be normalized."
+    assert np.isclose(_trapz(logmass_likelihood[1], logmass_likelihood[0]), 1), "Log-mass likelihood should be normalized."
 
 # NOTE now the edge cases are handled within the main function, so these tests are commented out.
 # if the input is at the edge, it gives NaN and Warning instead of raising errors.
