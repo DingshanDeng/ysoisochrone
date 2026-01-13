@@ -1,8 +1,12 @@
 from setuptools import setup, find_packages
 
+# setup()
+
+# the new setup and metadata are now in pyproject.toml and automatically handled by setuptools
+# Previous setup.py content (now commented out)
 setup(
     name='ysoisochrone',
-    version='1.1.0',
+    version='1.1.1',
     description='Python package handles the young-stellar-objects isochrones, and one primary goal is to derive the stellar mass and ages from the isochrones.',
     author='Dingshan Deng',
     author_email='dingshandeng@arizona.edu',

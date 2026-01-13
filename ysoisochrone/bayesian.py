@@ -74,9 +74,34 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     # find the age_unc
     #
     
+    # # earler version: find the closest index
+    # L_age_array = np.cumsum(L_age) / np.sum(L_age)
+    # age_low_idx = np.argmin(np.abs(L_age_array[:best_age_idx] - (L_age_array[best_age_idx] - half_sigma_perc)))
+    # age_up_idx = best_age_idx + np.argmin(np.abs(L_age_array[best_age_idx:] - (L_age_array[best_age_idx] + half_sigma_perc)))
+    
     L_age_array = np.cumsum(L_age) / np.sum(L_age)
-    age_low_idx = np.argmin(np.abs(L_age_array[:best_age_idx] - (L_age_array[best_age_idx] - half_sigma_perc)))
-    age_up_idx = best_age_idx + np.argmin(np.abs(L_age_array[best_age_idx:] - (L_age_array[best_age_idx] + half_sigma_perc)))
+
+    # --- SAFE GUARDS for edge best_age_idx ---
+    if best_age_idx == 0:
+        age_low_idx = 0
+        # find upper bound in the full array
+        target_up = L_age_array[best_age_idx] + half_sigma_perc
+        age_up_idx = int(np.argmin(np.abs(L_age_array - target_up)))
+        age_up_idx = max(age_up_idx, age_low_idx)
+
+    elif best_age_idx == len(L_age_array) - 1:
+        age_up_idx = len(L_age_array) - 1
+        # find lower bound in the full array
+        target_low = L_age_array[best_age_idx] - half_sigma_perc
+        age_low_idx = int(np.argmin(np.abs(L_age_array - target_low)))
+        age_low_idx = min(age_low_idx, age_up_idx)
+
+    else:
+        target_low = L_age_array[best_age_idx] - half_sigma_perc
+        target_up  = L_age_array[best_age_idx] + half_sigma_perc
+
+        age_low_idx = int(np.argmin(np.abs(L_age_array[:best_age_idx] - target_low)))
+        age_up_idx = int(best_age_idx + np.argmin(np.abs(L_age_array[best_age_idx:] - target_up)))
     
     # Handle cases where the cumulative sum exceeds the desired confidence interval
     if L_age_array[best_age_idx] - half_sigma_perc < 0:
@@ -125,9 +150,33 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     best_mass_idx = np.argmax(L_mass)
     best_log_mass = best_mass = log_masses_dummy[best_mass_idx]
     
+    # # earler version: find the closest index
+    # L_mass_array = np.cumsum(L_mass) / np.sum(L_mass)
+    # mass_low_idx = np.argmin(np.abs(L_mass_array[:best_mass_idx] - (L_mass_array[best_mass_idx] - half_sigma_perc)))
+    # mass_up_idx = best_mass_idx + np.argmin(np.abs(L_mass_array[best_mass_idx:] - (L_mass_array[best_mass_idx] + half_sigma_perc)))
+    
     L_mass_array = np.cumsum(L_mass) / np.sum(L_mass)
-    mass_low_idx = np.argmin(np.abs(L_mass_array[:best_mass_idx] - (L_mass_array[best_mass_idx] - half_sigma_perc)))
-    mass_up_idx = best_mass_idx + np.argmin(np.abs(L_mass_array[best_mass_idx:] - (L_mass_array[best_mass_idx] + half_sigma_perc)))
+
+    # --- SAFE GUARDS for edge best_mass_idx ---
+    if best_mass_idx == 0:
+        mass_low_idx = 0
+        # find upper bound within remaining array
+        mass_up_idx = np.argmin(np.abs(L_mass_array - (L_mass_array[best_mass_idx] + half_sigma_perc)))
+        mass_up_idx = max(mass_up_idx, 0)
+
+    elif best_mass_idx == len(L_mass_array) - 1:
+        mass_up_idx = len(L_mass_array) - 1
+        # find lower bound within array up to last
+        mass_low_idx = np.argmin(np.abs(L_mass_array - (L_mass_array[best_mass_idx] - half_sigma_perc)))
+        mass_low_idx = min(mass_low_idx, mass_up_idx)
+
+    else:
+        mass_low_idx = np.argmin(
+            np.abs(L_mass_array[:best_mass_idx] - (L_mass_array[best_mass_idx] - half_sigma_perc))
+        )
+        mass_up_idx = best_mass_idx + np.argmin(
+            np.abs(L_mass_array[best_mass_idx:] - (L_mass_array[best_mass_idx] + half_sigma_perc))
+        )
     
     # Handle cases where the cumulative sum exceeds the desired confidence interval
     if L_mass_array[best_mass_idx] - half_sigma_perc < 0:
@@ -320,7 +369,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             if verbose:
                 print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
                 
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
             isochrone.set_tracks(model.lower())
             
             if verbose:
@@ -333,7 +382,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
                 print(f'Adopted the customize track from %s.'%(isochrone_mat_file))
                 
         else:
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
@@ -393,6 +442,47 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
             
         else:
             # === Standard Bayesian branch ===
+            
+            # == first check whether (logT, logL) is within the model grid domain ==
+            logTe_grid = logtlogl_dummy[:, :, 0]  # (Nm, Na)
+            logL_grid  = logtlogl_dummy[:, :, 1]
+
+            grid_logT_min = np.nanmin(logTe_grid)
+            grid_logT_max = np.nanmax(logTe_grid)
+            grid_logL_min = np.nanmin(logL_grid)
+            grid_logL_max = np.nanmax(logL_grid)
+
+            outside_T = (c_logT < grid_logT_min) or (c_logT > grid_logT_max)
+            outside_L = (c_logL < grid_logL_min) or (c_logL > grid_logL_max)
+
+            if outside_T or outside_L:
+                # record NaNs and flag; optionally store empty marginals
+                best_logmass_wunc = [np.nan, np.nan, np.nan]
+                best_logage_wunc  = [np.nan, np.nan, np.nan]
+
+                # optional: store placeholders so the returned dicts have keys
+                lage_all[f'target_{ii}'] = np.array([log_age_dummy, np.full_like(log_age_dummy, np.nan)]).T
+                lmass_all[f'target_{ii}'] = np.array([log_masses_dummy, np.full_like(log_masses_dummy, np.nan)]).T
+
+                # add informative flag
+                if outside_T and outside_L:
+                    flag_all.append('out_of_grid_TL')
+                elif outside_T:
+                    flag_all.append('out_of_grid_T')
+                else:
+                    flag_all.append('out_of_grid_L')
+
+                if verbose:
+                    print("WARNING: target outside model grid.")
+                    print(f"  logT={c_logT:.3f} grid=[{grid_logT_min:.3f}, {grid_logT_max:.3f}]")
+                    print(f"  logL={c_logL:.3f} grid=[{grid_logL_min:.3f}, {grid_logL_max:.3f}]")
+
+                # skip Bayesian for this target
+                best_logmass_output.append(best_logmass_wunc)
+                best_logage_output.append(best_logage_wunc)
+                continue
+            
+            # == for targets within the grid, proceed with Bayesian estimation ==
             # Compute the likelihood using the Bayesian framework
             # in p2016, a log uniform prior is adopted
             # therefore it equals to the cases without assuming any prior
@@ -587,7 +677,7 @@ def derive_stellar_mass_age_uniprior(df_prop, model='Baraffe_n_Feiden', isochron
             if verbose:
                 print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
                 
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
             isochrone.set_tracks(model.lower())
             
             if verbose:
@@ -602,7 +692,7 @@ def derive_stellar_mass_age_uniprior(df_prop, model='Baraffe_n_Feiden', isochron
         else:
             # raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST') or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
         
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
@@ -790,7 +880,7 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
             if verbose:
                 print(f'Adopted the { "Feiden" if T_this > 3900.0 else "Baraffe" } track.')
                 
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
             isochrone.set_tracks(model.lower())
             
             if verbose:
@@ -803,7 +893,7 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
                 print(f'Adopted the customize track from %s.'%(isochrone_mat_file))
                 
         else:
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
@@ -962,12 +1052,12 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
                 isochrone.set_tracks('Feiden2016')
             else:
                 isochrone.set_tracks('Baraffe2015')
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
             isochrone.set_tracks(model.lower())
         elif model.lower() == 'customize':
             isochrone.set_tracks('customize', load_file=isochrone_mat_file)
         else:
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
@@ -1076,12 +1166,12 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
                 isochrone.set_tracks('Feiden2016')
             else:
                 isochrone.set_tracks('Baraffe2015')
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
             isochrone.set_tracks(model.lower())
         elif model.lower() == 'customize':
             isochrone.set_tracks('customize', load_file=isochrone_mat_file)
         else:
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
@@ -1230,12 +1320,12 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
                 isochrone.set_tracks('Feiden2016')
             else:
                 isochrone.set_tracks('Baraffe2015')
-        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847']:
+        elif model.lower() in ['baraffe2015', 'parsec', 'parsec_v1p2', 'parsec_v2p0', 'mist', 'mist_v1p2', 'feiden2016', 'feiden2016_nob', 'feiden2016_nonmagnetic', 'feiden2016_b', 'feiden2016_magnetic', 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa']:
             isochrone.set_tracks(model.lower())
         elif model.lower() == 'customize':
             isochrone.set_tracks('customize', load_file=isochrone_mat_file)
         else:
-            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
+            raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()

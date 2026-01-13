@@ -1300,19 +1300,19 @@ def create_meshgrid(data_points, min_age=0.5, max_age=1000.0, min_mass=0.0, max_
 
     # Adjust mass limits based on the filtered data
     log_masses_unique = np.log10(masses_unique)
-    log_masses_i = 10**np.arange(np.nanmin(log_masses_unique), np.nanmax(log_masses_unique) + 0.01, 0.01)
+    masses_i = 10**np.arange(np.nanmin(log_masses_unique), np.nanmax(log_masses_unique) + 0.01, 0.01)
 
     # Create a meshgrid for log_age and masses
-    log_age_grid, log_masses_grid = np.meshgrid(log_age_i, log_masses_i, indexing='ij')
+    log_age_grid, masses_grid = np.meshgrid(log_age_i, masses_i, indexing='ij')
 
     # Use griddata to interpolate Teff and Luminosity onto the meshgrid
-    log_teff_grid = griddata((filtered_log_age, filtered_masses), np.log10(filtered_teff), (log_age_grid, log_masses_grid), method=interpolation_method)
-    log_luminosity_grid = griddata((filtered_log_age, filtered_masses), filtered_log_luminosity, (log_age_grid, log_masses_grid), method=interpolation_method)
+    log_teff_grid = griddata((filtered_log_age, filtered_masses), np.log10(filtered_teff), (log_age_grid, masses_grid), method=interpolation_method)
+    log_luminosity_grid = griddata((filtered_log_age, filtered_masses), filtered_log_luminosity, (log_age_grid, masses_grid), method=interpolation_method)
 
     # Combine Teff and Luminosity into a single 2D array (logtlogl)
     logtlogl_grid = np.stack([log_teff_grid, log_luminosity_grid], axis=-1)
 
-    return log_masses_i, log_age_i, logtlogl_grid, log_masses_grid, log_age_grid
+    return masses_i, log_age_i, logtlogl_grid, masses_grid, log_age_grid
 
 
 def save_as_mat(masses, log_age, logtlogl, save_path):
