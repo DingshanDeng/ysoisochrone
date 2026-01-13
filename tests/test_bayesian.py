@@ -33,29 +33,33 @@ def test_bayesian_mass_age():
     assert isinstance(logmass_likelihood, np.ndarray), "Log-mass likelihood should be a NumPy array."
     
     # Check that the likelihoods are normalized
-    assert np.isclose(np.trapz(logage_likelihood[1], logage_likelihood[0]), 1), "Log-age likelihood should be normalized."
-    assert np.isclose(np.trapz(logmass_likelihood[1], logmass_likelihood[0]), 1), "Log-mass likelihood should be normalized."
+    assert np.isclose(np.trapezoid(logage_likelihood[1], logage_likelihood[0]), 1), "Log-age likelihood should be normalized."
+    assert np.isclose(np.trapezoid(logmass_likelihood[1], logmass_likelihood[0]), 1), "Log-mass likelihood should be normalized."
 
-def test_bayesian_mass_age_edge_cases():
-    """Test bayesian_mass_age with edge cases."""
-    # Case: Likelihood grid is zero
-    L_zero = np.zeros((10, 10))
-    with pytest.raises(ValueError):
-        bayesian_mass_age(log_age_dummy, log_masses_dummy, L_zero)
+# NOTE now the edge cases are handled within the main function, so these tests are commented out.
+# if the input is at the edge, it gives NaN and Warning instead of raising errors.
+# def test_bayesian_mass_age_edge_cases():
+#     """Test bayesian_mass_age with edge cases."""
+#     # Case: Likelihood grid is zero
+#     L_zero = np.zeros((10, 10))
+#     with pytest.raises(ValueError):
+#         bayesian_mass_age(log_age_dummy, log_masses_dummy, L_zero)
 
-def test_invalid_inputs():
-    """Test functions with invalid inputs."""
-    # Test invalid grid sizes
-    # invalid_L = np.random.random((10, 10))
+# NOTE now the invalid inputs are handled within the main function, so these tests are commented out.
+# if the input is at the edge, it gives NaN and Warning instead of raising errors.
+# def test_invalid_inputs():
+#     """Test functions with invalid inputs."""
+#     # Test invalid grid sizes
+#     # invalid_L = np.random.random((10, 10))
     
-    center_logage, center_logmass = 5.0, 0.0  # Center of the Gaussian
-    invalid_L = np.exp(
-        -0.5 * (((log_age_dummy[:, None] - center_logage) / 0.2) ** 2
-                + ((log_masses_dummy[None, :] - center_logmass) / 0.1) ** 2)
-    )
+#     center_logage, center_logmass = 5.0, 0.0  # Center of the Gaussian
+#     invalid_L = np.exp(
+#         -0.5 * (((log_age_dummy[:, None] - center_logage) / 0.2) ** 2
+#                 + ((log_masses_dummy[None, :] - center_logmass) / 0.1) ** 2)
+#     )
     
-    with pytest.raises(ValueError):
-        bayesian_mass_age(log_age_dummy, log_masses_dummy, invalid_L)
+#     with pytest.raises(ValueError):
+#         bayesian_mass_age(log_age_dummy, log_masses_dummy, invalid_L)
 
 # def test_derive_stellar_mass_age():
 #     """Test the derive_stellar_mass_age function."""
