@@ -4,15 +4,19 @@
 
 ## Contributors
 
-Dingshan Deng (dingshandeng@arizona.edu), The University of Arizona
+**Dingshan Deng** (dingshandeng@arizona.edu), The University of Arizona
 
-Ilaria Pascucci, The University of Arizona
+**Ilaria Pascucci**, The University of Arizona
 
-Rachel B. Fernandes, The Pennsylvania State University
+**Rachel B. Fernandes**, The Pennsylvania State University
 
-Luigi Zallio, University of Milan
+**Luigi Zallio**, University of Milan
 
-Min Fang, Purple Mountain Observatory
+**Min Fang**, Purple Mountain Observatory
+
+---
+
+We thank the referees and editors of AAS, A&A, and JOSS journals for their constructive feedback. Special thanks go to **Warrick Ball**, **Heloise F. Stevance**, and **Vito Squicciarini** for their detailed reviews and suggestions, as well as the anonymous referees whose suggestions greatly enhanced the quality of this package.
 
 ## Feature 
 
