@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# author: Dingshan Deng @ University of Arizona
+# contact: dingshandeng@arizona.edu
+# created: 01/14/2025
+
 import os
 import requests
 import tarfile
@@ -141,6 +147,77 @@ def get_likelihood_p2016(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
     return lfunc
 
 
+def _normalize_pdf(arr, method='maxone'):
+    """
+    Normalize a non-negative array for numerical stability.
+    method: 'maxone' (default), 'sumone', or 'none'
+    """
+    arr = np.asarray(arr, dtype=float)
+    arr = np.clip(arr, 0.0, np.inf)
+    if method == 'maxone':
+        m = np.max(arr)
+        return arr / m if m > 0 else arr
+    elif method == 'sumone':
+        s = np.sum(arr)
+        return arr / s if s > 0 else arr
+    else:
+        return arr
+    
+
+def _eval_1d_prior_on_grid(prior_spec, x_grid, normalize='maxone', name='prior'):
+    """
+    Evaluate a 1D prior on an arbitrary grid (x_grid).
+
+    prior_spec can be:
+      - callable: f(x) -> pdf (array-like or scalar)
+      - dict with keys:
+          'grid': 1D array of x locations (must be monotonic),
+          'pdf':  1D array of non-negative values,
+          'extrapolate': 'edge' (default) or 'zero'
+          'normalize': override normalization (default 'maxone')
+
+    Returns an array of shape x_grid.shape with non-negative values.
+    """
+    x_grid = np.asarray(x_grid, dtype=float)
+
+    if prior_spec is None:
+        # Uniform prior (constant 1.0) on this axis
+        return np.ones_like(x_grid)
+
+    # Callable case
+    if callable(prior_spec):
+        vals = np.asarray(prior_spec(x_grid), dtype=float)
+        vals = np.clip(vals, 0.0, np.inf)
+        return _normalize_pdf(vals, method=(normalize or 'maxone'))
+
+    # Tabulated 1D case
+    if isinstance(prior_spec, dict):
+        g = np.asarray(prior_spec.get('grid', []), dtype=float)
+        p = np.asarray(prior_spec.get('pdf', []), dtype=float)
+        if g.ndim != 1 or p.ndim != 1 or g.size != p.size or g.size < 2:
+            raise ValueError(f"{name}: tabulated prior must have 1D 'grid' and 'pdf' of same length >= 2.")
+        # Ensure monotonic grid for interpolation
+        if not (np.all(np.diff(g) > 0) or np.all(np.diff(g) < 0)):
+            raise ValueError(f"{name}: 'grid' must be strictly monotonic for interpolation.")
+        # If decreasing, flip
+        if g[0] > g[-1]:
+            g = g[::-1]; p = p[::-1]
+        p = np.clip(p, 0.0, np.inf)
+
+        extrap = prior_spec.get('extrapolate', 'edge')
+        if extrap == 'edge':
+            vals = np.interp(x_grid, g, p, left=p[0], right=p[-1])
+        elif extrap == 'zero':
+            vals = np.interp(x_grid, g, p, left=0.0, right=0.0)
+        else:
+            raise ValueError(f"{name}: unsupported 'extrapolate' option: {extrap}")
+
+        norm_method = prior_spec.get('normalize', normalize or 'maxone')
+        return _normalize_pdf(vals, method=norm_method)
+
+    raise TypeError(f"{name}: prior must be a callable or a dict describing a tabulated 1D prior.")
+    
+
 def download_file_simple(url, save_path):
     """
     Downloads a file from a given URL and saves it to the specified path.
@@ -218,6 +295,34 @@ def extract_tarball(tar_file_path, extract_dir):
     with tarfile.open(tar_file_path, "r:gz") as tar:
         tar.extractall(path=extract_dir)
     print(f"Extracted {tar_file_path} into {extract_dir}")
+
+
+def load_builtin_matrix(filename):
+    """
+    Load a .mat grid that is shipped with the ysoisochrone package.
+
+    Args:
+    
+        filename: [str]
+            Name of the .mat file in the ysoisochrone/data directory, e.g.
+            'Feiden_B_AgeMassGrid_YSO_matrix.mat'.
+
+    Output:
+
+        data: [dict]
+            Dictionary as returned by scipy.io.loadmat.
+    """
+    # This file (utils.py) lives in the same package directory as "data"
+    pkg_dir = os.path.dirname(__file__)
+    mat_path = os.path.join(pkg_dir, "data", filename)
+
+    if not os.path.exists(mat_path):
+        raise FileNotFoundError(
+            f"Packaged grid '{filename}' not found at {mat_path}"
+        )
+
+    data = scipy.io.loadmat(mat_path)
+    return data
 
 
 def download_baraffe_tracks(save_dir='isochrones_data'):
@@ -1201,19 +1306,19 @@ def create_meshgrid(data_points, min_age=0.5, max_age=1000.0, min_mass=0.0, max_
 
     # Adjust mass limits based on the filtered data
     log_masses_unique = np.log10(masses_unique)
-    log_masses_i = 10**np.arange(np.nanmin(log_masses_unique), np.nanmax(log_masses_unique) + 0.01, 0.01)
+    masses_i = 10**np.arange(np.nanmin(log_masses_unique), np.nanmax(log_masses_unique) + 0.01, 0.01)
 
     # Create a meshgrid for log_age and masses
-    log_age_grid, log_masses_grid = np.meshgrid(log_age_i, log_masses_i, indexing='ij')
+    log_age_grid, masses_grid = np.meshgrid(log_age_i, masses_i, indexing='ij')
 
     # Use griddata to interpolate Teff and Luminosity onto the meshgrid
-    log_teff_grid = griddata((filtered_log_age, filtered_masses), np.log10(filtered_teff), (log_age_grid, log_masses_grid), method=interpolation_method)
-    log_luminosity_grid = griddata((filtered_log_age, filtered_masses), filtered_log_luminosity, (log_age_grid, log_masses_grid), method=interpolation_method)
+    log_teff_grid = griddata((filtered_log_age, filtered_masses), np.log10(filtered_teff), (log_age_grid, masses_grid), method=interpolation_method)
+    log_luminosity_grid = griddata((filtered_log_age, filtered_masses), filtered_log_luminosity, (log_age_grid, masses_grid), method=interpolation_method)
 
     # Combine Teff and Luminosity into a single 2D array (logtlogl)
     logtlogl_grid = np.stack([log_teff_grid, log_luminosity_grid], axis=-1)
 
-    return log_masses_i, log_age_i, logtlogl_grid, log_masses_grid, log_age_grid
+    return masses_i, log_age_i, logtlogl_grid, masses_grid, log_age_grid
 
 
 def save_as_mat(masses, log_age, logtlogl, save_path):

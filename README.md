@@ -1,6 +1,6 @@
 # ysoisochrone
 
-`ysoisochrone` is a `Python3` package that handles the isochrones for young-stellar-objects. One of the primary goals of this package is to derive the stellar mass and ages from the isochrones.
+`ysoisochrone` is a `Python3.8+` package that handles the isochrones for young-stellar-objects. One of the primary goals of this package is to derive the stellar mass and ages from the isochrones.
 
 ## Contributors
 
@@ -10,9 +10,16 @@ Ilaria Pascucci, The University of Arizona
 
 Rachel B. Fernandes, The Pennsylvania State University
 
+Luigi Zallio, University of Milan
+
+Min Fang, Purple Mountain Observatory
+
 ## Feature 
 
 - Handle different formats of the isochrones from different reference sources. The available evolutionary models include [Baraffe et al. (2015)](https://ui.adsabs.harvard.edu/abs/2015A%26A...577A..42B/abstract), [Feiden (2016)](https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract), and [PARSEC (both version 1.2 and 2.0)](http://stev.oapd.inaf.it/PARSEC/index.html). Other tracks will also be added in the future.
+
+**NEW TRACKS AVAILABLE in v1.1.3:** [Siess et al. (2000)](https://ui.adsabs.harvard.edu/abs/2000A%26A...358..593S/abstract); Feiden Magnetic Tracks [(Feiden 2016)](https://ui.adsabs.harvard.edu/abs/2016A%26A...593A..99F/abstract); SPOTS Tracks with different cold photospheric
+spot coverages [(Somers et al. 2020)](https://ui.adsabs.harvard.edu/abs/2020ApJ...891...29S/abstract); and Pisa models [Tognelli et al. 2011](https://scixplorer.org/abs/2011A%26A...533A.109T/abstract).
 
 - Derive the stellar masses and ages from the isochrones by:
 
@@ -44,12 +51,16 @@ pip install .
 
 A [Quick Start Guide](https://github.com/DingshanDeng/ysoisochrone/blob/main/tutorial_notebooks/tutorial1_quick_start.ipynb) is provided as a `Jupyter Notebook` together with other [tutorial `Jupyter Notebooks`](https://github.com/DingshanDeng/ysoisochrone/tree/main/tutorial_notebooks). You can also find these tutorial notebooks in the folder called `tutorial_notebooks`.
 
-This Guide is also provided in the [documentation](https://ysoisochrone.readthedocs.io/en/latest/index.html) together with some other detailed explainations.
+This Guide is also provided in the [documentation](https://ysoisochrone.readthedocs.io/en/latest/index.html) together with some other detailed explanations.
 
 ## Citations
 If you use `ysoisochrone` as part of your research, please cite 
 
 "Deng et al. (2025), based on the IDL code developed by Pascucci et al. (2016)"
+
+Quick Access to these works, where you can find the definitions of the methods:
+[Deng et al. (2025)](https://doi.org/10.21105/joss.07493);
+[Pascucci et al. (2016)](https://ui.adsabs.harvard.edu/abs/2016ApJ...831..125P)
 
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.07493/status.svg)](https://doi.org/10.21105/joss.07493)
 

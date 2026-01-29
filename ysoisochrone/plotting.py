@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# author: Dingshan Deng @ University of Arizona
+# contact: dingshandeng@arizona.edu
+# created: 01/14/2025
+
 import numpy as np
 import copy
 import os
