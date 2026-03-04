@@ -66,7 +66,7 @@ A classical pre-main sequence tracks for low- and intermediate-mass stars presen
 
 ## SPOTS
 
-keyword: `spots0169`, `spots0339`, `spots0508`, and `spots0847` for SPOTS model with different spot coverages (16.9%, 33.9%, 50.8%, 84.7%).
+keyword: `spots0000`, `spots0169`, `spots0339`, `spots0508`, and `spots0847` for SPOTS model with different spot coverages (00.00%, 16.9%, 33.9%, 50.8%, 84.7%).
 
 SPOTS Tracks with different cold photospheric spot coverages [(Somers et al. 2020)](https://ui.adsabs.harvard.edu/abs/2020ApJ...891...29S/abstract).
 

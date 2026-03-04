@@ -109,5 +109,7 @@ There are a few other useful tools and packages that can be used to handle stell
 notebooks/ysoisochrone_basics
 models
 notebooks/ysoisochrone_customize_isochrone
+notebooks/ysoisochrone_apply_prior
+notebooks/ysoisochrone_apply_large_dataset
 apidocs/index
 ```

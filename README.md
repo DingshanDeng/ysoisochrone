@@ -43,12 +43,19 @@ You can easily install the package via
 pip install ysoisochrone
 ```
 
+If you have installed `ysoisochrone` before, to use the new tracks in the latest version (1.1.3+), use
+```bash
+pip install --upgrade ysoisochrone
+```
+to update to the latest version.
+
+
 Or, you can also install your preferred release by downloading the package release from the GitHub page. Then unzip the package.
 
 In the terminal and in the directory of this package where `setup.py` exists.
 
 ```bash 
-pip install .
+pip install --upgrade .
 ```
 
 ## Quick Start
