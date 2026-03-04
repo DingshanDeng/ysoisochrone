@@ -1,0 +1,42 @@
+{
+  "title": "ysoisochrone: A Python package to estimate masses and ages for YSOs",
+  "description": "ysoisochrone is a Python package that utilizes stellar evolutionary tracks to estimate stellar masses and ages of pre-main sequence stars with a Bayesian framework.",
+  "license": "mit",
+  "creators": [
+    {
+      "name": "Deng, Dingshan",
+      "affiliation": "Lunar and Planetary Laboratory, University of Arizona",
+      "orcid": "0000-0003-0777-7392"
+    },
+    {
+      "name": "Pascucci, Ilaria",
+      "affiliation": "Lunar and Planetary Laboratory, University of Arizona",
+      "orcid": "0000-0001-7962-1683"
+    },
+    {
+      "name": "Fernandes, Rachel B.",
+      "affiliation": "Department of Astronomy & Astrophysics, The Pennsylvania State University",
+      "orcid": "0000-0002-3853-7327"
+    },
+    {
+      "name": "Zallio, Luigi",
+      "affiliation": "University of Milan",
+      "orcid": "0009-0005-1602-7464"
+    },
+    {
+      "name": "Fang, Min",
+      "affiliation": "Purple Mountain Observatory",
+      "orcid": "0000-0001-8060-1321"
+    }
+  ],
+  "keywords": [
+    "astronomy",
+    "stellar evolution",
+    "pre-main sequence stars",
+    "isochrones",
+    "Bayesian inference",
+    "young stellar objects"
+  ],
+  "upload_type": "software",
+  "access_right": "open"
+}
