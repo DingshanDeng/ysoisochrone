@@ -134,10 +134,20 @@ There are a few other useful tools and packages that can be used to handle stell
   
 ## Contents:
 ```{toctree}
-notebooks/ysoisochrone_basics
+:caption: User Guide (Tutorial Notebooks)
+
+notebooks/tutorial1_ysoisochrone_basics
+notebooks/tutorial2_ysoisochrone_customize_isochrone
+notebooks/tutorial3_ysoisochrone_apply_prior
+notebooks/tutorial4_ysoisochrone_apply_large_dataset
+```
+
+```{toctree}
 models
-notebooks/ysoisochrone_customize_isochrone
-notebooks/ysoisochrone_apply_prior
-notebooks/ysoisochrone_apply_large_dataset
+```
+
+```{toctree}
+:maxdepth: 1
+
 apidocs/index
 ```
