@@ -11,8 +11,8 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
 import os
+import re
 import sys
-from importlib.metadata import version as _get_version
 sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
@@ -21,8 +21,13 @@ sys.path.insert(0, os.path.abspath('..'))
 project = 'ysoisochrone'
 copyright = '2024-2026, Dingshan Deng'
 author = 'Dingshan Deng'
+
+# Read version directly from pyproject.toml — works without installing the package
+_pyproject = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../pyproject.toml'))
 try:
-    release = _get_version('ysoisochrone')
+    with open(_pyproject) as _f:
+        _match = re.search(r'^version\s*=\s*"([^"]+)"', _f.read(), re.MULTILINE)
+    release = _match.group(1) if _match else 'unknown'
 except Exception:
     release = 'unknown'
 

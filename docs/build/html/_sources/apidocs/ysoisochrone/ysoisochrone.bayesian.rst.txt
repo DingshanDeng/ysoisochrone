@@ -22,6 +22,9 @@ Functions
    * - :py:obj:`derive_stellar_mass_age <ysoisochrone.bayesian.derive_stellar_mass_age>`
      - .. autodoc2-docstring:: ysoisochrone.bayesian.derive_stellar_mass_age
           :summary:
+   * - :py:obj:`derive_stellar_mass_age_uniprior <ysoisochrone.bayesian.derive_stellar_mass_age_uniprior>`
+     - .. autodoc2-docstring:: ysoisochrone.bayesian.derive_stellar_mass_age_uniprior
+          :summary:
    * - :py:obj:`derive_stellar_mass_age_legacy <ysoisochrone.bayesian.derive_stellar_mass_age_legacy>`
      - .. autodoc2-docstring:: ysoisochrone.bayesian.derive_stellar_mass_age_legacy
           :summary:
@@ -38,15 +41,20 @@ Functions
 API
 ~~~
 
-.. py:function:: bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=None, confidence_interval=0.68, verbose=False, save_fig=False, fig_save_dir='figure', customized_fig_name='')
+.. py:function:: bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=None, confidence_interval=0.68, verbose=False, save_fig=False, fig_save_dir='figure', customized_fig_name='', force_through=False)
    :canonical: ysoisochrone.bayesian.bayesian_mass_age
 
    .. autodoc2-docstring:: ysoisochrone.bayesian.bayesian_mass_age
 
-.. py:function:: derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=False)
+.. py:function:: derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=True, prior_age=None, prior_mass=None, prior_joint=None, prior_normalize='maxone', force_through=False)
    :canonical: ysoisochrone.bayesian.derive_stellar_mass_age
 
    .. autodoc2-docstring:: ysoisochrone.bayesian.derive_stellar_mass_age
+
+.. py:function:: derive_stellar_mass_age_uniprior(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=True)
+   :canonical: ysoisochrone.bayesian.derive_stellar_mass_age_uniprior
+
+   .. autodoc2-docstring:: ysoisochrone.bayesian.derive_stellar_mass_age_uniprior
 
 .. py:function:: derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, plot=False, save_fig=False, save_lfunc=False, fig_save_dir='figures', csv_save_dir='lfunc_data', verbose=False, toofaint=[], toobright=[], median_age=1.0, confidence_interval=0.68, single_bayesian_for_nolum_target=False)
    :canonical: ysoisochrone.bayesian.derive_stellar_mass_age_legacy
@@ -58,7 +66,7 @@ API
 
    .. autodoc2-docstring:: ysoisochrone.bayesian.derive_stellar_mass_age_closest_track
 
-.. py:function:: derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, confidence_interval=0.68, verbose=False, plot=False)
+.. py:function:: derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, confidence_interval=0.68, verbose=False, plot=False, prior_mass=None, prior_normalize='maxone')
    :canonical: ysoisochrone.bayesian.derive_stellar_mass_assuming_age
 
    .. autodoc2-docstring:: ysoisochrone.bayesian.derive_stellar_mass_assuming_age

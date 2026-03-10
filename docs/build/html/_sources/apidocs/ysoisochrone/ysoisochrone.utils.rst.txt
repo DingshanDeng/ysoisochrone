@@ -28,8 +28,14 @@ Functions
    * - :py:obj:`assign_unc_lumi <ysoisochrone.utils.assign_unc_lumi>`
      - .. autodoc2-docstring:: ysoisochrone.utils.assign_unc_lumi
           :summary:
-   * - :py:obj:`get_likelihood_andrews2013 <ysoisochrone.utils.get_likelihood_andrews2013>`
-     - .. autodoc2-docstring:: ysoisochrone.utils.get_likelihood_andrews2013
+   * - :py:obj:`get_likelihood_p2016 <ysoisochrone.utils.get_likelihood_p2016>`
+     - .. autodoc2-docstring:: ysoisochrone.utils.get_likelihood_p2016
+          :summary:
+   * - :py:obj:`_normalize_pdf <ysoisochrone.utils._normalize_pdf>`
+     - .. autodoc2-docstring:: ysoisochrone.utils._normalize_pdf
+          :summary:
+   * - :py:obj:`_eval_1d_prior_on_grid <ysoisochrone.utils._eval_1d_prior_on_grid>`
+     - .. autodoc2-docstring:: ysoisochrone.utils._eval_1d_prior_on_grid
           :summary:
    * - :py:obj:`download_file_simple <ysoisochrone.utils.download_file_simple>`
      - .. autodoc2-docstring:: ysoisochrone.utils.download_file_simple
@@ -39,6 +45,9 @@ Functions
           :summary:
    * - :py:obj:`extract_tarball <ysoisochrone.utils.extract_tarball>`
      - .. autodoc2-docstring:: ysoisochrone.utils.extract_tarball
+          :summary:
+   * - :py:obj:`load_builtin_matrix <ysoisochrone.utils.load_builtin_matrix>`
+     - .. autodoc2-docstring:: ysoisochrone.utils.load_builtin_matrix
           :summary:
    * - :py:obj:`download_baraffe_tracks <ysoisochrone.utils.download_baraffe_tracks>`
      - .. autodoc2-docstring:: ysoisochrone.utils.download_baraffe_tracks
@@ -121,10 +130,20 @@ API
 
    .. autodoc2-docstring:: ysoisochrone.utils.assign_unc_lumi
 
-.. py:function:: get_likelihood_andrews2013(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
-   :canonical: ysoisochrone.utils.get_likelihood_andrews2013
+.. py:function:: get_likelihood_p2016(logtlogl_dummy, c_logT, c_logL, sigma_logT, sigma_logL)
+   :canonical: ysoisochrone.utils.get_likelihood_p2016
 
-   .. autodoc2-docstring:: ysoisochrone.utils.get_likelihood_andrews2013
+   .. autodoc2-docstring:: ysoisochrone.utils.get_likelihood_p2016
+
+.. py:function:: _normalize_pdf(arr, method='maxone')
+   :canonical: ysoisochrone.utils._normalize_pdf
+
+   .. autodoc2-docstring:: ysoisochrone.utils._normalize_pdf
+
+.. py:function:: _eval_1d_prior_on_grid(prior_spec, x_grid, normalize='maxone', name='prior')
+   :canonical: ysoisochrone.utils._eval_1d_prior_on_grid
+
+   .. autodoc2-docstring:: ysoisochrone.utils._eval_1d_prior_on_grid
 
 .. py:function:: download_file_simple(url, save_path)
    :canonical: ysoisochrone.utils.download_file_simple
@@ -140,6 +159,11 @@ API
    :canonical: ysoisochrone.utils.extract_tarball
 
    .. autodoc2-docstring:: ysoisochrone.utils.extract_tarball
+
+.. py:function:: load_builtin_matrix(filename)
+   :canonical: ysoisochrone.utils.load_builtin_matrix
+
+   .. autodoc2-docstring:: ysoisochrone.utils.load_builtin_matrix
 
 .. py:function:: download_baraffe_tracks(save_dir='isochrones_data')
    :canonical: ysoisochrone.utils.download_baraffe_tracks

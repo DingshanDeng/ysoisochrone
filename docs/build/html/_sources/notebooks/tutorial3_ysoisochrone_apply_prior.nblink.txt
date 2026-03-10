@@ -1,0 +1,3 @@
+{
+    "path": "../../../tutorial_notebooks/tutorial3_ysoisochrone_apply_prior.ipynb"
+}
