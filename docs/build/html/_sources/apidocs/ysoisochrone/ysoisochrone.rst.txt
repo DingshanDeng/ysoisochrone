@@ -13,6 +13,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   ysoisochrone.registry
    ysoisochrone.isochrone
    ysoisochrone.plotting
    ysoisochrone.utils
@@ -28,9 +29,6 @@ Data
    :class: autosummary longtable
    :align: left
 
-   * - :py:obj:`__version__ <ysoisochrone.__version__>`
-     - .. autodoc2-docstring:: ysoisochrone.__version__
-          :summary:
    * - :py:obj:`__author__ <ysoisochrone.__author__>`
      - .. autodoc2-docstring:: ysoisochrone.__author__
           :summary:
@@ -43,12 +41,6 @@ Data
 
 API
 ~~~
-
-.. py:data:: __version__
-   :canonical: ysoisochrone.__version__
-   :value: '0.1.0.alpha'
-
-   .. autodoc2-docstring:: ysoisochrone.__version__
 
 .. py:data:: __author__
    :canonical: ysoisochrone.__author__
@@ -64,6 +56,6 @@ API
 
 .. py:data:: __all__
    :canonical: ysoisochrone.__all__
-   :value: ['isochrone', 'bayesian', 'plotting', 'utils']
+   :value: ['isochrone', 'bayesian', 'plotting', 'utils', 'registry']
 
    .. autodoc2-docstring:: ysoisochrone.__all__

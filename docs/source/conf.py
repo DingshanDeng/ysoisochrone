@@ -11,6 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
 import os
+import re
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
@@ -18,9 +19,17 @@ sys.path.insert(0, os.path.abspath('..'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'ysoisochrone'
-copyright = '2024-2025, Dingshan Deng'
+copyright = '2024-2026, Dingshan Deng'
 author = 'Dingshan Deng'
-release = '1.1.0'
+
+# Read version directly from pyproject.toml — works without installing the package
+_pyproject = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../pyproject.toml'))
+try:
+    with open(_pyproject) as _f:
+        _match = re.search(r'^version\s*=\s*"([^"]+)"', _f.read(), re.MULTILINE)
+    release = _match.group(1) if _match else 'unknown'
+except Exception:
+    release = 'unknown'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -37,6 +46,7 @@ extensions = [
   'sphinx.ext.napoleon',
   'sphinx.ext.imgmath',
   'nbsphinx',
+  'nbsphinx_link',
   'IPython.sphinxext.ipython_console_highlighting',
 ]
 master_doc = 'index'
@@ -85,13 +95,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints', 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-# Readthedocs.
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-if not on_rtd:
-    import sphinx_rtd_theme
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'furo'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

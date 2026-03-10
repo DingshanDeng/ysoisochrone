@@ -1,7 +1,8 @@
-sphinx_rtd_theme
+furo
 myst_parser
 sphinx-design
 sphinx-autodoc2
 nbsphinx
+nbsphinx-link
 ipykernel
 linkify-it-py
