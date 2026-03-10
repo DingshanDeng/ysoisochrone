@@ -1,4 +1,4 @@
-sphinx_rtd_theme
+furo
 myst_parser
 sphinx-design
 sphinx-autodoc2
