@@ -1,4 +1,4 @@
-# The available stellar evolutionary models
+# Available Stellar Evolutionary Models
 
 The young stellar objects (pre-main-sequence) evolutionary tracks mainly include the ones from the following works.
 The code can download and format the stellar evolutionary tracks from public repositories and websites. 
