@@ -261,7 +261,7 @@ def download_file(url, save_path):
     if response.status_code == 200:
         # Customize the progress bar display
         with open(save_path, 'wb') as f, tqdm(
-            desc=f"Downloading",
+            desc="Downloading",
             total=total_size,
             unit='B',
             unit_scale=True,

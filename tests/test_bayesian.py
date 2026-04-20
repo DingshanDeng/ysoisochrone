@@ -4,11 +4,8 @@
 # contact: dingshandeng@arizona.edu
 # created: 01/14/2025
 
-import pytest
-import os
 import numpy as np
-import pandas as pd
-from ysoisochrone.bayesian import bayesian_mass_age, derive_stellar_mass_age
+from ysoisochrone.bayesian import bayesian_mass_age
 
 # NumPy compat: trapezoid (new) vs trapz (old)
 try:

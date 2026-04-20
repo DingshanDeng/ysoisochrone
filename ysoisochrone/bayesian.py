@@ -951,13 +951,13 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
             isochrone.set_tracks(model.lower())
             
             if verbose:
-                print(f'Adopted the %s track.'%(model))
+                print('Adopted the %s track.'%(model))
                 
         elif model.lower() == 'customize':
             isochrone.set_tracks('customize', load_file=isochrone_mat_file)
             
             if verbose:
-                print(f'Adopted the customize track from %s.'%(isochrone_mat_file))
+                print('Adopted the customize track from %s.'%(isochrone_mat_file))
                 
         else:
             raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
