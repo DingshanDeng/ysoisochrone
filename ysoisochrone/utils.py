@@ -76,7 +76,7 @@ def assign_unc_teff(teff_ar, sigma_logT_set=None):
     """
     err_teff_ar = np.ones(len(teff_ar)) * np.nan 
     for ii, T_this in enumerate(teff_ar):
-        if sigma_logT_set == None:
+        if sigma_logT_set is None:
             sigma_logT = 0.02 if T_this > 3420.0 else 0.01  # Uncertainty for Teff
         else:
             sigma_logT == sigma_logT_set
@@ -100,7 +100,7 @@ def assign_unc_lumi(lumi_ar, sigma_logL_set=None):
             the array of luminosity
     """
     err_lumi_ar = np.ones(len(lumi_ar)) * np.nan
-    if sigma_logL_set == None:
+    if sigma_logL_set is None:
         sigma_logL = 0.1
     else:
         sigma_logL = sigma_logL_set
@@ -201,7 +201,8 @@ def _eval_1d_prior_on_grid(prior_spec, x_grid, normalize='maxone', name='prior')
             raise ValueError(f"{name}: 'grid' must be strictly monotonic for interpolation.")
         # If decreasing, flip
         if g[0] > g[-1]:
-            g = g[::-1]; p = p[::-1]
+            g = g[::-1]
+            p = p[::-1]
         p = np.clip(p, 0.0, np.inf)
 
         extrap = prior_spec.get('extrapolate', 'edge')
@@ -261,7 +262,7 @@ def download_file(url, save_path):
     if response.status_code == 200:
         # Customize the progress bar display
         with open(save_path, 'wb') as f, tqdm(
-            desc=f"Downloading",
+            desc="Downloading",
             total=total_size,
             unit='B',
             unit_scale=True,
@@ -1469,7 +1470,7 @@ def find_zams_index(teff_track, lum_track, age_track, massive_stars=True, log_ag
             percentile = np.percentile(np.abs(dlum_dage_sm_agemax_preset), 5)
             # Get the indices of the values that are less than or equal to the percentile
             idx_age_max = int(np.percentile(np.where(np.abs(dlum_dage_sm_agemax_preset) <= percentile)[0], 5))
-            age_max = age_track[idx_age_max]
+            # age_max = age_track[idx_age_max] # age_max is not used for now
             
             teff_track_part = teff_track[:idx_age_max]
             # find the tip of with maximum teff
@@ -1497,10 +1498,10 @@ def find_zams_index(teff_track, lum_track, age_track, massive_stars=True, log_ag
                 # (finding the tip of Henyey track)
                 if (delta_lum[j-1] < 0) and (delta_lum[j] > 0) and \
                     (delta_teff[j-1] < 0) and (delta_teff[j] > 0):
-                    zams_idx_t = j
+                    zams_idx = j
                     break
                 if j <= idx_j2:
-                    zams_idx_t = idx_j1
+                    zams_idx = idx_j1
                     print('using the tip of the Teff as the ZAMS point')
                     break
     

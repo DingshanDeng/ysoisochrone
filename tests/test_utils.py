@@ -7,7 +7,6 @@
 # import pytest
 # import requests
 import os
-from ysoisochrone.utils import download_baraffe_tracks, read_baraffe_file
 
 def test_download_baraffe_tracks(monkeypatch, tmp_path):
     import ysoisochrone.utils as utils
