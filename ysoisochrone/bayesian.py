@@ -161,7 +161,8 @@ def bayesian_mass_age(log_age_dummy, log_masses_dummy, L, plot=False, source=Non
     L_mass /= simpson(L_mass, x=log_masses_dummy)
     
     best_mass_idx = np.argmax(L_mass)
-    best_log_mass = best_mass = log_masses_dummy[best_mass_idx]
+    # best_log_mass = 
+    best_mass = log_masses_dummy[best_mass_idx]
     
     # # earler version: find the closest index
     # L_mass_array = np.cumsum(L_mass) / np.sum(L_mass)

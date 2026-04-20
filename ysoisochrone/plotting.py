@@ -11,6 +11,9 @@ import os
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 
+from ysoisochrone import utils
+from ysoisochrone import isochrone
+
 # style = [
 #     'seaborn-ticks',
 #     {
@@ -39,9 +42,6 @@ style = [
     'mathtext.fontset': 'cm'
     }]
 plt.style.use(style)
-
-from ysoisochrone import utils
-from ysoisochrone import isochrone
 
 def plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mass, age_unc, mass_unc, source=None, save_fig=False, fig_save_dir='figure', customized_fig_name='', color_bestfit='red', color_likelihood='blue', cmap_likelihood='viridis'):
     """
@@ -211,7 +211,8 @@ def plot_bayesian_results(log_age_dummy, log_masses_dummy, L, best_age, best_mas
             os.makedirs(fig_save_dir)
         if customized_fig_name == '':
             fig_file = os.path.join(fig_save_dir, f'lfunc_age_mass_{source}.png')
-        else: fig_file = customized_fig_name
+        else: 
+            fig_file = customized_fig_name
         plt.savefig(fig_file, dpi=300, bbox_inches='tight', pad_inches=0.1)
 
     plt.show()
@@ -358,7 +359,7 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
         teff = teff_err = luminosity = luminosity_err = None
 
     # Plot HR diagram
-    if ax_set == None:
+    if ax_set is None:
         fig, ax = plt.subplots(figsize=(8, 6))
     else:
         ax = ax_set
@@ -366,8 +367,10 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
     # Plot stars with error bars if df_prop is not None or empty
     if teff is not None and luminosity is not None:
         if teff_err is not None and luminosity_err is not None:
-            if bool_labels: label_t='stars'
-            else: label_t = None
+            if bool_labels: 
+                label_t='stars'
+            else: 
+                label_t = None
             ax.errorbar(teff, luminosity, xerr=teff_err, yerr=luminosity_err, fmt='o', color=color_stars, label=label_t, alpha=0.7)
         else:
             ax.scatter(teff, luminosity, color=color_stars)
@@ -381,8 +384,10 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
             lum_zams  = lum_zams[mask_teff_limit]
         
         # Plot ZAMS curve
-        if bool_labels: label_t='ZAMS'
-        else: label_t = None
+        if bool_labels: 
+            label_t='ZAMS'
+        else: 
+            label_t = None
         ax.plot(teff_zams, lum_zams, color=color_zams, linestyle=linestyle_zams, label=label_t)    
 
     # Convert isochrone logtlogl data to Teff and L/Lo
@@ -390,18 +395,20 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
     lum_iso = 10**isochrone.logtlogl[:, :, 1]   # L/Lo
 
     # First, set the limits based on the data (df_prop) or isochrones
-    if xlim_set == None:
+    if xlim_set is None:
         if teff is not None:
             xlim = [np.nanmax(teff) + 100, np.nanmin(teff) - 100]
         else:
             xlim = [np.nanmax(teff_iso), np.nanmin(teff_iso)]
-    else: xlim = xlim_set
-    if ylim_set == None:
+    else: 
+        xlim = xlim_set
+    if ylim_set is None:
         if luminosity is not None:
             ylim = [np.nanmin(luminosity) * 0.3, np.nanmax(luminosity) * 3.0]
         else:
             ylim = [np.nanmin(lum_iso), np.nanmax(lum_iso)]
-    else: ylim = ylim_set
+    else: 
+        ylim = ylim_set
 
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
@@ -530,7 +537,7 @@ def plot_hr_diagram(isochrone, df_prop=None, ax_set=None,
         ax.legend(loc='upper left', bbox_to_anchor=[1.0, 1.0])
 
     # Show plot
-    if ax_set == None:
+    if ax_set is None:
         plt.show()
 
     return 1
@@ -605,7 +612,7 @@ def simple_plot_hr_diagram_feiden_n_baraffe(df_prop=None, ax_set=None):
     masses_to_plot_b = [0.05, 0.1, 0.2, 0.3, 0.4]
 
     # Create the figure and axes
-    if ax_set == None:
+    if ax_set is None:
         fig, axes = plt.subplots(figsize=(8, 6))
     else:
         axes = ax_set
