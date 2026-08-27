@@ -42,10 +42,21 @@ See the GitHub page from the author: https://github.com/gfeiden/MagneticUpperSco
 keyword: `parsec` or `parsec_v2p0` for PARSEC v2.0; `parsec_v1p2` for PARSEC v1.2.
 
 The **PA**dova T**R**ieste **S**tellar **E**volutionary **C**ode. 
-See their website for details and references: http://stev.oapd.inaf.it/PARSEC/index.html
+See their website for details and references: https://stev.oapd.inaf.it/PARSEC/index.html
 
 We provide the option to use their newest version 2.0, and legacy version 1.2 tracks. 
 By default, we adopt the tracks with solar metallicity, and do not include rotations.
+
+**Since v1.2.0**, `parsec` / `parsec_v2p0` uses the PARSEC v2.0 **2025** release
+([Nguyen et al. 2025](https://ui.adsabs.harvard.edu/abs/2025A%26A...701A.258N/abstract)).
+The older 2022 archive has been discontinued by the PARSEC team and is no longer
+downloadable from their server; the grid built from it is still shipped with the package
+and can be selected with `parsec_v2p0_2022` for reproducibility of earlier results.
+Our benchmarking indicates that the choice between the 2022 and 2025 grids has only a minor
+effect on the inferred stellar properties, well within typical uncertainties — but you are
+encouraged to test this on your own sample if it matters. Questions about the tracks
+themselves, or about the discontinued 2022 archive, should go to the PARSEC team
+(https://stev.oapd.inaf.it/PARSEC/), not the `ysoisochrone` maintainers.
 
 ## MIST
 

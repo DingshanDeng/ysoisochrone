@@ -7,6 +7,7 @@
 import os
 import pytest
 from ysoisochrone.isochrone import Isochrone
+from ysoisochrone import registry
 
 @pytest.fixture
 def isochrone():
@@ -50,4 +51,30 @@ def test_prepare_baraffe_tracks(isochrone, monkeypatch):
     # Call the method
     result = isochrone.prepare_baraffe_tracks()
     assert result == 1, "prepare_baraffe_tracks did not return 1."
-    
+
+
+def test_parsec_v2p0_name_resolution():
+    """PARSEC v2.0 aliases resolve to the expected canonical keys (v1.2.0)."""
+    assert registry.normalize_track_name("parsec") == "parsec_v2p0"
+    assert registry.normalize_track_name("parsec_v2p0") == "parsec_v2p0"
+    assert registry.normalize_track_name("parsec_2022") == "parsec_v2p0_2022"
+    assert registry.normalize_track_name("parsec_v2.0_2022") == "parsec_v2p0_2022"
+
+
+def test_parsec_v2p0_builtin_grids_load():
+    """Both the default (2025) and the frozen 2022 PARSEC v2.0 built-in grids load offline."""
+    iso = Isochrone()
+    iso.set_tracks("parsec")
+    assert iso.track_type == "parsec_v2p0"
+    assert iso.masses is not None and iso.log_age is not None and iso.logtlogl is not None
+    assert iso.logtlogl.shape == (iso.log_age.size, iso.masses.size, 2)
+
+    iso2022 = Isochrone()
+    iso2022.set_tracks("parsec_v2p0_2022")
+    assert iso2022.track_type == "parsec_v2p0_2022"
+    assert iso2022.masses is not None and iso2022.log_age is not None and iso2022.logtlogl is not None
+
+    # a user directory cannot rebuild the discontinued 2022 archive
+    with pytest.raises(ValueError):
+        Isochrone(data_dir="mock_data").load_parsecv2p0_2022_tracks()
+

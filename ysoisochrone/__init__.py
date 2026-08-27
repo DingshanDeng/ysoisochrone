@@ -1,5 +1,5 @@
 """
- ysoisochrone v1.1.5
+ ysoisochrone v1.2.0
  Dingshan Deng, Sep 2024 - Aug 2026
 """
 
