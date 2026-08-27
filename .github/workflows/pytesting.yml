@@ -31,7 +31,7 @@ jobs:
       - name: Lint with ruff
         run: |
           pip install ruff
-          ruff check ysoisochrone/ tests/
+          ruff check ysoisochrone/ tests/ --select E4,E7,E9,F
 
       # Run pytest
       - name: Run tests
