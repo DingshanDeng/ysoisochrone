@@ -47,19 +47,21 @@ class Isochrone:
             # Use packaged built-in grids
             self.use_builtin = True
             self.data_dir = None          # Don't point to a local folder
-            print("using the built in isochrones")
-            print("-----------------------")
         else:
             # User-specified directory
             self.use_builtin = False
             self.data_dir = data_dir
-            print("using the user-specified isochrones inside")
-            print("%s"%(self.data_dir))
-            print("-----------------------")
 
         self.log_age = None
         self.masses = None
         self.logtlogl = None
+        self.track_type = None            # canonical name of the last set_tracks() call
+
+    def grid_source_phrase(self):
+        """Human-readable description of where the active grid was loaded from."""
+        if self.use_builtin:
+            return "using the built-in isochrones"
+        return f"using the isochrones in {self.data_dir}"
 
     def prepare_baraffe_tracks(self):
         """
@@ -214,7 +216,9 @@ class Isochrone:
 
         # Check if the original data file exists, download if necessary
         print('please make sure all the iso tracks for all the ages you are interested in are in the file dir, this code will not automatically check you included all of your tracks')
-        if not os.path.exists(os.path.join(input_file_dir, 'VAR_ROT0.00_SH_Z0.014_Y0.273.zip')):
+        # Note: download_parsec_v2p0_tracks() saves the archive as 'PARSECv2p0_tracks.zip'
+        # (see utils.py), so the existence check must use that name.
+        if not os.path.exists(os.path.join(input_file_dir, 'PARSECv2p0_tracks.zip')):
             print(f"File not found: {input_file_dir}. Downloading the file.")
             utils.download_parsec_v2p0_tracks(save_dir=self.data_dir)
 
@@ -439,13 +443,19 @@ class Isochrone:
             Log T and Log L values from the PARSEC v1.2 tracks.
         """
         
-        input_file = os.path.join(self.data_dir, 'PARSECv1p2_AgeMassGrid_YSO_matrix.mat')
-        # Check if the original data file exists, download if necessary
-        if not os.path.exists(input_file):
-            self.prepare_parsecv1p2_tracks()
-            
-        data = scipy.io.loadmat(input_file)
-        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('PARSECv1p2_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory
+        else:
+            input_file = os.path.join(self.data_dir, 'PARSECv1p2_AgeMassGrid_YSO_matrix.mat')
+            # Check if the original data file exists, download if necessary
+            if not os.path.exists(input_file):
+                self.prepare_parsecv1p2_tracks()
+
+            data = scipy.io.loadmat(input_file)
+
         self.masses = data['mass'][0]
         self.log_age = data['log_age'][0]
         self.logtlogl = data['logt_logl']
@@ -468,13 +478,19 @@ class Isochrone:
             Log T and Log L values from the PARSEC v2.0 tracks.
         """
         
-        input_file = os.path.join(self.data_dir, 'PARSECv2p0_AgeMassGrid_YSO_matrix.mat')
-        # Check if the original data file exists, download if necessary
-        if not os.path.exists(input_file):
-            self.prepare_parsecv2p0_tracks()
-            
-        data = scipy.io.loadmat(input_file)
-        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('PARSECv2p0_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory
+        else:
+            input_file = os.path.join(self.data_dir, 'PARSECv2p0_AgeMassGrid_YSO_matrix.mat')
+            # Check if the original data file exists, download if necessary
+            if not os.path.exists(input_file):
+                self.prepare_parsecv2p0_tracks()
+
+            data = scipy.io.loadmat(input_file)
+
         self.masses = data['mass'][0]
         self.log_age = data['log_age'][0]
         self.logtlogl = data['logt_logl']
@@ -497,13 +513,19 @@ class Isochrone:
             Log T and Log L values from the MIST v1.2 tracks.
         """
         
-        input_file = os.path.join(self.data_dir, 'MIST_v1p2_AgeMassGrid_YSO_matrix.mat')
-        # Check if the original data file exists, download if necessary
-        if not os.path.exists(input_file):
-            self.prepare_mistv1p2_tracks()
-            
-        data = scipy.io.loadmat(input_file)
-        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('MIST_v1p2_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory
+        else:
+            input_file = os.path.join(self.data_dir, 'MIST_v1p2_AgeMassGrid_YSO_matrix.mat')
+            # Check if the original data file exists, download if necessary
+            if not os.path.exists(input_file):
+                self.prepare_mistv1p2_tracks()
+
+            data = scipy.io.loadmat(input_file)
+
         self.masses = data['mass'][0]
         self.log_age = data['log_age'][0]
         self.logtlogl = data['logt_logl']
@@ -993,6 +1015,7 @@ class Isochrone:
             "parsec_v1p2": self.load_parsecv1p2_tracks,
             "mist_v1p2": self.load_mistv1p2_tracks,
             "siess2000": self.load_siess2000_tracks,
+            "spots0000": self.load_spots0000_tracks,
             "spots0169": self.load_spots0169_tracks,
             "spots0339": self.load_spots0339_tracks,
             "spots0508": self.load_spots0508_tracks,
@@ -1009,16 +1032,20 @@ class Isochrone:
                     + " (You did not pass load_file=...)"
                 )
             self.load_tracks_from_customize_matrix(load_file)
+            self.track_type = "customize"
             if verbose:
                 print("Using the user-specified isochrone matrix of")
                 print(f"{load_file}")
+                print(self.grid_source_phrase())
             return 1
 
         # dispatch
         try:
             loaders[canonical]()
+            self.track_type = canonical
             if verbose:
                 print(f"Isochrone tracks set to '{canonical}'.")
+                print(self.grid_source_phrase())
         except KeyError:
             # Should never happen if registry + loaders stay consistent,
             # but gives a clean error if you forget to add a loader.
