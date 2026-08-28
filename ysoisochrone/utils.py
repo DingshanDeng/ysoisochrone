@@ -850,17 +850,25 @@ def download_parsec_v2p0_tracks(save_dir='isochrones_data'):
     """
     Downloads the PARSEC v2.0 tracks zip file and extracts it to the given directory.
 
+    As of ysoisochrone v1.2.0 this points at the PARSEC v2.0 *2025* release
+    (PARSECv2.0_ROT_2025, non-rotating, solar metallicity Z=0.014). The older 2022
+    archive (PARSECv2.0/) was removed from the PARSEC server; the grid built from it is
+    still shipped with the package as 'PARSECv2p0_2022_AgeMassGrid_YSO_builtin_matrix.mat'
+    and reachable via set_tracks('parsec_v2p0_2022').
+
     Args:
-    
+
         save_dir: [str, optional]
             The directory where the files should be saved. Defaults to 'isochrones_data/PARSECv2p0'.
 
     Output:
-    
+
         Downloads the PARSEC v2.0 zip file from the specified URL, saves it, and extracts its contents.
     """
-    # Define the URL for the PARSEC v2.0 zip file
-    url = 'http://stev.oapd.inaf.it/PARSEC/Database/PARSECv2.0/VAR_ROT0.00_SH_Z0.014_Y0.273.zip'
+    # Define the URL for the PARSEC v2.0 (2025 release) zip file.
+    # The 2025 archive extracts *flat* (the *.TAB / *.TAB.HB track files land directly in
+    # the target directory, with no VAR_ROT0.00_SH_Z0.014_Y0.273/ subfolder).
+    url = 'https://stev.oapd.inaf.it/PARSEC/Database/PARSECv2.0_ROT_2025/VAR_ROT0.00_SH_Z0.014_Y0.273.zip'
 
     # Create the target directory if it doesn't exist
     parsec_dir = os.path.join(save_dir, 'PARSECv2p0')
@@ -898,7 +906,11 @@ def download_parsec_v2p0_tracks(save_dir='isochrones_data'):
         raise ValueError(f"An error occurred while extracting the zip file: {e}")
     
     print(f"All PARSECv2p0 tracks downloaded and extracted in {parsec_dir}")
-    print("If you use the PARSEC tracks, please refer to the appropriate papers: https://ui.adsabs.harvard.edu/abs/2012MNRAS.427..127B/abstract and https://ui.adsabs.harvard.edu/abs/2022arXiv220708642N/abstract as well as the citations mentioned on their webpage: http://stev.oapd.inaf.it/PARSEC/tracks_v2.html")
+    print("If you use the PARSEC tracks, please refer to the appropriate papers: "
+          "https://ui.adsabs.harvard.edu/abs/2012MNRAS.427..127B/abstract, "
+          "https://ui.adsabs.harvard.edu/abs/2022A%26A...665A.126N/abstract and "
+          "https://ui.adsabs.harvard.edu/abs/2025A%26A...701A.258N/abstract, as well as the "
+          "citations mentioned on their webpage: https://stev.oapd.inaf.it/PARSEC/")
     
     # Optionally, you can remove the zip file after extraction to save space
     # os.remove(zip_file_path)
@@ -909,68 +921,75 @@ def download_parsec_v2p0_tracks(save_dir='isochrones_data'):
 
 def read_parsec_v2p0_tab_file(parsec_dir):
     """
-    Reads all the PARSECv2.0 track files (*.TAB) in the given directory, extracts the mass, age, and stellar parameters (log(Teff), log(L)).
-    Organizes the data into numpy arrays.
+    Reads all the PARSEC v2.0 (2025 release) track files (``*.TAB``) in the given directory
+    and extracts mass, age and the stellar parameters log(Teff) and log(L/Lo).
+
+    The 2025 archive has a single column-name header line per file and comes in two
+    sub-layouts that differ in column order:
+
+    * new PARSEC v2.0 tracks (M >~ 0.7 Msun): ``MASS AGE DTIME LOG_L LOG_TE RSTAR ...``
+    * very-low-mass tracks re-used from PARSEC v1.2s (M <~ 0.7 Msun):
+      ``MASS AGE LOG_L LOG_TE LOG_R ...`` (no ``DTIME`` column)
+
+    To stay robust to both, the ``MASS`` / ``AGE`` / ``LOG_L`` / ``LOG_TE`` column indices
+    are resolved from each file's own header rather than assumed. Files ending in
+    ``.TAB.HB`` (Horizontal-Branch tracks) are skipped because ``.TAB.HB`` does not end
+    with ``.TAB``.
 
     Args:
-    
+
         parsec_dir: [str]
-            Directory where the PARSECv2.0 track files are stored.
+            Directory where the PARSEC v2.0 track files are stored.
 
     Returns:
-    
-        data_points: [list]
-            List of [mass, log_age, Teff, log(L/Lo)] for each star across all .TAB files.
+
+        data_points: [np.ndarray]
+            Array of [mass, log_age, Teff, log(L/Lo)] for each point across all .TAB files.
     """
-    
+
+    needed = ('MASS', 'AGE', 'LOG_L', 'LOG_TE')
+
     # Initialize list to store data points
     data_points = []
 
-    # Iterate over all files ending with '.TAB' in the directory
+    # Iterate over the track files (exact '.TAB' extension -> excludes '.TAB.HB')
     for file_name in os.listdir(parsec_dir):
-        if file_name.endswith('.TAB') and file_name[0] != '.':
-            file_path = os.path.join(parsec_dir, file_name)
+        if not file_name.endswith('.TAB') or file_name.startswith('.'):
+            continue
+        file_path = os.path.join(parsec_dir, file_name)
 
-            # Open the file and read its contents
-            with open(file_path, 'r') as f:
-                mass = None  # To store the mass extracted from the data
-                log_age_value = None  # To store the log age for each entry
+        with open(file_path, 'r') as f:
+            header = f.readline().split()
+            try:
+                i_mass, i_age, i_logl, i_logteff = (header.index(k) for k in needed)
+            except ValueError:
+                # Header without the expected column names -> skip this file
+                continue
+            min_cols = max(i_mass, i_age, i_logl, i_logteff) + 1
 
-                # Read lines from the 6th line onward
-                for line_num, line in enumerate(f):
-                    if line_num < 5:
-                        continue  # Skip lines before line 6
-                    
-                    # Skip header lines
-                    if line.startswith('BEGIN TRACK') or line.startswith(' MODE'):
-                        continue
+            for line in f:
+                parts = line.split()
+                if len(parts) < min_cols:
+                    continue
+                try:
+                    mass = float(parts[i_mass])          # Mass in solar masses
+                    age = float(parts[i_age])            # Age in years
+                    log_l = float(parts[i_logl])         # log(L/Lo)
+                    log_teff = float(parts[i_logteff])   # log(Teff)
+                except ValueError:
+                    # Non-numeric line (e.g. a repeated header) -> skip
+                    continue
 
-                    # Split the line by whitespace
-                    parts = line.split()
-                    if len(parts) >= 6:
-                        try:
-                            # Extract the stellar parameters
-                            mass = float(parts[1])      # Mass in solar masses
-                            age = float(parts[2])       # Age in years
-                            log_l = float(parts[4])     # log(L/Lo)
-                            log_teff = float(parts[5])  # log(Teff)
+                if age == 0.0:
+                    # Skip entries with zero age
+                    continue
 
-                            if age == 0.0:
-                                # Skip entries with zero age
-                                continue
-                            
-                            # Convert age to log(age)
-                            log_age_value = np.log10(age)
+                # Convert age to log(age); convert log Teff back to Teff
+                log_age_value = np.log10(age)
+                teff = 10**log_teff
 
-                            # Convert log Teff to Teff
-                            teff = 10**log_teff
-
-                            # Append the data point: [mass, log_age, Teff, log(L/Lo)]
-                            data_points.append([mass, log_age_value, teff, log_l])
-
-                        except ValueError:
-                            # Skip lines that do not contain valid data
-                            continue
+                # Append the data point: [mass, log_age, Teff, log(L/Lo)]
+                data_points.append([mass, log_age_value, teff, log_l])
 
     # Convert data_points to a numpy array for easy manipulation
     data_points = np.array(data_points)

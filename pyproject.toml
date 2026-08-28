@@ -3,7 +3,7 @@ requires = ["setuptools >= 61.0"]
 
 [project]
 name = "ysoisochrone"
-version = "1.1.4"
+version = "1.2.0"
 authors = [
   { name="Dingshan Deng", email="dingshandeng@arizona.edu" },
 ]
@@ -41,3 +41,16 @@ include-package-data = true
 [tool.setuptools.packages.find]
 include = ["ysoisochrone*"]
 exclude = ["paper*", "tutorial_notebooks*"]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 120  # informational: E501 is not in the selected rule set below
+extend-exclude = ["docs", "tutorial_notebooks", "paper"]
+
+[tool.ruff.lint]
+# Pin the rule set to ruff's historical default (E4/E7/E9/F), which the codebase
+# already satisfies. Recent ruff releases expanded their built-in defaults
+# (I, UP, SIM, B, PL, RUF, ...), and with an unpinned `pip install ruff` in CI
+# that silently turned ~80 new findings into a lint failure on unchanged code.
+# Adopting any of those rule groups is a separate, deliberate cleanup.
+select = ["E4", "E7", "E9", "F"]

@@ -1,6 +1,6 @@
 """
- ysoisochrone v1.1.1
- Dingshan Deng, Sep 2024 - Jan 2026
+ ysoisochrone v1.2.0
+ Dingshan Deng, Sep 2024 - Aug 2026
 """
 
 # from . import constants

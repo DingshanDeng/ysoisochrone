@@ -2,7 +2,7 @@
 
 The young stellar objects (pre-main-sequence) evolutionary tracks mainly include the ones from the following works.
 The code can download and format the stellar evolutionary tracks from public repositories and websites. 
-Customized stellar evolutionary tracks can also be used, but they need to be formatted to the required matrix format by the user (see [use your own isochrone](./notebooks/ysoisochrone_customize_isochrone.ipynb) for more details).
+Customized stellar evolutionary tracks can also be used, but they need to be formatted to the required matrix format by the user (see {doc}`use your own isochrone <notebooks/tutorial2_ysoisochrone_customize_isochrone>` for more details).
 
 For the moment being, this package is meant to be used to study young stellar objects. In other words, it only utilizes the stellar evolutionary tracks for pre-main-sequence stars, avoiding the problem of dealing with main-sequence and post-main-sequence targets (whose luminosity rises again and will overlay on the pre-main-sequence phase). 
 This method could also be expanded to use on the main-sequence stars (e.g., [Fernandes et al. 2023](https://ui.adsabs.harvard.edu/abs/2023AJ....166..175F/abstract)), but user-specified customized stellar evolutionary tracks are needed for now, and this function will be included in the future releases.
@@ -42,10 +42,18 @@ See the GitHub page from the author: https://github.com/gfeiden/MagneticUpperSco
 keyword: `parsec` or `parsec_v2p0` for PARSEC v2.0; `parsec_v1p2` for PARSEC v1.2.
 
 The **PA**dova T**R**ieste **S**tellar **E**volutionary **C**ode. 
-See their website for details and references: http://stev.oapd.inaf.it/PARSEC/index.html
+See their website for details and references: https://stev.oapd.inaf.it/PARSEC/index.html
 
 We provide the option to use their newest version 2.0, and legacy version 1.2 tracks. 
 By default, we adopt the tracks with solar metallicity, and do not include rotations.
+
+**Since v1.2.0**, `parsec` / `parsec_v2p0` uses the PARSEC v2.0 **2025** release
+([Nguyen et al. 2025](https://ui.adsabs.harvard.edu/abs/2025A%26A...701A.258N/abstract)).
+The 2022 archive is no longer downloadable from the PARSEC server; the grid built from it
+is still shipped with the package and can be selected with `parsec_v2p0_2022` for
+reproducing results from `ysoisochrone` < 1.2.0. Questions about the tracks themselves, or
+about the 2022 archive, should go to the PARSEC team (https://stev.oapd.inaf.it/PARSEC/),
+not the `ysoisochrone` maintainers.
 
 ## MIST
 

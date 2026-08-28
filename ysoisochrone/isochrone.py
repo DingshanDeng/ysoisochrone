@@ -30,6 +30,10 @@ class Isochrone:
             Array of log(T) and log(L) values for the evolutionary tracks.
     """
 
+    # Printed once per Python session the first time the PARSEC v2.0 grid is loaded, so
+    # users know the default changed to the 2025 release without spamming derive_* loops.
+    _parsec_v2p0_release_notice_shown = False
+
     def __init__(self, data_dir=None):
         """
         Initialize Isochrone object.
@@ -47,19 +51,21 @@ class Isochrone:
             # Use packaged built-in grids
             self.use_builtin = True
             self.data_dir = None          # Don't point to a local folder
-            print("using the built in isochrones")
-            print("-----------------------")
         else:
             # User-specified directory
             self.use_builtin = False
             self.data_dir = data_dir
-            print("using the user-specified isochrones inside")
-            print("%s"%(self.data_dir))
-            print("-----------------------")
 
         self.log_age = None
         self.masses = None
         self.logtlogl = None
+        self.track_type = None            # canonical name of the last set_tracks() call
+
+    def grid_source_phrase(self):
+        """Human-readable description of where the active grid was loaded from."""
+        if self.use_builtin:
+            return "using the built-in isochrones"
+        return f"using the isochrones in {self.data_dir}"
 
     def prepare_baraffe_tracks(self):
         """
@@ -190,8 +196,8 @@ class Isochrone:
     
     def prepare_parsecv2p0_tracks(self):
         """
-        Prepares the PARSEC v2.0 tracks file by downloading it if necessary, reading the data,
-        interpolating it into a meshgrid, and saving it as a .mat file.
+        Prepares the PARSEC v2.0 (2025 release) tracks file by downloading it if necessary,
+        reading the data, interpolating it into a meshgrid, and saving it as a .mat file.
 
         The method:
         1. Checks if the PARSEC v2.0 tracks file exists in the data directory.
@@ -214,12 +220,15 @@ class Isochrone:
 
         # Check if the original data file exists, download if necessary
         print('please make sure all the iso tracks for all the ages you are interested in are in the file dir, this code will not automatically check you included all of your tracks')
-        if not os.path.exists(os.path.join(input_file_dir, 'VAR_ROT0.00_SH_Z0.014_Y0.273.zip')):
+        # Note: download_parsec_v2p0_tracks() saves the archive as 'PARSECv2p0_tracks.zip'
+        # (see utils.py), so the existence check must use that name.
+        if not os.path.exists(os.path.join(input_file_dir, 'PARSECv2p0_tracks.zip')):
             print(f"File not found: {input_file_dir}. Downloading the file.")
             utils.download_parsec_v2p0_tracks(save_dir=self.data_dir)
 
-        # Read the original tracks file
-        data_points = utils.read_parsec_v2p0_tab_file(os.path.join(input_file_dir, 'VAR_ROT0.00_SH_Z0.014_Y0.273'))
+        # Read the original tracks file. The 2025 archive extracts flat, so the *.TAB
+        # files sit directly in input_file_dir (no VAR_ROT0.00_SH_Z0.014_Y0.273/ subdir).
+        data_points = utils.read_parsec_v2p0_tab_file(input_file_dir)
 
         # Create meshgrid and interpolate the data onto the grid
         masses_i, log_age_i, logtlogl_grid, _, _ = utils.create_meshgrid(data_points)
@@ -439,13 +448,19 @@ class Isochrone:
             Log T and Log L values from the PARSEC v1.2 tracks.
         """
         
-        input_file = os.path.join(self.data_dir, 'PARSECv1p2_AgeMassGrid_YSO_matrix.mat')
-        # Check if the original data file exists, download if necessary
-        if not os.path.exists(input_file):
-            self.prepare_parsecv1p2_tracks()
-            
-        data = scipy.io.loadmat(input_file)
-        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('PARSECv1p2_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory
+        else:
+            input_file = os.path.join(self.data_dir, 'PARSECv1p2_AgeMassGrid_YSO_matrix.mat')
+            # Check if the original data file exists, download if necessary
+            if not os.path.exists(input_file):
+                self.prepare_parsecv1p2_tracks()
+
+            data = scipy.io.loadmat(input_file)
+
         self.masses = data['mass'][0]
         self.log_age = data['log_age'][0]
         self.logtlogl = data['logt_logl']
@@ -454,12 +469,16 @@ class Isochrone:
     
     def load_parsecv2p0_tracks(self):
         """
-        Load PARSEC v2.0 isochrone tracks from .sav file and set log_age, masses, and logtlogl.
+        Load PARSEC v2.0 isochrone tracks and set log_age, masses, and logtlogl.
+
+        Since ysoisochrone v1.2.0 the built-in PARSEC v2.0 grid is built from the PARSEC
+        v2.0 *2025* release (non-rotating, solar metallicity Z=0.014). The grid built from
+        the older 2022 archive is still available via ``set_tracks('parsec_v2p0_2022')``.
 
         Output:
-        
+
         Sets:
-        
+
         log_age: [array]
             Log age values from the PARSEC v2.0 tracks.
         masses: [array]
@@ -467,20 +486,76 @@ class Isochrone:
         logtlogl: [array]
             Log T and Log L values from the PARSEC v2.0 tracks.
         """
-        
-        input_file = os.path.join(self.data_dir, 'PARSECv2p0_AgeMassGrid_YSO_matrix.mat')
-        # Check if the original data file exists, download if necessary
-        if not os.path.exists(input_file):
-            self.prepare_parsecv2p0_tracks()
-            
-        data = scipy.io.loadmat(input_file)
-        
+
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('PARSECv2p0_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory
+        else:
+            input_file = os.path.join(self.data_dir, 'PARSECv2p0_AgeMassGrid_YSO_matrix.mat')
+            # Check if the original data file exists, download if necessary
+            if not os.path.exists(input_file):
+                self.prepare_parsecv2p0_tracks()
+
+            data = scipy.io.loadmat(input_file)
+
         self.masses = data['mass'][0]
         self.log_age = data['log_age'][0]
         self.logtlogl = data['logt_logl']
-        
+
+        # One-time notice (per Python session) that the default is now the 2025 release.
+        if not Isochrone._parsec_v2p0_release_notice_shown:
+            print("Using the PARSEC v2.0 2025 release (Nguyen et al. 2025). "
+                  "For the earlier 2022 grid, use set_tracks('parsec_v2p0_2022').")
+            Isochrone._parsec_v2p0_release_notice_shown = True
+
         return 1
-    
+
+    def load_parsecv2p0_2022_tracks(self):
+        """
+        Load the *frozen* PARSEC v2.0 grid built from the 2022 archive.
+
+        The 2022 PARSEC v2.0 track archive is no longer distributed by the PARSEC team, so
+        this grid is built-in only (it cannot be regenerated from a user directory). It is
+        kept for reproducibility of results obtained with ysoisochrone < 1.2.0. For new
+        work, use ``set_tracks('parsec')`` (the 2025 release).
+
+        Sets:
+
+        log_age, masses, logtlogl: [array]
+            Grid values from the frozen PARSEC v2.0 (2022) build.
+        """
+
+        # Built-in only: the upstream 2022 archive was discontinued by the PARSEC team.
+        if not self.use_builtin:
+            raise ValueError(
+                "\nERROR: the PARSEC v2.0 2022 track archive has been discontinued by the "
+                "PARSEC team and can no longer be downloaded, so it cannot be built from a "
+                "user directory.\n"
+                "  -> Use the current default instead:  iso = Isochrone(); iso.set_tracks('parsec')\n"
+                "  -> Or supply your own matrix:         iso.set_tracks('customize', load_file=<abs path>)\n"
+            )
+
+        print("-----------------------")
+        print("NOTE: 'parsec_v2p0_2022' loads a frozen copy of the PARSEC v2.0 grid built "
+              "from the 2022 archive.")
+        print("It is kept for reproducing results from ysoisochrone < 1.2.0; the current "
+              "default ('parsec', the")
+        print("2025 release) is used otherwise. For questions about the tracks themselves, "
+              "please contact the")
+        print("PARSEC team (https://stev.oapd.inaf.it/PARSEC/), not the ysoisochrone "
+              "maintainers.")
+        print("-----------------------")
+
+        data = utils.load_builtin_matrix('PARSECv2p0_2022_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        self.masses = data['mass'][0]
+        self.log_age = data['log_age'][0]
+        self.logtlogl = data['logt_logl']
+
+        return 1
+
     def load_mistv1p2_tracks(self):
         """
         Load MIST v1.2 isochrone tracks from .sav file and set log_age, masses, and logtlogl.
@@ -497,13 +572,19 @@ class Isochrone:
             Log T and Log L values from the MIST v1.2 tracks.
         """
         
-        input_file = os.path.join(self.data_dir, 'MIST_v1p2_AgeMassGrid_YSO_matrix.mat')
-        # Check if the original data file exists, download if necessary
-        if not os.path.exists(input_file):
-            self.prepare_mistv1p2_tracks()
-            
-        data = scipy.io.loadmat(input_file)
-        
+        # Case 1: packaged built-in matrix (default)
+        if self.use_builtin:
+            data = utils.load_builtin_matrix('MIST_v1p2_AgeMassGrid_YSO_builtin_matrix.mat')
+
+        # Case 2: user-provided local directory
+        else:
+            input_file = os.path.join(self.data_dir, 'MIST_v1p2_AgeMassGrid_YSO_matrix.mat')
+            # Check if the original data file exists, download if necessary
+            if not os.path.exists(input_file):
+                self.prepare_mistv1p2_tracks()
+
+            data = scipy.io.loadmat(input_file)
+
         self.masses = data['mass'][0]
         self.log_age = data['log_age'][0]
         self.logtlogl = data['logt_logl']
@@ -929,6 +1010,8 @@ class Isochrone:
             self.load_feiden2016_magnetic_tracks()
         elif track_type.lower() in ['parsec', 'parsec_v2p0']:
             self.load_parsecv2p0_tracks()
+        elif track_type.lower() in ['parsec_v2p0_2022', 'parsec2022', 'parsec_2022']:
+            self.load_parsecv2p0_2022_tracks()
         elif track_type.lower() == 'parsec_v1p2':
             self.load_parsecv1p2_tracks()
         elif track_type.lower() in ['mist', 'mist_v1p2']:
@@ -990,9 +1073,11 @@ class Isochrone:
             "feiden2016": self.load_feiden2016_tracks,
             "feiden2016_magnetic": self.load_feiden2016_magnetic_tracks,
             "parsec_v2p0": self.load_parsecv2p0_tracks,
+            "parsec_v2p0_2022": self.load_parsecv2p0_2022_tracks,
             "parsec_v1p2": self.load_parsecv1p2_tracks,
             "mist_v1p2": self.load_mistv1p2_tracks,
             "siess2000": self.load_siess2000_tracks,
+            "spots0000": self.load_spots0000_tracks,
             "spots0169": self.load_spots0169_tracks,
             "spots0339": self.load_spots0339_tracks,
             "spots0508": self.load_spots0508_tracks,
@@ -1009,16 +1094,20 @@ class Isochrone:
                     + " (You did not pass load_file=...)"
                 )
             self.load_tracks_from_customize_matrix(load_file)
+            self.track_type = "customize"
             if verbose:
                 print("Using the user-specified isochrone matrix of")
                 print(f"{load_file}")
+                print(self.grid_source_phrase())
             return 1
 
         # dispatch
         try:
             loaders[canonical]()
+            self.track_type = canonical
             if verbose:
                 print(f"Isochrone tracks set to '{canonical}'.")
+                print(self.grid_source_phrase())
         except KeyError:
             # Should never happen if registry + loaders stay consistent,
             # but gives a clean error if you forget to add a loader.

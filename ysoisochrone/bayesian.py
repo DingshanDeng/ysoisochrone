@@ -345,6 +345,9 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
     lmass_all = {}
     flag_all = []
     
+    # Tally of which (canonical track, grid-source) each target ended up using
+    track_usage = {}
+
     # Loop through each star in the source list
     for ii in tqdm.tqdm(df_prop.index):
         source_t = df_prop.loc[ii, 'Source']
@@ -425,6 +428,11 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
                 print(f"Adopted the {model} track.")
 
         # Get the tracks
+        track_key = (isochrone.track_type, isochrone.grid_source_phrase())
+        track_usage[track_key] = track_usage.get(track_key, 0) + 1
+        if verbose:
+            print(isochrone.grid_source_phrase())
+
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
         log_masses_dummy = np.log10(masses_dummy)
         
@@ -456,6 +464,7 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
                     plot=plot,
                     prior_mass=prior_mass,
                     prior_normalize=prior_normalize,
+                    _emit_track_summary=False,
                     )
                 best_logmass_wunc = res[0]
             else:
@@ -467,7 +476,8 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
                     model=model,
                     isochrone_data_dir=isochrone_data_dir,
                     isochrone_mat_file=isochrone_mat_file,
-                    verbose=verbose
+                    verbose=verbose,
+                    _emit_track_summary=False,
                     )
                 best_logmass_wunc = [res[0], np.nan, np.nan]
             
@@ -609,6 +619,11 @@ def derive_stellar_mass_age(df_prop, model='Baraffe_n_Feiden', isochrone_data_di
         else:
             flag_all.append('good')
         
+    # Summary of track usage across the sample (printed regardless of verbose)
+    if track_usage:
+        for (trk_name, src_phrase), n_targets in track_usage.items():
+            print(f"{trk_name} tracks ({src_phrase}) for {n_targets} targets")
+
     return np.array(best_logmass_output), np.array(best_logage_output), lmass_all, lage_all, flag_all
 
 
@@ -680,6 +695,9 @@ def derive_stellar_mass_age_uniprior(df_prop, model='Baraffe_n_Feiden', isochron
     lmass_all = {}
     flag_all = []
     
+    # Tally of which (canonical track, grid-source) each target ended up using
+    track_usage = {}
+
     # Loop through each star in the source list
     for ii in tqdm.tqdm(df_prop.index):
         source_t = df_prop.loc[ii, 'Source']
@@ -763,6 +781,11 @@ def derive_stellar_mass_age_uniprior(df_prop, model='Baraffe_n_Feiden', isochron
                 raise ValueError(registry.invalid_track_message(model)) from e
 
         # Get the tracks
+        track_key = (isochrone.track_type, isochrone.grid_source_phrase())
+        track_usage[track_key] = track_usage.get(track_key, 0) + 1
+        if verbose:
+            print(isochrone.grid_source_phrase())
+
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
 
         # Check if the source is in the toofaint or toobright lists 
@@ -781,12 +804,12 @@ def derive_stellar_mass_age_uniprior(df_prop, model='Baraffe_n_Feiden', isochron
                 c_age = np.min(log_age_dummy)
 
             if single_bayesian_for_nolum_target:
-                res = derive_stellar_mass_assuming_age(df_prop.loc[[ii]], assumed_age=c_age, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, no_uncertainties=no_uncertainties, confidence_interval=confidence_interval, verbose=verbose, plot=plot)
+                res = derive_stellar_mass_assuming_age(df_prop.loc[[ii]], assumed_age=c_age, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, no_uncertainties=no_uncertainties, confidence_interval=confidence_interval, verbose=verbose, plot=plot, _emit_track_summary=False)
                 best_logmass_wunc = res[0]
             else:
                 if verbose:
                     print('we find the closest point from the model to this target (%s) instead of using Bayesian framework'%(source_t))
-                res = derive_stellar_mass_assuming_age_closest_trk(df_prop.loc[[ii]], assumed_age=1.5e6, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, verbose=verbose)
+                res = derive_stellar_mass_assuming_age_closest_trk(df_prop.loc[[ii]], assumed_age=1.5e6, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, verbose=verbose, _emit_track_summary=False)
                 best_logmass_wunc = [res[0], np.nan, np.nan]
             
             # this_age = np.where(log_age_dummy == c_age)
@@ -845,6 +868,11 @@ def derive_stellar_mass_age_uniprior(df_prop, model='Baraffe_n_Feiden', isochron
         else:
             flag_all.append('good')
         
+    # Summary of track usage across the sample (printed regardless of verbose)
+    if track_usage:
+        for (trk_name, src_phrase), n_targets in track_usage.items():
+            print(f"{trk_name} tracks ({src_phrase}) for {n_targets} targets")
+
     return np.array(best_logmass_output), np.array(best_logage_output), lmass_all, lage_all, flag_all
 
 
@@ -912,6 +940,9 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
     lmass_all = {}
     flag_all = []
     
+    # Tally of which (canonical track, grid-source) each target ended up using
+    track_usage = {}
+
     # Loop through each star in the source list
     for ii in tqdm.tqdm(df_prop.index):
         source_t = df_prop.loc[ii, 'Source']
@@ -964,6 +995,11 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
             raise ValueError(f"Invalid model: {model}. Please choose from 'Baraffe_n_Feiden', 'Baraffe2015', 'Feiden2016', 'Feiden2016_magnetic', 'PARSEC_v2p0' (same as 'PARSEC'), 'PARSEC_v1p2',  'MIST_v1p2' (same as 'MIST'), 'siess2000', 'spots0169', 'spots0339', 'spots0508', 'spots0847', 'pisa', or 'customize'. If you want to use the model = 'customize', you need to provide the absolute directory for the isochrone matrix file isochrone_mat_file. See user manual for how to set up your own isochrone matrix.")
 
         # Get the tracks
+        track_key = (isochrone.track_type, isochrone.grid_source_phrase())
+        track_usage[track_key] = track_usage.get(track_key, 0) + 1
+        if verbose:
+            print(isochrone.grid_source_phrase())
+
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
 
         # Check if the source is in the toofaint or toobright lists
@@ -982,10 +1018,10 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
                 c_age = np.min(log_age_dummy)
 
             if single_bayesian_for_nolum_target:
-                res = derive_stellar_mass_assuming_age(df_prop.loc[[ii]], assumed_age=c_age, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, no_uncertainties=no_uncertainties, confidence_interval=confidence_interval, verbose=verbose, plot=plot)
+                res = derive_stellar_mass_assuming_age(df_prop.loc[[ii]], assumed_age=c_age, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, no_uncertainties=no_uncertainties, confidence_interval=confidence_interval, verbose=verbose, plot=plot, _emit_track_summary=False)
                 best_logmass_wunc = res[0]
             else:
-                res = derive_stellar_mass_assuming_age_closest_trk(df_prop.loc[[ii]], assumed_age=1.5e6, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, verbose=verbose)
+                res = derive_stellar_mass_assuming_age_closest_trk(df_prop.loc[[ii]], assumed_age=1.5e6, model=model, isochrone_data_dir=isochrone_data_dir, isochrone_mat_file=isochrone_mat_file, verbose=verbose, _emit_track_summary=False)
                 best_logmass_wunc = [res[0], 0, 0]
             
             # this_age = np.where(log_age_dummy == c_age)
@@ -1049,6 +1085,11 @@ def derive_stellar_mass_age_legacy(df_prop, model='Baraffe_n_Feiden', isochrone_
         else:
             flag_all.append('good')
         
+    # Summary of track usage across the sample (printed regardless of verbose)
+    if track_usage:
+        for (trk_name, src_phrase), n_targets in track_usage.items():
+            print(f"{trk_name} tracks ({src_phrase}) for {n_targets} targets")
+
     return np.array(best_logmass_output), np.array(best_logage_output), lmass_all, lage_all, flag_all
 
 
@@ -1083,6 +1124,9 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
     # Prepare output lists
     best_mass_output = []
     best_age_output = []
+
+    # Tally of which (canonical track, grid-source) each target ended up using
+    track_usage = {}
 
     # Loop through each star in the source list
     for ii in tqdm.tqdm(df_prop.index):
@@ -1144,6 +1188,11 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
                 raise ValueError(registry.invalid_track_message(model)) from e
 
         # Get the tracks
+        track_key = (isochrone.track_type, isochrone.grid_source_phrase())
+        track_usage[track_key] = track_usage.get(track_key, 0) + 1
+        if verbose:
+            print(isochrone.grid_source_phrase())
+
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
         
         # Create a mask for NaNs in logtlogl_dummy
@@ -1168,10 +1217,15 @@ def derive_stellar_mass_age_closest_track(df_prop,  model='Baraffe_n_Feiden', is
         if verbose:
             print(f"Closest match for {source_t}: Age = {10**best_age:.2e} yrs, Mass = {10**best_mass:.2e} Msun")
     
+    # Summary of track usage across the sample (printed regardless of verbose)
+    if track_usage:
+        for (trk_name, src_phrase), n_targets in track_usage.items():
+            print(f"{trk_name} tracks ({src_phrase}) for {n_targets} targets")
+
     return np.array(best_mass_output), np.array(best_age_output)
 
 
-def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, confidence_interval=0.68, verbose=False, plot=False, prior_mass=None, prior_normalize='maxone'):
+def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', no_uncertainties=False, confidence_interval=0.68, verbose=False, plot=False, prior_mass=None, prior_normalize='maxone', _emit_track_summary=True):
     """
     Derives stellar mass assuming a known age, even when luminosity is unavailable, considering uncertainties in Teff.
 
@@ -1219,6 +1273,9 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
     # # If e_assumed_age is not provided, set it to 0 (no uncertainty)
     # if e_assumed_age is None:
     #     e_assumed_age = np.zeros(len(df_prop)) if isinstance(assumed_age, (list, np.ndarray)) else 0
+
+    # Tally of which (canonical track, grid-source) each target ended up using
+    track_usage = {}
 
     # Loop through each star in the source list
     for ii in df_prop.index:
@@ -1271,6 +1328,11 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
                 raise ValueError(registry.invalid_track_message(model)) from e
         
         # Get the tracks
+        track_key = (isochrone.track_type, isochrone.grid_source_phrase())
+        track_usage[track_key] = track_usage.get(track_key, 0) + 1
+        if verbose:
+            print(isochrone.grid_source_phrase())
+
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
         log_masses_dummy = np.log10(masses_dummy)
         
@@ -1365,10 +1427,16 @@ def derive_stellar_mass_assuming_age(df_prop, assumed_age, model='Baraffe_n_Feid
         if plot:
             plotting.plot_likelihood_1d(np.log10(masses_dummy), likelihood, best_log_mass, lower_mass, upper_mass, source=source_t)
 
+    # Summary of track usage across the sample (printed regardless of verbose,
+    # but suppressed when this function is called internally one row at a time)
+    if _emit_track_summary and track_usage:
+        for (trk_name, src_phrase), n_targets in track_usage.items():
+            print(f"{trk_name} tracks ({src_phrase}) for {n_targets} targets")
+
     return np.array(best_logmass_output)
 
 
-def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', verbose=False):
+def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Baraffe_n_Feiden', isochrone_data_dir=None, isochrone_mat_file='', verbose=False, _emit_track_summary=True):
     """
     Derives stellar mass assuming a known age by finding the closest track on the isochrone grid based on Teff, without using the Bayesian method.
 
@@ -1396,6 +1464,9 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
     
     # Prepare output list for the masses
     best_log_mass_output = []
+
+    # Tally of which (canonical track, grid-source) each target ended up using
+    track_usage = {}
 
     # Loop through each star in the source list
     for ii in df_prop.index:
@@ -1438,6 +1509,11 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
                 raise ValueError(registry.invalid_track_message(model)) from e
         
         # Get the tracks
+        track_key = (isochrone.track_type, isochrone.grid_source_phrase())
+        track_usage[track_key] = track_usage.get(track_key, 0) + 1
+        if verbose:
+            print(isochrone.grid_source_phrase())
+
         log_age_dummy, masses_dummy, logtlogl_dummy = isochrone.get_tracks()
         
         # Create a mask for NaNs in logtlogl_dummy
@@ -1462,5 +1538,11 @@ def derive_stellar_mass_assuming_age_closest_trk(df_prop, assumed_age, model='Ba
 
         if verbose:
             print(f"Closest match for {source_t}: Age = {10**c_log_age:.2e} yrs, Mass = {10**best_log_mass:.2e} Msun")
-    
+
+    # Summary of track usage across the sample (printed regardless of verbose,
+    # but suppressed when this function is called internally one row at a time)
+    if _emit_track_summary and track_usage:
+        for (trk_name, src_phrase), n_targets in track_usage.items():
+            print(f"{trk_name} tracks ({src_phrase}) for {n_targets} targets")
+
     return np.array(best_log_mass_output)

@@ -30,7 +30,7 @@ jobs:
         
       - name: Lint with ruff
         run: |
-          pip install ruff
+          pip install ruff==0.16.5
           ruff check ysoisochrone/ tests/
 
       # Run pytest
