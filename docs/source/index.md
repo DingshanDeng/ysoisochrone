@@ -30,10 +30,22 @@ You can easily install the package via
 pip install ysoisochrone
 ```
 
-Or, you can also install your preferred release by downloading the package release from the GitHub page. Then unzip the package. In the terminal and in the directory of this package where `setup.py` exists.
+If you already have ysoisochrone installed, you can upgrade to the latest available version using
 
-```bash 
+```bash
+pip install --upgrade ysoisochrone
+```
+
+Alternatively, you can install a specific release by downloading it from the GitHub Releases page and unzipping the package. In the terminal, navigate to the package directory where setup.py (or pyproject.toml) is located and run
+
+```bash
 pip install .
+```
+
+If you already installed a local release and want to upgrade it using a newer downloaded release, run
+
+```bash
+pip install --upgrade .
 ```
 
 which should install the necessary dependencies.
@@ -47,6 +59,28 @@ import ysoisochrone
 ```
 
 Then you can start check out the {doc}`Quick Start Guide <notebooks/tutorial1_ysoisochrone_basics>` as well as the [tutorial notebooks here](https://github.com/DingshanDeng/ysoisochrone/tree/main/tutorial_notebooks).
+
+## Development installation
+
+You can also install the package directly from the GitHub repository to access the latest development version. This option is mainly recommended if you want to modify the code, contribute to the package, or test newly implemented features.
+
+Clone the repository, navigate to the package directory, and install it in editable mode:
+
+```bash
+git clone <repository-url>
+cd ysoisochrone
+pip install -e .
+```
+
+In editable mode, changes made to the local source code are immediately reflected in the installed package, so you generally do not need to reinstall it after modifying the code.
+
+To update an editable installation with the latest changes from the repository, navigate to the repository and run
+
+```bash
+git pull
+cd ysoisochrone
+pip install -e .
+```
 
 ## Citations
 
