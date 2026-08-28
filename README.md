@@ -69,10 +69,10 @@ If you use `ysoisochrone` as part of your research, please cite
 
 "Deng et al. (2025), based on the IDL code developed by Pascucci et al. (2016)"
 
-If the version number needs to be specified, please cite according to the [Zenodo page](https://zenodo.org/records/14847201). For the latest version (v1.1.3.1), use
+If the version number needs to be specified, please cite according to the [Zenodo page](https://zenodo.org/records/14847201). For the latest version, use
 
 ```
-@software{deng_2026_18859400,
+@software{deng_2026_22149191,
   author       = {Deng, Dingshan and
                   Pascucci, Ilaria and
                   Fernandes, Rachel B. and
@@ -81,12 +81,12 @@ If the version number needs to be specified, please cite according to the [Zenod
   title        = {ysoisochrone: A Python package to estimate masses
                    and ages for YSOs
                   },
-  month        = mar,
+  month        = aug,
   year         = 2026,
   publisher    = {Zenodo},
-  version      = {v1.1.3.1},
-  doi          = {10.5281/zenodo.14847201},
-  url          = {https://doi.org/10.5281/zenodo.14847201},
+  version      = {v1.2.0},
+  doi          = {10.5281/zenodo.22149191},
+  url          = {https://doi.org/10.5281/zenodo.22149191},
 }
 ```
 
