@@ -539,18 +539,13 @@ class Isochrone:
 
         print("-----------------------")
         print("NOTE: 'parsec_v2p0_2022' loads a frozen copy of the PARSEC v2.0 grid built "
-              "from the 2022 archive,")
-        print("which the PARSEC team has since discontinued. It is kept only for "
-              "reproducibility of earlier results;")
-        print("the current default ('parsec', the 2025 release) is recommended. Our "
-              "benchmarking suggests the")
-        print("choice between the 2022 and 2025 grids has only a minor effect on inferred "
-              "stellar properties,")
-        print("well within typical uncertainties, but you are encouraged to test this on "
-              "your own sample if it matters.")
-        print("For questions about the tracks themselves or the discontinued archive, "
-              "please contact the PARSEC")
-        print("team (https://stev.oapd.inaf.it/PARSEC/), not the ysoisochrone maintainers.")
+              "from the 2022 archive.")
+        print("It is kept for reproducing results from ysoisochrone < 1.2.0; the current "
+              "default ('parsec', the")
+        print("2025 release) is used otherwise. For questions about the tracks themselves, "
+              "please contact the")
+        print("PARSEC team (https://stev.oapd.inaf.it/PARSEC/), not the ysoisochrone "
+              "maintainers.")
         print("-----------------------")
 
         data = utils.load_builtin_matrix('PARSECv2p0_2022_AgeMassGrid_YSO_builtin_matrix.mat')

@@ -2,7 +2,7 @@
 
 The young stellar objects (pre-main-sequence) evolutionary tracks mainly include the ones from the following works.
 The code can download and format the stellar evolutionary tracks from public repositories and websites. 
-Customized stellar evolutionary tracks can also be used, but they need to be formatted to the required matrix format by the user (see [use your own isochrone](./notebooks/ysoisochrone_customize_isochrone.ipynb) for more details).
+Customized stellar evolutionary tracks can also be used, but they need to be formatted to the required matrix format by the user (see {doc}`use your own isochrone <notebooks/tutorial2_ysoisochrone_customize_isochrone>` for more details).
 
 For the moment being, this package is meant to be used to study young stellar objects. In other words, it only utilizes the stellar evolutionary tracks for pre-main-sequence stars, avoiding the problem of dealing with main-sequence and post-main-sequence targets (whose luminosity rises again and will overlay on the pre-main-sequence phase). 
 This method could also be expanded to use on the main-sequence stars (e.g., [Fernandes et al. 2023](https://ui.adsabs.harvard.edu/abs/2023AJ....166..175F/abstract)), but user-specified customized stellar evolutionary tracks are needed for now, and this function will be included in the future releases.
@@ -49,14 +49,11 @@ By default, we adopt the tracks with solar metallicity, and do not include rotat
 
 **Since v1.2.0**, `parsec` / `parsec_v2p0` uses the PARSEC v2.0 **2025** release
 ([Nguyen et al. 2025](https://ui.adsabs.harvard.edu/abs/2025A%26A...701A.258N/abstract)).
-The older 2022 archive has been discontinued by the PARSEC team and is no longer
-downloadable from their server; the grid built from it is still shipped with the package
-and can be selected with `parsec_v2p0_2022` for reproducibility of earlier results.
-Our benchmarking indicates that the choice between the 2022 and 2025 grids has only a minor
-effect on the inferred stellar properties, well within typical uncertainties — but you are
-encouraged to test this on your own sample if it matters. Questions about the tracks
-themselves, or about the discontinued 2022 archive, should go to the PARSEC team
-(https://stev.oapd.inaf.it/PARSEC/), not the `ysoisochrone` maintainers.
+The 2022 archive is no longer downloadable from the PARSEC server; the grid built from it
+is still shipped with the package and can be selected with `parsec_v2p0_2022` for
+reproducing results from `ysoisochrone` < 1.2.0. Questions about the tracks themselves, or
+about the 2022 archive, should go to the PARSEC team (https://stev.oapd.inaf.it/PARSEC/),
+not the `ysoisochrone` maintainers.
 
 ## MIST
 

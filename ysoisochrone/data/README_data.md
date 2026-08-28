@@ -14,10 +14,8 @@ If you find the tracks provided here cannot meet your need, please also download
 
 `PARSECv2p0_AgeMassGrid_YSO_builtin_matrix.mat` is now built from the PARSEC v2.0 **2025**
 release (`PARSECv2.0_ROT_2025`, non-rotating, Z=0.014; Nguyen et al. 2025). The previous
-grid, built from the 2022 archive that the PARSEC team has since discontinued, is retained
-as `PARSECv2p0_2022_AgeMassGrid_YSO_builtin_matrix.mat` for reproducibility and is reachable
-via `set_tracks('parsec_v2p0_2022')`. Benchmarking shows the two grids give consistent
-inferred masses and ages, well within typical uncertainties; test on your own sample if this
-matters. For questions about the tracks, contact the PARSEC team
-(https://stev.oapd.inaf.it/PARSEC/).
+grid, built from the 2022 archive, is retained as
+`PARSECv2p0_2022_AgeMassGrid_YSO_builtin_matrix.mat` and is reachable via
+`set_tracks('parsec_v2p0_2022')` for reproducing results from ysoisochrone < 1.2.0. For
+questions about the tracks, contact the PARSEC team (https://stev.oapd.inaf.it/PARSEC/).
 
