@@ -13,7 +13,7 @@ from . import plotting
 from . import isochrone
 from . import registry
 
-# __version__ = "1.1.1"
+# __version__ = "1.2.0"
 # the new version is now in pyproject.toml and automatically handled by setuptools
 try:
     from importlib.metadata import version as _version
